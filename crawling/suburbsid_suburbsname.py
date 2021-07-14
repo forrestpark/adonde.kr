@@ -18,16 +18,18 @@ url = "http://openapi.tago.go.kr/openapi/service/SuburbsBusInfoService/getSuberb
 content = requests.get(url).content
 dict = xmltodict.parse(content)
 
-termIDs, termNms = [], []
-suburbs_id_city_name = {}
+termIDs, termNms, cities = [], [], []
 
 for terminal in dict['response']['body']['items']['item']:
-  city_terminalnm = []
   if len(terminal) < 3:
     continue
-  city_terminalnm.append(terminal['cityName'])
-  city_terminalnm.append(terminal['terminalNm'])
-  suburbs_id_city_name[terminal['terminalId']] = city_terminalnm
+  termIDs.append(terminal['terminalId'])
+  termNms.append(terminal['terminalNm'])
+  cities.append(terminal['cityName'])
+
+suburbs_id_city_name = {"terminalId": termIDs, "terminalNm": termNms, "city": cities}
+
+print(suburbs_id_city_name)
 
 df = pd.DataFrame(suburbs_id_city_name)
 display(df)
