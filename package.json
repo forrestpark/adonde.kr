@@ -1,0 +1,26 @@
+{
+  "name": "adonde.kr",
+  "version": "1.0.0",
+  "description": "comprehensive travel search engine, adonde.kr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forrestpark/adonde.kr.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forrestpark/adonde.kr/issues"
+  },
+  "homepage": "https://github.com/forrestpark/adonde.kr#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0"
+  }
+}
