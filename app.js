@@ -19,7 +19,8 @@ class App {
     }
 
     dbConnection() {
-        db.sequelize.authenticate()
+        db.sequelize.sync({force: true})
+        // db.sequelize.authenticate()
         .then(() => {
             console.log('Connection has been established successfully.');
         })
