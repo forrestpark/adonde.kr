@@ -28,6 +28,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    latitude: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    longitude: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     type: DataTypes.STRING
   }, {
     sequelize,
