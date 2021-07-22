@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class City extends Model {
+  class Express extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,26 +13,31 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  City.init({
+  Express.init({
+    id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     sido: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
+      unique: 'compositeIndex',
     },
     sgg: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
+      unique: 'compositeIndex',
     },
-    population: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    type: DataTypes.STRING
   }, {
     sequelize,
-    tableName : 'cities',
-    modelName: 'City',
+    tableName : 'express',
+    modelName: 'Express',
   });
-  return City;
+  return Express;
 };
