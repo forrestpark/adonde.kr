@@ -5,12 +5,6 @@ const db = require('./models');
 ;(async function main() {
     try {
 
-        // git branch test
-<<<<<<< HEAD
-=======
-        // jisun
->>>>>>> main
-
         const dummy_city = await db.City.create({
             sido: "서울",
             sgg: "서울",
