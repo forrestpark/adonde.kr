@@ -292,6 +292,8 @@
     {{startname}}{{thema}}{{value}}{{distance}}{{honjabdo}}{{access}}
 
   </div>
+
+  {{$t('message')}}
   </v-container>
 </template>
 <script>
