@@ -7,11 +7,22 @@ const fs = require("fs");
 ;(async function main() {
     try {
 
-        await load_city_data();
+        // await load_city_data();
         
-        await load_express_data();
+        // await load_express_data();
 
-        await load_suburbs_data();
+        // await load_suburbs_data();
+
+        const test_route1 = await db.traintest.create({
+            depCity: ['busan', 'busan'].toString(),
+            arrCity: [['busan', 'busan'], ['seoul', 'seoul']]
+        })
+
+        console.log(test_route1['arrCity'])
+        destinations = test_route1['arrCity']
+        for (var i = 0; i < destinations.length; i++) {
+            console.log(destinations[i])
+        }
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
@@ -81,7 +92,7 @@ async function load_express_data() {
 }
 
 async function load_suburbs_data() {
-    
+
     // reading suburban bus terminale data from a local csv file in data folder
     const suburbs_data = await read_csv("data/suburbs/suburbs_preprocessed.csv");
         

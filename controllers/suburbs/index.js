@@ -3,7 +3,7 @@ const { route } = require('../../app');
 const router = Router();
 const ctrl = require('./suburbs.ctrl');
 
-// router.get('/findall', ctrl.get_cities);
+router.get('/findall', ctrl.get_terminals);
 // router.get('/count', ctrl.count_cities);
 // router.post('/create', ctrl.create_city);
 
