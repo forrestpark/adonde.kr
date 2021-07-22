@@ -26,16 +26,22 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
+      <!-- <v-btn
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
         target="_blank"
         text
       >
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      </v-btn> -->
 
-    
+     <div class="i18n">
+        <v-select v-model="$i18n.locale"
+                  :items="lang">{{lang}}
+        </v-select>
+
+      </div> 
+
     </v-app-bar>
 
     <v-main>
@@ -63,7 +69,7 @@ export default {
   },
 
   data: () => ({
-    //
+    lang:['ko','en']
   }),
  
 };

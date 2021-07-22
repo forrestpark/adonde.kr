@@ -1,12 +1,18 @@
 <template>
     
   <div class="mapp">
-           <div id="map" style="width:400px;height:400px;"></div>         
+           <div id="map" style="width:400px;height:400px;"></div>     
+           {{ResultAdd}}    
   </div>
 
 </template>
 <script>
   export default {
+    data(){
+        return{
+            ResultAdd:''
+        }
+    },
     mounted() { 
         window.kakao && window.kakao.maps ? this.initMap() : this.addScript(); 
     }, 
@@ -36,14 +42,16 @@
                 var lat = position.coords.latitude, // 위도
                     lon = position.coords.longitude // 경도
                 
-                var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                    message = '<div style="padding:5px;">현재위치로 출발지를 설정?!</div>'// 인포윈도우에 표시될 내용입니다
+                var locPosition = new kakao.maps.LatLng(lat, lon) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                
+                //현재 주소를 불러온다
+                getAddr(lat,lon)
+
+                var message = '<div style="padding:5px;">현재위치로 출발지를 설정?!</div>'// 인포윈도우에 표시될 내용입니다
                 
                 // 마커와 인포윈도우를 표시합니다
                 displayMarker(locPosition, message)
 
-                //현재 주소를 불러온다
-                getAddr(lat,lon)
 
                     
               });
@@ -66,7 +74,9 @@
                   if (status === kakao.maps.services.Status.OK) {
                       console.log(result);
                       alert(Object.values(result)[0].road_address.address_name)
+                      
                   }
+
               }
                 geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
               }

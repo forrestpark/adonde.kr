@@ -1,3 +1,5 @@
 {
-    "message": "hello i18n !!"
-  }
+    "message": "hello i18n !!",
+    "label" :"startpoint",
+    "items1": ["seout", "busan", "daegu", "yeosu"]
+}

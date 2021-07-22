@@ -1,11 +1,14 @@
 <template>
   <v-container>
       <div class="filter">
-    <v-flex xs12 sm6 d-flex>  
+    <v-flex xs12 sm6 d-flex> 
+        
+       
+
         <v-select
-          :items="items1"
+          :items="$t('items1')"
           v-model="startname"
-          label="(*필수)출발지 "
+          :label="$t('label')"
           :disabled="disabled"
 
         ></v-select>
@@ -293,13 +296,14 @@
 
   </div>
 
-  {{$t('message')}}
+  
   </v-container>
 </template>
 <script>
   export default {
     data () {
       return {
+        
         disabled: false,
         panel: [],
         startname:'',
