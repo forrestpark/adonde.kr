@@ -27,12 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     sido: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: 'compositeIndex',
     },
     sgg: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: 'compositeIndex',
     },
   }, {
     sequelize,

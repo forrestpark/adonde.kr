@@ -6,55 +6,15 @@ const fs = require("fs");
 
 ;(async function main() {
     try {
+
+        await load_city_data();
         
-        // // reading city data from a local csv file in data folder
-        // const city_data = await read_csv("data/city/city_population_latlng.csv");
+        await load_express_data();
 
-        // // pushing city data into city table in database
-        // for (var i = 0; i < city_data.length - 1; i++) {
-        //     console.log(city_data[i])
-        //     await db.City.create({
-        //         sido: city_data[i]['sido'],
-        //         sgg: city_data[i]['sgg'],
-        //         population: city_data[i]['population'],
-        //         latitude: city_data[i]['lat'],
-        //         longitude: city_data[i]['long']
-        //     })
-        // }
-        
-        // reading express bus terminal data from a local csv file in data folder
-        const express_data = await read_csv("data/express/express_info.csv");
-
-        // pushing city data into city table in database
-        for (var i = 0; i < express_data.length - 1; i++) {
-            console.log(express_data[i])
-            await db.Express.create({
-                id: express_data[i]['terminal_id'],
-                name: express_data[i]['terminal_name'],
-                sido: express_data[i]['sido'],
-                sgg: express_data[i]['orig_sido'],
-            })
-        }
-
-        // // reading city data from a local csv file in data folder
-        // const city_data = await read_csv("data/city/city_population_latlng.csv");
-
-        // // reading city data from a local csv file in data folder
-        // const city_data = await read_csv("data/city/city_population_latlng.csv");
-
-        // console.log("city_data: ", city_data)
-
-        // const dummy_city = await db.City.create({
-        //     sido: "서울",
-        //     sgg: "서울",
-        //     population: 9565990,
-        //     latitude: "37.5665350",
-        //     longitude: "126.9779692"
-        // })
-
+        await load_suburbs_data();
 
     } catch (error) {
-        console.error('Unable to connect to the database:', error)
+        console.error('Database mounting unsuccessful:', error)
     }
 })()
 
@@ -86,4 +46,52 @@ async function read_csv(filePath) {
     // console.log(result);
     return result
 }
+
+async function load_city_data() {
+
+    // reading city data from a local csv file in data folder
+    const city_data = await read_csv("data/city/city_population_latlng.csv");
+
+    // pushing city data into city table in database
+    for (var i = 0; i < city_data.length - 1; i++) {
+        console.log(city_data[i])
+        await db.City.create({
+            sido: city_data[i]['sido'],
+            sgg: city_data[i]['sgg'],
+            population: city_data[i]['population'],
+            latitude: city_data[i]['lat'],
+            longitude: city_data[i]['long']
+        })
+    }
+
+}
+
+async function load_express_data() {
+
+    // reading express bus terminal data from a local csv file in data folder
+    const express_data = await read_csv("data/express/express_final.csv");
+
+    // pushing express bus terminal data into express table in database
+    for (var i = 0; i < express_data.length - 1; i++) {
+        console.log(express_data[i])
+        await db.Express.create({
+            ...express_data[i]
+        })
+    }
+}
+
+async function load_suburbs_data() {
+    
+    // reading suburban bus terminale data from a local csv file in data folder
+    const suburbs_data = await read_csv("data/suburbs/suburbs_preprocessed.csv");
+        
+    // pushing suburban bus terminal data into suburbs table in database
+    for (var i = 0; i < suburbs_data.length - 1; i++) {
+        // console.log(suburbs_data[i])
+        await db.Suburbs.create({
+            ...suburbs_data[i]
+        })
+    }
+}
+
 
