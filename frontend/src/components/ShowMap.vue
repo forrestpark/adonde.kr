@@ -2,7 +2,7 @@
     
   <div class="mapp">
            <div id="map" style="width:400px;height:400px;"></div>     
-           {{ResultAdd}}    
+{{ResultAdd}}  
   </div>
 
 </template>
@@ -29,11 +29,7 @@
             // var marker = new kakao.maps.Marker({ position: map.getCenter() 
             // }); 
             // marker.setMap(map); 
-
-            
-
-
-           
+   
             if (navigator.geolocation) {
     
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -68,7 +64,6 @@
               function getAddr(lat,lng){
                 
               let geocoder = new kakao.maps.services.Geocoder()
-
               let coord = new kakao.maps.LatLng(lat, lng)
               let callback = function(result, status) {
                   if (status === kakao.maps.services.Status.OK) {
@@ -78,7 +73,6 @@
                       alert(Object.values(result)[0].address.address_name)
                       
                   }
-
               }
                 geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
               }
