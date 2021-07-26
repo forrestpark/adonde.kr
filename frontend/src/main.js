@@ -3,7 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import VueKakaoSdk from 'vue-kakao-sdk'
 import i18n from './i18n'
-import router from '../router'
+import router from './router'
 
 Vue.config.productionTip = false
 

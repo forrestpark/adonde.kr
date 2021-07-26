@@ -10,7 +10,7 @@
   export default {
     data(){
         return{
-            ResultAdd:''
+            ResultAdd:'add'
         }
     },
     mounted() { 
@@ -72,7 +72,9 @@
               let coord = new kakao.maps.LatLng(lat, lng)
               let callback = function(result, status) {
                   if (status === kakao.maps.services.Status.OK) {
+                      
                       console.log(result);
+                    //this.ResultAdd = Object.values(result)[0].address.address_name
                       alert(Object.values(result)[0].address.address_name)
                       
                   }

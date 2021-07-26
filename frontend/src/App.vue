@@ -1,20 +1,17 @@
 <template>
   <v-app>
-    
-    <v-app-bar
-      app
-      color="green"
-      dark
+    <v-card
+      color="grey lighten-4"
+      flat
     >
-      <router-link to="/login"
-      class="catalog">
-        login
-      </router-link>
-      <router-link to="/mypage"
-      class="catalog">
-        mypage
-      </router-link>
-      <div class="d-flex align-center">
+      <v-app-bar
+        color="green"
+        dark
+        dense
+      >
+        <v-app-bar-nav-icon @click="drawer = !drawer" />
+        <v-toolbar-title>
+            <div class="d-flex align-center">
         <router-link to="/">
           <v-img 
           alt="Logo"
@@ -25,27 +22,58 @@
         />
         </router-link>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        
       </div>
-      메뉴?
-      <v-spacer></v-spacer>
+      
+        </v-toolbar-title>
+        <h2>
+          어디든
+        </h2>
+        <v-spacer />
 
-      메뉴?
-     <div class="i18n">
+         <div class="i18n">
         <v-select v-model="$i18n.locale"
                   :items="lang">{{lang}}
         </v-select>
 
       </div> 
+    
+      </v-app-bar>
+    </v-card>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+    >
+      <v-list-item>
+        <v-list-item-avatar>
+          <v-icon>mdi-account</v-icon>
+        </v-list-item-avatar>
 
-    </v-app-bar>
+        <v-list-item-content>
+          <v-list-item-title>user name</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider />
+
+      <v-list dense>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+          :to="item.to"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
     <v-main>
 
@@ -53,6 +81,37 @@
 
       
     </v-main>
+
+     <v-footer
+      dark
+      padless
+      
+>
+    <v-card
+      class="flex"
+      flat
+      tile
+    >
+      <v-card-title class="green">
+        <strong class="subheading">Get connected with us on social networks!</strong>
+
+        <v-spacer></v-spacer>
+
+        <v-btn
+          v-for="icon in icons"
+          :key="icon"
+          class="mx-4"
+          dark
+          icon
+        >
+          <v-icon size="24px">
+            {{ icon }}
+          </v-icon>
+        </v-btn>
+      </v-card-title> 
+    </v-card>
+    </v-footer>
+
   </v-app>
 </template>
 
@@ -68,7 +127,32 @@ export default {
   },
 
   data: () => ({
-    lang:['ko','en']
+    lang:['ko','en'],
+    drawer: false,
+    items: [
+        {
+          title: 'Home',
+          icon: 'mdi-home',
+          to: '/'
+        },
+        {
+          title: 'Login',
+          icon: 'mdi-information',
+          to: '/login'
+        },
+        {
+          title: 'mypage',
+          icon: 'mdi-home',
+          to: '/mypage'
+        }
+      ],
+    right: null,
+    icons: [
+        'mdi-facebook',
+        'mdi-twitter',
+        'mdi-linkedin',
+        'mdi-instagram',
+      ],
   }),
  
  
