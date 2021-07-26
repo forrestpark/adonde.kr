@@ -73,7 +73,7 @@
               let callback = function(result, status) {
                   if (status === kakao.maps.services.Status.OK) {
                       console.log(result);
-                      alert(Object.values(result)[0].road_address.address_name)
+                      alert(Object.values(result)[0].address.address_name)
                       
                   }
 

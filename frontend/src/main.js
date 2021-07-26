@@ -3,7 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import VueKakaoSdk from 'vue-kakao-sdk'
 import i18n from './i18n'
-
+import router from '../router'
 
 Vue.config.productionTip = false
 
@@ -13,5 +13,6 @@ Vue.use(VueKakaoSdk, { apiKey })
 new Vue({
   vuetify,
   i18n,
+  router,
   render: h => h(App)
 }).$mount('#app')

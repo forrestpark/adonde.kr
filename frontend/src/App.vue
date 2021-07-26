@@ -1,18 +1,29 @@
 <template>
   <v-app>
+    
     <v-app-bar
       app
       color="green"
       dark
     >
+      <router-link to="/login"
+      class="catalog">
+        login
+      </router-link>
+      <router-link to="/mypage"
+      class="catalog">
+        mypage
+      </router-link>
       <div class="d-flex align-center">
-        <v-img
+        <router-link to="/">
+          <v-img 
           alt="Logo"
           contain
           :src="require(`./assets/logo.png`)"
           transition="scale-transition"
           width="40"
         />
+        </router-link>
 
         <v-img
           alt="Vuetify Name"
@@ -23,18 +34,10 @@
           width="100"
         />
       </div>
-
+      메뉴?
       <v-spacer></v-spacer>
 
-      <!-- <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn> -->
-
+      메뉴?
      <div class="i18n">
         <v-select v-model="$i18n.locale"
                   :items="lang">{{lang}}
@@ -46,31 +49,35 @@
 
     <v-main>
 
-          <ShowMap/>
-        <VueTest/>
+      <router-view></router-view>
 
       
-      
-
     </v-main>
   </v-app>
 </template>
 
 <script>
-import ShowMap from './components/ShowMap.vue'
-import VueTest from './components/VueTest.vue'
+//import ShowMap from './components/ShowMap.vue'
+//import VueTest from './components/VueTest.vue'
 //import LayoutTest from './components/LayoutTest.vue'
 export default {
   name: 'App',
 
   components: {
-      ShowMap,
-      VueTest
+    
   },
 
   data: () => ({
     lang:['ko','en']
   }),
  
+ 
 };
 </script>
+
+<style scoped>
+.catalog.router-link-active{
+  background: white;
+  color: green;
+}
+</style>
