@@ -39,6 +39,7 @@
       </div> 
     
       </v-app-bar>
+      
     </v-card>
     <v-navigation-drawer
       v-model="drawer"
@@ -76,17 +77,15 @@
     </v-navigation-drawer>
 
     <v-main>
-
-      <router-view></router-view>
-
       
+      <router-view></router-view>
+       
     </v-main>
 
      <v-footer
       dark
       padless
-      
->
+      >
     <v-card
       class="flex"
       flat
@@ -160,8 +159,9 @@ export default {
 </script>
 
 <style scoped>
-.catalog.router-link-active{
-  background: white;
-  color: green;
+.test{
+  width: 300px;
+  height: 200px;
+  background-color: yellow;
 }
 </style>

@@ -110,16 +110,17 @@
           <v-expansion-panel-content>
             <v-flex xs12 sm12 >
         
-                <v-slider
+                <vue-slider
                 :disabled="disabled"
                 v-model="value"
-                step="10"
-                max="300"
-                thumb-label
-                ticks
-                ></v-slider>
+                v-bind="options"
+                :enable-cross="false"
+                dotSize ="20"
+                ></vue-slider>
 
             </v-flex>
+            <v-btn @click="popuTozero">선택안해</v-btn>
+            {{value}}
           </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -167,12 +168,13 @@
                 thumb-label
                 ticks
                 ></v-slider>
-
+                <v-btn @click="distanceTozero">선택안해</v-btn>
+                {{distance}}
             </v-flex>
           </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <v-expansion-panel>
+      <!-- <v-expansion-panel>
           <v-expansion-panel-header>
               <template v-slot:default="{ open }">
           <v-row no-gutters>
@@ -216,7 +218,7 @@
                 </v-select>
             </v-flex>
           </v-expansion-panel-content>
-      </v-expansion-panel>
+      </v-expansion-panel> -->
 
 
     <v-expansion-panel>
@@ -310,7 +312,11 @@
         thema:'',
         honjabdo:'',
         distance:'',
-        value: '',
+        value: [0,0],
+        options:{
+          max: 300,
+          step: 10,
+        },
         access:'',
         items1: ['서울', '부산', '대구', '여수'],
         items2: ['산', '계곡', '바다'],
@@ -352,7 +358,7 @@
       },
       //
       popuTozero(){
-          this.value=''
+          this.value=[0,0]
       },
       distanceTozero(){
           this.distance=''
@@ -367,7 +373,7 @@
         {
             this.disabled = true
             this.finalValue['테마'] = (this.thema)
-            if(this.value == 0){
+            if(this.value[0] == 0 && this.value[1] ==0){
                 this.value = ''
                 this.finalValue['인구수'] = this.value
             }
@@ -382,13 +388,13 @@
                 this.finalValue['거리'] = this.distance
             }
 
-            this.finalValue['혼잡도'] = this.honjabdo
+            //this.finalValue['혼잡도'] = this.honjabdo
             this.finalValue['접근성'] = (this.access)
             //출발지도 저장해준다.
             this.$set(this.finalValue, '출발지', this.startname)
 
             console.log(this.finalValue)
-            for(var i= 0; i<6;i++){
+            for(var i= 0; i<5;i++){
                 console.log(Object.keys(this.finalValue)[i])
                 console.log(Object.values(this.finalValue)[i])
             }
