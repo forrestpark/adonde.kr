@@ -9,77 +9,70 @@ const Op = db.Sequelize.Op;
 ;(async function main() {
     try {
 
-        await load_city_data();
-        
-        await load_express_data();
-
-        await load_suburbs_data();
-
-        const cities = await db.City.findAll({
-            where : {
-                population : {
-                    [Op.gte]: 1000000
-                }
-            },
-            attributes : ['sido', 'sgg'],
-            raw : true
-        })
-        console.log(cities)
-
-        sido_list = []
-        sgg_list = []
-
-        for (var i = 0; i < cities.length; i++) {
-            sido_list.push(cities[i].sido)
-            sgg_list.push(cities[i].sgg)
-        }
-
-        console.log(sido_list)
-
-        const expTerminals = await db.Express.findAll({
-            where : {
-                sido : {
-                    [Op.in] : sido_list
-                },
-                sgg : {
-                    [Op.in] : sgg_list
-                }
-            },
-            raw : true
-        })
-
-        console.log(expTerminals)
-
-        // for (var i = 0; i < cities.length; i++) {
-        //     console.log(cities[i].dataValues.sido)
-        //     console.log(cities[i].dataValues.sgg)
-        // }
-
-        // const test_route1 = await db.traintest.create({
-        //     depCity: ['busan', 'busan'].toString(),
-        //     arrCity: [['busan', 'busan'], ['seoul', 'seoul']]
-        // })
-
-        // console.log(test_route1['arrCity'])
-        // destinations = test_route1['arrCity']
-        // for (var i = 0; i < destinations.length; i++) {
-        //     console.log(destinations[i])
-        // }
-
-        // const testing = await db.traintest.findAll({
-        //     where : {
-        //         depCity : 'busan,busan'
-        //     }
-        // })
-
-        // const cities = testing[0].dataValues.arrCity
-        
-        // console.log()
+        await mount_data();
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
     }
 })()
+
+async function read_train_csv(filePath) {
+
+    var filePath = path.join(__dirname, filePath);
+
+    console.log(filePath)
+    
+    var data = fs.readFileSync(filePath, {encoding: "utf8"});
+    var rows = data.split("\n");
+    var result = [];
+        
+    for (var rowIndex in rows) {
+        // console.log(rows[rowIndex])
+        var city_destinations = rows[rowIndex].split("\"");
+
+        if (rowIndex == rows.length - 1) {
+            continue;
+        }
+
+        if (rowIndex != "0") {
+            var city = city_destinations[0]
+            var destinations = city_destinations[1]
+
+            var sido = city.split(",").slice(0,1).toString();
+            var sgg = city.split(",").slice(1,2).toString();
+            
+
+            // console.log(sido, sgg)
+            // console.log(destinations.toString().slice(1, destinations.length-1).split(","))
+            combination_list = destinations.toString().slice(1, destinations.length-1).split(",")
+            var destination_list = []
+            var destination_sido = ""
+            var destination_sgg = ""
+
+            for (var i = 0; i < combination_list.length / 2; i++) {
+                destination_sido = eval(combination_list[i*2]).replace(/\s+/g, '')
+                destination_sgg = eval(combination_list[i*2+1]).replace(/\s+/g, '')
+                destination_list.push([destination_sido, destination_sgg])
+            }
+
+            row = [sido, sgg, destination_list]
+        }
+
+        if (rowIndex === "0") { var columns = rows[0].split(","); console.log(columns); } 
+
+        else {
+            var data = {}; // 빈 객체를 생성하고 여기에 데이터를 추가한다.
+            for (var columnIndex in columns) { // 칼럼 갯수만큼 돌면서 적절한 데이터 추가하기.
+                var column = columns[columnIndex];
+                data[column] = row[columnIndex];
+            }
+            result.push(data);
+        }
+    }
+
+    // console.log(result);
+    return result
+}
 
 async function read_csv(filePath) {
 
@@ -145,7 +138,7 @@ async function load_express_data() {
 
 async function load_suburbs_data() {
 
-    // reading suburban bus terminale data from a local csv file in data folder
+    // reading suburban bus terminal data from a local csv file in data folder
     const suburbs_data = await read_csv("data/suburbs/suburbs_preprocessed.csv");
         
     // pushing suburban bus terminal data into suburbs table in database
@@ -155,6 +148,26 @@ async function load_suburbs_data() {
             ...suburbs_data[i]
         })
     }
+}
+
+async function load_train_data() {
+    
+    // reading train data from a local csv file in data folder
+    const train_data = await read_train_csv("data/train/train_city_destinations.csv");
+
+    for (var i = 0; i < train_data.length - 1; i++) {
+        await db.Train.create({
+            ...train_data[i]
+        })
+    }
+
+}
+
+async function mount_data() {
+    await load_train_data();
+    await load_city_data();
+    await load_express_data();
+    await load_suburbs_data();
 }
 
 
