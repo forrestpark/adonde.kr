@@ -45,8 +45,9 @@ export default {
                 
                 var locPosition = new kakao.maps.LatLng(lat, lon) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 
-                
+                //현재주소를 가져옴
                 getAddr(lat,lon).then(function(res) {
+                    
                     vm.updateStart(res)
                     console.log("result: ", res);
 
@@ -68,8 +69,7 @@ export default {
                   displayMarker(locPosition, message)
             }
                  
-              //현재주소 불러오기
-
+            //현재주소 불러오기
             function getAddr(lat, lng) {
                 
                 let geocoder = new kakao.maps.services.Geocoder()
@@ -81,6 +81,7 @@ export default {
                             console.log(result);
                             alert(Object.values(result)[0].address.address_name);
                             resolve(Object.values(result)[0].address.address_name);  
+                            
                         } else {
                             reject(new Error("Request failed."));
                         }  

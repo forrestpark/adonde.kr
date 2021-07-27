@@ -15,12 +15,12 @@
 <script>
 import ShowMap from '@/components/ShowMap.vue'
 import ShowFilter from '@/components/ShowFilter.vue'
-//import LayTest from '@/componentsxw/LayoutTest.vue'
+
 export default {
     components: {
         ShowMap,
         ShowFilter
-        //LayTest
+    
 
     }
 }

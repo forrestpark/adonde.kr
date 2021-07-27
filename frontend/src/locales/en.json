@@ -1,5 +1,13 @@
 {
     "message": "hello i18n !!",
-    "label" :"startpoint",
-    "items1": ["seout", "busan", "daegu", "yeosu"]
+    "startLabel" :"startpoint",
+    "themaLabel": "thema",
+    "themaHint" : "select thema!",
+    "popuLabel" : "population",
+    "popuHint" : "select population!",
+    "distanceLabel" : "distance(km)",
+    "distanceHint" :"select distance!",
+    "accessLabel" : "access",
+    "accessHint" : "select access!",
+    "StartItems": ["seout", "busan", "daegu", "yeosu"]
 }
