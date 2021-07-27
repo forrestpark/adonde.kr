@@ -305,7 +305,6 @@
   export default {
     data () {
       return {
-        
         disabled: false,
         panel: [],
         startname:'',
