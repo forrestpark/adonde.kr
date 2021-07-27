@@ -4,25 +4,77 @@ const db = require('./models');
 const path = require("path");
 const fs = require("fs");
 
+const Op = db.Sequelize.Op;
+
 ;(async function main() {
     try {
 
-        // await load_city_data();
+        await load_city_data();
         
-        // await load_express_data();
+        await load_express_data();
 
-        // await load_suburbs_data();
+        await load_suburbs_data();
 
-        const test_route1 = await db.traintest.create({
-            depCity: ['busan', 'busan'].toString(),
-            arrCity: [['busan', 'busan'], ['seoul', 'seoul']]
+        const cities = await db.City.findAll({
+            where : {
+                population : {
+                    [Op.gte]: 1000000
+                }
+            },
+            attributes : ['sido', 'sgg'],
+            raw : true
+        })
+        console.log(cities)
+
+        sido_list = []
+        sgg_list = []
+
+        for (var i = 0; i < cities.length; i++) {
+            sido_list.push(cities[i].sido)
+            sgg_list.push(cities[i].sgg)
+        }
+
+        console.log(sido_list)
+
+        const expTerminals = await db.Express.findAll({
+            where : {
+                sido : {
+                    [Op.in] : sido_list
+                },
+                sgg : {
+                    [Op.in] : sgg_list
+                }
+            },
+            raw : true
         })
 
-        console.log(test_route1['arrCity'])
-        destinations = test_route1['arrCity']
-        for (var i = 0; i < destinations.length; i++) {
-            console.log(destinations[i])
-        }
+        console.log(expTerminals)
+
+        // for (var i = 0; i < cities.length; i++) {
+        //     console.log(cities[i].dataValues.sido)
+        //     console.log(cities[i].dataValues.sgg)
+        // }
+
+        // const test_route1 = await db.traintest.create({
+        //     depCity: ['busan', 'busan'].toString(),
+        //     arrCity: [['busan', 'busan'], ['seoul', 'seoul']]
+        // })
+
+        // console.log(test_route1['arrCity'])
+        // destinations = test_route1['arrCity']
+        // for (var i = 0; i < destinations.length; i++) {
+        //     console.log(destinations[i])
+        // }
+
+        // const testing = await db.traintest.findAll({
+        //     where : {
+        //         depCity : 'busan,busan'
+        //     }
+        // })
+
+        // const cities = testing[0].dataValues.arrCity
+        
+        // console.log()
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
