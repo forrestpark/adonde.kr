@@ -1,5 +1,39 @@
 <template>
     <div>
-        mypage
+        <advanced-select
+            v-model="value"
+            :options="options"
+            :multiple="multiple"
+            :collapse-headers="true"
+            :displayMax="2"
+            />
     </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    options: [
+      { value: 1, text: 'One' },
+      {
+        label: 'Group 1',
+        options: [
+          { value: 3, text: 'Three' },
+          { value: 4, text: 'Four', disabled: true },
+          { value: 5, text: 'Five' },
+        ],
+      },
+      {
+        label: 'Group 2',
+        options: [
+          { value: 6, text: 'Six' },
+          { value: 7, text: 'Seven' },
+          { value: 8, text: 'Eight' },
+        ],
+      },
+    ],
+    value: [1],
+    multiple: true,
+  }),
+}
+</script>

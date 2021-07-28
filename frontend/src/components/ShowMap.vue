@@ -2,7 +2,7 @@
     
   <div class="mapp">
            <div id="map" style="width:700px;height:500px;"></div>     
-    {{startpoint}}
+    현재위치는 : {{ startpoint }}
   </div>
 
 </template>
@@ -79,7 +79,7 @@ export default {
                     geocoder.coord2Address(coord.getLng(), coord.getLat(), (result, status) => {
                         if (status === kakao.maps.services.Status.OK) {
                             console.log(result);
-                            alert(Object.values(result)[0].address.address_name);
+                            //alert(Object.values(result)[0].address.address_name);
                             resolve(Object.values(result)[0].address.address_name);  
                             
                         } else {

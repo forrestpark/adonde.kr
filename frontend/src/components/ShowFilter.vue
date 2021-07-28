@@ -3,12 +3,19 @@
     <div class="filter">
       <!-- 출발지 선택 -->
       <v-flex xs12 sm6 d-flex> 
-        <v-select
+        <v-autocomplete
+          placeholder="Search"
+          :search="search"
           :items="$t('StartItems')"
           v-model="startname"
           :label="$t('startLabel')"
           :disabled="disabled"
-        ></v-select>
+        >
+          <template v-slot:prepend-item>
+          <div @click="startclick">{{ startpoint }}</div>
+          <v-divider class="mt-2"></v-divider>
+          </template>
+        </v-autocomplete>
       </v-flex>
       <!-- 버튼 -->
       <div class="text-center d-flex pb-4">
@@ -305,10 +312,19 @@
     </div>
   </v-container>
 </template>
+
 <script>
+import { mapState } from 'vuex'
   export default {
+    computed:{
+        ...mapState([
+            'startpoint'
+        ])
+    },
     data () {
       return {
+        search: true,
+
         disabled: false,
         panel: [],
 
@@ -351,11 +367,12 @@
         this.access=''
       },
       //혼잡도 선택을 취소하고 싶을 시에
-      nohonjab(){
-          alert('선택안해!')
-          this.honjabdo=''
-      },
-      //
+      // nohonjab(){
+      //     alert('선택안해!')
+      //     this.honjabdo=''
+      // },
+      
+      //인구수와 거리 slider설정시 버튼을 누르면 초기화 된다
       popuTozero(){
           this.value=[0,0]
       },
@@ -403,6 +420,9 @@
       //다시 선택하기 버튼 클릭시 필터가 다시 선택할 수 있도록 바뀐다
       refresh(){
           this.disabled = false
+      },
+      startclick(){
+        alert('click')
       }
       
     }

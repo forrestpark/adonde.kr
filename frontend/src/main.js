@@ -7,9 +7,11 @@ import router from './router'
 import store from './store'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
+import VueCascaderSelect from 'vue-cascader-select';
+
+Vue.use(VueCascaderSelect);
 
 Vue.component('VueSlider', VueSlider)
-
 
 Vue.config.productionTip = false
 
