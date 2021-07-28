@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Express, { foreignKey : 'sido_sgg' })
+      this.hasMany(models.Suburbs, { foreignKey : 'sido_sgg' })
+      this.hasMany(models.Train, { foreignKey : 'sido_sgg' })
     }
   };
   City.init({
@@ -36,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     type: DataTypes.STRING,
     sido_sgg: {
+      // foreign key in express, suburbs, and train table
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,

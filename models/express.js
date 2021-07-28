@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // this.belongsTo(City, { foreignKey: '' , as: 'user'})
+      this.belongsTo(models.City, { foreignKey: 'sido_sgg' })
     }
   };
   Express.init({

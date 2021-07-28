@@ -11,6 +11,10 @@ const Op = db.Sequelize.Op;
         
         await sync_db();
         console.log('DB Sync complete.');
+
+        // need to load city data first due to foreign key constraints
+        await load_city_data();
+        // after mounting city data, mount the rest
         await mount_data();
 
     } catch (error) {
@@ -172,7 +176,6 @@ async function load_train_data() {
 
 async function mount_data() {
     await load_train_data();
-    await load_city_data();
     await load_express_data();
     await load_suburbs_data();
 }
