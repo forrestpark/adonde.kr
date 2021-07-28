@@ -8,13 +8,19 @@ const Op = db.Sequelize.Op;
 
 ;(async function main() {
     try {
-
+        
+        await sync_db();
+        console.log('DB Sync complete.');
         await mount_data();
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
     }
 })()
+
+async function sync_db() {
+    await db.sequelize.sync({force: true});
+}
 
 async function read_train_csv(filePath) {
 
