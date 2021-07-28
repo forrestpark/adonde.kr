@@ -9,7 +9,7 @@
   "distanceHint" :"거리를 선택하세요!",
   "accessLabel" : "접근성 필터",
   "accessHint" : "접근성을 선택하세요!",
-  "StartItems": [["서울", "서울"],
+  "StartItems": ["서울 서울", 
   ["부산", "부산"],
   ["대구", "대구"],
   ["인천", "인천"],

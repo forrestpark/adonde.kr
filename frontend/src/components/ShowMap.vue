@@ -1,7 +1,7 @@
 <template>
     
   <div class="mapp">
-           <div id="map" style="width:700px;height:500px;"></div>     
+           <div id="map" style="width:900px;height:800px;"></div>     
     현재위치는 : {{ startpoint }}
   </div>
 

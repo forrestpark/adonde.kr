@@ -9,5 +9,5 @@
     "distanceHint" :"select distance!",
     "accessLabel" : "access",
     "accessHint" : "select access!",
-    "StartItems": ["seout", "busan", "daegu", "yeosu"]
+    "StartItems": ["seoul", "busan", "daegu", "yeosu"]
 }

@@ -409,6 +409,7 @@ import { mapState } from 'vuex'
             this.$set(this.finalValue, '출발지', this.startname)
 
             console.log(this.finalValue)
+
             for(var i= 0; i<5;i++){
                 console.log(Object.keys(this.finalValue)[i])
                 console.log(Object.values(this.finalValue)[i])
