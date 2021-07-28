@@ -1,6 +1,6 @@
 const {models, Suburbs} = require('../../models')
 
-exports.get_terminals = async (req, res) => {
+exports.get_all_terminals = async (req, res) => {
     try {
         const terminals = await Suburbs.findAll()
         return res.json(terminals)
@@ -10,17 +10,65 @@ exports.get_terminals = async (req, res) => {
     }
 }
 
-// exports.create_city = async (req, res) => {
-//     const {name, population, citycode, province, latitude, longitude} = req.body
+exports.find_terminal = async (req, res) => {
+    const {id} = req.body
+
+    try {
+        const terminal = await Express.findByPk(id)
+        return res.json(terminal)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.create_terminal = async (req, res) => {
+    const {id, name, sido, sgg, sido_sgg} = req.body
+    try {
+        const terminal = await Suburbs.create({id, name, sido, sgg, sido_sgg})
+        return res.json(terminal)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.update_terminal = async (req, res) => {
+    const {id, name, sido, sgg, sido_sgg} = req.body
+    try {
+        const terminal = await Express.findByPk(id)
+        terminal.name = name
+        terminal.sido = sido
+        terminal.sgg = sgg
+        terminal.sido_sgg = sido_sgg
+
+        await terminal.save()
+        return res.json(terminal)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.delete_terminal = async (req, res) => {
+    const {id} = req.body
+    try {
+        const terminal = await Express.findByPk(id)
+        
+        await terminal.destroy()
+        return res.json(terminal)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+// exports.name = async (req, res) => {
 //     try {
-//         const city = await City.create({name, population, citycode, province, latitude, longitude})
-//         return res.json(city)
 //     } catch (err) {
 //         console.log(err)
 //         return res.status(500).json(err)
 //     }
-// }
-
-// exports.count_cities = async (req, res) => {
-//     res.json("Counting")
 // }

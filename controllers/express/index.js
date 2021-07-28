@@ -1,10 +1,13 @@
 const { Router } = require('express');
-const { route } = require('../../app');
+// const { route } = require('../../app');
 const router = Router();
 const ctrl = require('./express.ctrl');
 
-router.get('/findall', ctrl.get_terminals);
-// router.get('/count', ctrl.count_cities);
-// router.post('/create', ctrl.create_city);
+router.get('/findAll', ctrl.get_all_terminals);
+router.get('/findOne', ctrl.find_terminal);
+router.put('/update', ctrl.update_terminal);
+router.delete('/delete', ctrl.delete_terminal);
+router.post('/create', ctrl.create_terminal);
+
 
 module.exports = router;
