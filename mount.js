@@ -35,6 +35,7 @@ async function read_train_csv(filePath) {
     for (var rowIndex in rows) {
         // console.log(rows[rowIndex])
         var city_destinations = rows[rowIndex].split("\"");
+        var comma_split = rows[rowIndex].split(",")
 
         if (rowIndex == rows.length - 1) {
             continue;
@@ -46,10 +47,8 @@ async function read_train_csv(filePath) {
 
             var sido = city.split(",").slice(0,1).toString();
             var sgg = city.split(",").slice(1,2).toString();
-            
+            var sido_sgg = comma_split.slice(comma_split.length-1, comma_split.length).toString();
 
-            // console.log(sido, sgg)
-            // console.log(destinations.toString().slice(1, destinations.length-1).split(","))
             combination_list = destinations.toString().slice(1, destinations.length-1).split(",")
             var destination_list = []
             var destination_sido = ""
@@ -61,7 +60,7 @@ async function read_train_csv(filePath) {
                 destination_list.push([destination_sido, destination_sgg])
             }
 
-            row = [sido, sgg, destination_list]
+            row = [sido, sgg, destination_list, sido_sgg]
         }
 
         if (rowIndex === "0") { var columns = rows[0].split(","); console.log(columns); } 
@@ -112,7 +111,7 @@ async function read_csv(filePath) {
 async function load_city_data() {
 
     // reading city data from a local csv file in data folder
-    const city_data = await read_csv("data/city/city_population_latlng.csv");
+    const city_data = await read_csv("data/city/city_combined.csv");
 
     // pushing city data into city table in database
     for (var i = 0; i < city_data.length - 1; i++) {
@@ -122,7 +121,8 @@ async function load_city_data() {
             sgg: city_data[i]['sgg'],
             population: city_data[i]['population'],
             latitude: city_data[i]['lat'],
-            longitude: city_data[i]['long']
+            longitude: city_data[i]['long'],
+            sido_sgg: city_data[i]['sido_sgg']
         })
     }
 
@@ -131,7 +131,7 @@ async function load_city_data() {
 async function load_express_data() {
 
     // reading express bus terminal data from a local csv file in data folder
-    const express_data = await read_csv("data/express/express_final.csv");
+    const express_data = await read_csv("data/express/express_combined.csv");
 
     // pushing express bus terminal data into express table in database
     for (var i = 0; i < express_data.length - 1; i++) {
@@ -145,7 +145,7 @@ async function load_express_data() {
 async function load_suburbs_data() {
 
     // reading suburban bus terminal data from a local csv file in data folder
-    const suburbs_data = await read_csv("data/suburbs/suburbs_preprocessed.csv");
+    const suburbs_data = await read_csv("data/suburbs/suburbs_combined.csv");
         
     // pushing suburban bus terminal data into suburbs table in database
     for (var i = 0; i < suburbs_data.length - 1; i++) {
@@ -159,9 +159,10 @@ async function load_suburbs_data() {
 async function load_train_data() {
     
     // reading train data from a local csv file in data folder
-    const train_data = await read_train_csv("data/train/train_city_destinations.csv");
+    const train_data = await read_train_csv("data/train/train_combined.csv");
 
     for (var i = 0; i < train_data.length - 1; i++) {
+        // console.log(train_data[i])
         await db.Train.create({
             ...train_data[i]
         })

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // this.belongsTo(City, { foreignKey: '' , as: 'user'})
     }
   };
   Express.init({
@@ -29,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     sgg: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    sido_sgg: {
       type: DataTypes.STRING,
       allowNull: false,
     },

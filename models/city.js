@@ -17,12 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     sido: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
     },
     sgg: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
     },
     population: {
       type: DataTypes.INTEGER,
@@ -36,7 +34,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    sido_sgg: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
+    },
   }, {
     sequelize,
     tableName : 'cities',

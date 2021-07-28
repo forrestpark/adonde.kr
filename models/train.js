@@ -17,15 +17,18 @@ module.exports = (sequelize, DataTypes) => {
     sido: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
     },
     sgg: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
     },
     destinations: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
+    },
+    sido_sgg: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
     },
   }, {
     sequelize,
