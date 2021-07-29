@@ -49,7 +49,7 @@ export default {
                 getAddr(lat,lon).then(function(res) {
                     
                     vm.updateCurrentAdd(res)
-                    console.log("result: ", res);
+                    
 
                 })
                 

@@ -322,9 +322,15 @@ import { mapState } from 'vuex'
     },
     data () {
       return {
+        //출발지 select
         label: '',
         value: '' ,
+        sido_unify : { "경기": "경기도", "강원": "강원도", "충북": "충청북도", 
+                      "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
+                      "전북": "전라북도", "전남": "전라남도", 
+                      "제주특별자치도": "제주도", "제주": "제주도"},
 
+        //filter
         disabled: false,
         panel: [],
 
@@ -336,7 +342,7 @@ import { mapState } from 'vuex'
           step: 10,
         },
         access:'',
-
+        //최종결과값
         finalValue:{}
         }
     },
@@ -350,7 +356,6 @@ import { mapState } from 'vuex'
       //Reset the panel
       none () {
         this.panel = [],
-        // this.currentAdd='',
         this.thema='',
         this.distance='',
         this.population=[0,0],
@@ -407,23 +412,37 @@ import { mapState } from 'vuex'
       refresh(){
           this.disabled = false
       },
-      // startclick(){
-      //   alert('click')
-      // },
+      //현위치를 출발지로 설정
       setCurrentAsOrigin(){
         //여기서 주소를 필터링 해주기..
-        this.value = this.currentAdd
+    
+        var addressSplit = this.currentAdd.split(' ')
+
+        if(addressSplit[0] in this.sido_unify){
+          //특별시아님
+          var sgg = addressSplit[1].slice(0, -1)
+          console.log('sido: ' +this.sido_unify[addressSplit[0]] + 'sgg: ' + sgg)
+          this.value = this.sido_unify[addressSplit[0]] + " " + sgg    
+        }
+        else{
+          //특별시
+          console.log('sido: ' + addressSplit[0])
+          this.value = addressSplit[0]
+        }
       },
       //시군구 체크후 출발지를 저장해준다
       setValue(val){
         //공백체크
         var pattern = /\s/g;
-        if(!val.match(pattern))
-        { 
-          this.$set(this.finalValue, '출발지', val + " " + val)
+        if(val.match(pattern))
+        {
+          //특별시가 아님
+          this.$set(this.finalValue, '출발지', val)
         }
         else{
-          this.$set(this.finalValue, '출발지', val)
+          //특별시
+          this.$set(this.finalValue, '출발지', val + " " + val)
+          
         }
       }
       
