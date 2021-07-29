@@ -82,7 +82,7 @@
        
     </v-main>
 
-     <v-footer
+     <v-footer style="z-index:1;"
       dark
       padless
       >

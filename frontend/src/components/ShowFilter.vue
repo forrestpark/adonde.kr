@@ -3,7 +3,7 @@
     <div class="filter">
       <!-- 출발지 선택 -->
       <v-flex xs12 sm6 d-flex> 
-        <v-autocomplete
+        <!-- <v-autocomplete
           placeholder="Search"
           :search="search"
           :items="$t('StartItems')"
@@ -15,8 +15,20 @@
           <div @click="startclick">{{ startpoint }}</div>
           <v-divider class="mt-2"></v-divider>
           </template>
-        </v-autocomplete>
+        </v-autocomplete> -->
+        
+        <vue-cascader-select style="z-index:2;"
+        :options="$t('StartItems')"
+        @clear="(val) => value = ''"
+        @select="(selected) => value = selected.value"
+        :value="value"   
+        />
+        <dir>
+          <v-btn @click="currentToorigin">현위치를 출발지로</v-btn>
+        </dir>
+        
       </v-flex>
+      {{value}}
       <!-- 버튼 -->
       <div class="text-center d-flex pb-4">
         <v-btn @click="all"
@@ -104,8 +116,8 @@
                         v-else
                         key="1"
                       >
-                      <div v-if="value != 0">
-                          {{value}}
+                      <div v-if="population != 0">
+                          {{population}}
                       </div>
                       <div v-else>
                         {{ popuTozero() }}
@@ -122,7 +134,7 @@
             
                   <vue-slider
                   :disabled="disabled"
-                  v-model="value"
+                  v-model="population"
                   v-bind="options"
                   :enable-cross="false"
                   dotSize ="20"
@@ -130,7 +142,7 @@
 
                 </v-flex>
                 <v-btn @click="popuTozero">선택안해</v-btn>
-                {{value}}
+                {{population}}
               </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -308,7 +320,7 @@
         <span>Show All</span>
       </v-btn>
       <!-- 확인해보기 위함 -->
-      {{startname}}{{thema}}{{value}}{{distance}}{{access}}
+      {{startname}}{{thema}}{{population}}{{distance}}{{access}}
     </div>
   </v-container>
 </template>
@@ -323,7 +335,8 @@ import { mapState } from 'vuex'
     },
     data () {
       return {
-        search: true,
+        label: '',
+        value: '' ,
 
         disabled: false,
         panel: [],
@@ -331,7 +344,7 @@ import { mapState } from 'vuex'
         startname:'',
         thema:'',
         distance:'',
-        value: [0,0],
+        population: [0,0],
         options:{
           max: 300,
           step: 10,
@@ -363,7 +376,7 @@ import { mapState } from 'vuex'
         this.startname='',
         this.thema='',
         this.distance='',
-        this.value=[0,0],
+        this.population=[0,0],
         this.access=''
       },
       //혼잡도 선택을 취소하고 싶을 시에
@@ -374,7 +387,7 @@ import { mapState } from 'vuex'
       
       //인구수와 거리 slider설정시 버튼을 누르면 초기화 된다
       popuTozero(){
-          this.value=[0,0]
+          this.population=[0,0]
       },
       distanceTozero(){
           this.distance=''
@@ -389,12 +402,12 @@ import { mapState } from 'vuex'
         {
             this.disabled = true
             this.finalValue['테마'] = (this.thema)
-            if(this.value[0] == 0 && this.value[1] ==0){
-                this.value = ''
-                this.finalValue['인구수'] = this.value
+            if(this.population[0] == 0 && this.population[1] ==0){
+                this.population = ''
+                this.finalValue['인구수'] = this.population
             }
             else{
-                this.finalValue['인구수'] = this.value
+                this.finalValue['인구수'] = this.population
             }
             if(this.distance == 0){
                 this.distance = ''
@@ -422,8 +435,12 @@ import { mapState } from 'vuex'
       refresh(){
           this.disabled = false
       },
-      startclick(){
-        alert('click')
+      // startclick(){
+      //   alert('click')
+      // },
+      currentToorigin(){
+        //여기서 주소를 필터링 해주기..
+        this.value = this.startpoint
       }
       
     }
