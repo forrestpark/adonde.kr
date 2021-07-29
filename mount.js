@@ -166,7 +166,6 @@ async function load_train_data() {
     const train_data = await read_train_csv("data/train/train_combined.csv");
 
     for (var i = 0; i < train_data.length - 1; i++) {
-        // console.log(train_data[i])
         await db.Train.create({
             ...train_data[i]
         })
