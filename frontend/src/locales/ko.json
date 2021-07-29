@@ -12,7 +12,7 @@
   "originItems": [
     {
         "label": "특별/광역시",
-        "value": "서울",
+        "value": "특별/광역시",
         "disabled": true,
         "options": [
             {"label": "서울", "value": "서울"}, 

@@ -15,7 +15,7 @@
         </dir>
         
       </v-flex>
-      {{value}}
+      {{value}} {{label}}
       <!-- 버튼 -->
       <div class="text-center d-flex pb-4">
         <v-btn @click="all"
@@ -391,8 +391,7 @@ import { mapState } from 'vuex'
             this.finalValue['접근성'] = (this.access)
 
             //출발지도 저장해준다.
-            this.OriginDuplicate(this.value)
-            this.$set(this.finalValue, '출발지', this.value)
+            this.setValue(this.value)
 
             console.log(this.finalValue)
 
@@ -415,8 +414,17 @@ import { mapState } from 'vuex'
         //여기서 주소를 필터링 해주기..
         this.value = this.currentAdd
       },
-      OriginDuplicate(val){
-        this.value = val + " " + val
+      //시군구 체크후 출발지를 저장해준다
+      setValue(val){
+        //공백체크
+        var pattern = /\s/g;
+        if(!val.match(pattern))
+        { 
+          this.$set(this.finalValue, '출발지', val + " " + val)
+        }
+        else{
+          this.$set(this.finalValue, '출발지', val)
+        }
       }
       
     }
