@@ -2,7 +2,7 @@
     
   <div class="mapp">
            <div id="map" style="width:900px;height:800px;"></div>     
-    현재위치는 : {{ startpoint }}
+    현재위치는 : {{ currentAdd }}
   </div>
 
 </template>
@@ -15,12 +15,12 @@ export default {
     }, 
     computed:{
         ...mapState([
-            'startpoint'
+            'currentAdd'
         ])
     },
     methods : { 
         ...mapMutations([
-            'updateStart'
+            'updateCurrentAdd'
         ]),
         initMap() { 
             var container = document.getElementById('map'); 
@@ -48,7 +48,7 @@ export default {
                 //현재주소를 가져옴
                 getAddr(lat,lon).then(function(res) {
                     
-                    vm.updateStart(res)
+                    vm.updateCurrentAdd(res)
                     console.log("result: ", res);
 
                 })

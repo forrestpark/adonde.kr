@@ -2,29 +2,16 @@
   <v-container>
     <div class="filter">
       <!-- 출발지 선택 -->
-      <v-flex xs12 sm6 d-flex> 
-        <!-- <v-autocomplete
-          placeholder="Search"
-          :search="search"
-          :items="$t('StartItems')"
-          v-model="startname"
-          :label="$t('startLabel')"
-          :disabled="disabled"
-        >
-          <template v-slot:prepend-item>
-          <div @click="startclick">{{ startpoint }}</div>
-          <v-divider class="mt-2"></v-divider>
-          </template>
-        </v-autocomplete> -->
-        
+      <v-flex xs12 sm12 d-flex> 
+        {{$t('originlabel')}}
         <vue-cascader-select style="z-index:2;"
-        :options="$t('StartItems')"
+        :options="$t('originItems')"
         @clear="(val) => value = ''"
         @select="(selected) => value = selected.value"
         :value="value"   
         />
         <dir>
-          <v-btn @click="currentToorigin">현위치를 출발지로</v-btn>
+          <v-btn @click="setCurrentAsOrigin">현위치를 출발지로</v-btn>
         </dir>
         
       </v-flex>
@@ -35,10 +22,10 @@
         :disabled="disabled">
           모두 펼치기
         </v-btn>
-        <div>{{ panel }}</div>
+        
         <v-btn @click="none"
         :disabled="disabled">
-          초기화
+          필터 초기화
         </v-btn>
       </div>
 
@@ -163,7 +150,7 @@
                     v-if="open"
                     key="0"
                   >
-                    {{ $t('distanceHint') }} 
+                    {{ $t('distanceHint')  }} 
                   </span>
                   <span
                     v-else
@@ -320,7 +307,7 @@
         <span>Show All</span>
       </v-btn>
       <!-- 확인해보기 위함 -->
-      {{startname}}{{thema}}{{population}}{{distance}}{{access}}
+      {{currentAdd}}}{{thema}}{{population}}{{distance}}{{access}}
     </div>
   </v-container>
 </template>
@@ -330,7 +317,7 @@ import { mapState } from 'vuex'
   export default {
     computed:{
         ...mapState([
-            'startpoint'
+            'currentAdd'
         ])
     },
     data () {
@@ -341,7 +328,6 @@ import { mapState } from 'vuex'
         disabled: false,
         panel: [],
 
-        startname:'',
         thema:'',
         distance:'',
         population: [0,0],
@@ -359,31 +345,17 @@ import { mapState } from 'vuex'
       // with all values as true
       all () {
         this.panel = [0,1,2,3,4]
-        //필터를 랜덤으로 골라주기이
-        // this.thema = this.items2[Math.floor(Math.random()*2)],
-        // this.honjabdo = this.items3[Math.floor(Math.random()*2)],
-        // this.access = this.items4[Math.floor(Math.random()*5)],
-        // console.log(this.thema),
-        // console.log(this.honjabdo),
-        // console.log(this.access),
-        // this.value = Math.floor(Math.random()*300),
-        // this.distance =Math.floor(Math.random()*500)
         
       },
       //Reset the panel
       none () {
         this.panel = [],
-        this.startname='',
+        // this.currentAdd='',
         this.thema='',
         this.distance='',
         this.population=[0,0],
         this.access=''
       },
-      //혼잡도 선택을 취소하고 싶을 시에
-      // nohonjab(){
-      //     alert('선택안해!')
-      //     this.honjabdo=''
-      // },
       
       //인구수와 거리 slider설정시 버튼을 누르면 초기화 된다
       popuTozero(){
@@ -394,7 +366,7 @@ import { mapState } from 'vuex'
       },
       //submit버튼 클릭시 출발지 선택여부를 판단하고, 데이터를 저장해줌
       initData(){
-        if(this.startname == "")
+        if(this.value == "")
         {
             alert('출발지를 선택해주세요!')
         }
@@ -419,7 +391,8 @@ import { mapState } from 'vuex'
             this.finalValue['접근성'] = (this.access)
 
             //출발지도 저장해준다.
-            this.$set(this.finalValue, '출발지', this.startname)
+            this.OriginDuplicate(this.value)
+            this.$set(this.finalValue, '출발지', this.value)
 
             console.log(this.finalValue)
 
@@ -438,9 +411,12 @@ import { mapState } from 'vuex'
       // startclick(){
       //   alert('click')
       // },
-      currentToorigin(){
+      setCurrentAsOrigin(){
         //여기서 주소를 필터링 해주기..
-        this.value = this.startpoint
+        this.value = this.currentAdd
+      },
+      OriginDuplicate(val){
+        this.value = val + " " + val
       }
       
     }

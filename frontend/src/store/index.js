@@ -6,11 +6,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
         //data
-        startpoint:""
+        currentAdd:""
     },
     mutations:{
-    updateStart(state, start){
-        state.startpoint = start
+    updateCurrentAdd(state, start){
+        state.currentAdd = start
     }
         //데이터를 실질적으로 바꿔줌
     },
