@@ -4,6 +4,21 @@ const {Op} = require('sequelize')
 const axios = require('axios')
 
 exports.test = async (req, res) => {
+    const {theme, distance, population, transportation, origin} = req.body
+    // get all sido_sgg values in city table
+    var cities = await City.findAll({
+        attributes: ['sido_sgg'],
+        raw: true
+    })
+
+    // converting cities from an array of city objects to an array of sido_sgg values
+    var sido_sgg_list = []
+    for (var i = 0; i < cities.length; i++) {
+        sido_sgg_list.push(cities[i]['sido_sgg'])
+    }
+    cities = sido_sgg_list
+
+    return res.json(await filterByExpressDirect(cities, origin))
 
 }
 
@@ -43,23 +58,118 @@ exports.search = async (req, res) => {
 
     // our transportation filter only supports direct transportation options at the moment
     if (transportation.length != 0) {
+        console.log("transportation filtering")
+        var train_cities_list = new Array()
+        var express_cities_set = new Set()
+        var suburbs_cities_set = new Set()
+
         // helper function
         if (transportation.includes("train_direct")) {
-            cities = await filterByTrainDirect(cities, origin)
+            console.log("train filter")
+            train_cities_list = await filterByTrainDirect(cities, origin)
         }
 
         if (transportation.includes("express_direct")) {
-            await filterByExpressDirect(cities, origin)
+            console.log("express filter")
+            express_cities_set = await filterByExpressDirect(cities, origin)
         }
 
         if (transportation.includes("suburbs_direct")) {
-            cities = await filterBySuburbsDirect(cities, origin)
+            console.log("suburbs filter")
+            suburbs_cities_set = await filterBySuburbsDirect(cities, origin)
+        }
+
+        var train_cities_set = new Set(train_cities_list)
+        
+        // union all three transportation sets
+        const transportation_union = train_cities_set.union(express_cities_set).union(suburbs_cities_set)
+        console.log("transportation union: ", transportation_union)
+
+        cities = transportation_union
+    }
+
+    cities = Array.from(cities)
+
+    return res.json(cities)
+
+}
+
+// set union operation
+Set.prototype.union = function(setB) {
+    var union = new Set(this);
+    for (var elem of setB) {
+        union.add(elem);
+    }
+    return union;
+}
+
+async function filterBySuburbsDirect(cities, origin) {
+
+    // get all express bus terminals in city of origin
+    const origin_terminals = await Suburbs.findAll({
+        where: {
+            sido_sgg: origin
+        },
+        attributes: ['id'],
+        raw: true
+    })
+
+    console.log("origin terminals: ", origin_terminals)
+
+    // if there does not exist any, return an empty list
+    if (origin_terminals.length == 0) {
+        return new Set()
+    }
+
+    var destination_terminal_id_set = new Set()
+    var destination_city_set = new Set()
+
+    // if there exists at least one express bus terminal in city of origin,
+    // iterate through all of such terminal(s) and run public openAPI calls for each
+    for (var i = 0; i < origin_terminals.length; i++) {
+        // console.log("count: ", i)
+        var origin_terminal_id = origin_terminals[i]['id']
+        
+        request_url = completeSuburbsURL(origin_terminal_id)
+
+        // call OpenAPI
+        res = await axios.get(request_url)
+        // console.log("calling api")
+        var totalCount = res.data.response.body.totalCount
+        
+        if (totalCount == 0) {
+            continue
+        }
+
+        var destination_terminals = res.data.response.body.items.item
+
+        for (var j = 0; j < destination_terminals.length; j++) {
+            destination_terminal_id_set.add(destination_terminals[j]['arrTmnCd'])
         }
 
     }
 
-    return res.json(cities)
+    for (let destination_terminal_id of destination_terminal_id_set) {
+        var destination_city = await convertExpressIDToSidoSgg(destination_terminal_id)
 
+        if (destination_city != null) {
+            destination_city_set.add(destination_city['sido_sgg'])
+        } else {
+            console.log("else: ", destination_terminal_id)
+        }
+
+    }
+
+    // const cities_set = new Set(cities)
+    // destination_city_set = new Set( [...cities_set].filter(x => destination_city_set.has(x)));
+
+    return Array.from(destination_city_set)
+
+}
+
+function completeExpressURL(id) {
+    const base_url = "http://openapi.tago.go.kr/openapi/service/SuburbsBusInfoService/getTrminlAcctoSuberbsBusInfo?ServiceKey=YIG48RZ4OVNbB15tDMQv6%2FS4eDc38APYyyBkaUCB%2BnrBCbtm7l1hpnNDmVQ1p4RXGoQC7GYdXhpYgoPn%2FIzZww%3D%3D&depPlandTime=20210706&numOfRows=1000&terminalId="
+    return base_url + id
 }
 
 async function filterByExpressDirect(cities, origin) {
@@ -69,15 +179,82 @@ async function filterByExpressDirect(cities, origin) {
         where: {
             sido_sgg: origin
         },
-        attributes: []
+        attributes: ['id'],
+        raw: true
     })
 
+    console.log("origin terminals: ", origin_terminals)
+
     // if there does not exist any, return an empty list
+    if (origin_terminals.length == 0) {
+        return new Set()
+    }
+
+    var destination_terminal_id_set = new Set()
+    var destination_city_set = new Set()
 
     // if there exists at least one express bus terminal in city of origin,
     // iterate through all of such terminal(s) and run public openAPI calls for each
+    for (var i = 0; i < origin_terminals.length; i++) {
+        // console.log("count: ", i)
+        var origin_terminal_id = origin_terminals[i]['id']
+        var origin_terminal_number = origin_terminal_id.slice(origin_terminal_id.length-3, origin_terminal_id.length)
+        
+        request_url = completeExpressURL(origin_terminal_number)
+
+        // call OpenAPI
+        res = await axios.get(request_url)
+        // console.log("calling api")
+        var totalCount = res.data.response.body.totalCount
+        
+        if (totalCount == 0) {
+            continue
+        }
+
+        var destination_terminals = res.data.response.body.items.item
+
+        for (var j = 0; j < destination_terminals.length; j++) {
+            destination_terminal_id_set.add(destination_terminals[j]['arrTmnCd'])
+        }
+
+    }
+
+    for (let destination_terminal_id of destination_terminal_id_set) {
+        var destination_city = await convertExpressIDToSidoSgg(destination_terminal_id)
+
+        if (destination_city != null) {
+            destination_city_set.add(destination_city['sido_sgg'])
+        } else {
+            console.log("else: ", destination_terminal_id)
+        }
+
+    }
+
+    // const cities_set = new Set(cities)
+    // destination_city_set = new Set( [...cities_set].filter(x => destination_city_set.has(x)));
+
+    return Array.from(destination_city_set)
 
 }
+
+async function convertExpressIDToSidoSgg(id) {
+    const expressID = "NAEK" + id.toString()
+    const city = await Express.findOne({
+        where : {
+            id: expressID
+        },
+        attributes: ['sido_sgg'],
+        raw: true
+    })
+    return city
+}
+
+function completeExpressURL(origin_terminal_number) {
+    const base_url = "http://openapi.tago.go.kr/openapi/service/ExpBusArrInfoService/getArrTmnFromDepTmn?numOfRows=1000&ServiceKey=YIG48RZ4OVNbB15tDMQv6%2FS4eDc38APYyyBkaUCB%2BnrBCbtm7l1hpnNDmVQ1p4RXGoQC7GYdXhpYgoPn%2FIzZww%3D%3D&depTmnCd="
+    return base_url + origin_terminal_number
+}
+
+
 
 async function filterByTrainDirect(cities, origin) {
 

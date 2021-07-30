@@ -139,9 +139,54 @@ async function load_express_data() {
 
     // pushing express bus terminal data into express table in database
     for (var i = 0; i < express_data.length - 1; i++) {
-        console.log(express_data[i])
+        // console.log(express_data[i])
         await db.Express.create({
             ...express_data[i]
+        })
+    }
+    
+    // manually adding express bus terminal entries
+    const manual_express_data = [
+        {
+            "id": "NAEK010",
+            "name": "서울경부",
+            "sido": "서울",
+            "sgg": "서울",
+            "sido_sgg": "서울 서울",
+        },
+        {
+            "id": "NAEK801",
+            "name": "동대구",
+            "sido": "대구",
+            "sgg": "대구",
+            "sido_sgg": "대구 대구",
+        },
+        {
+            "id": "NAEK396",
+            "name": "안면도",
+            "sido": "충청남도",
+            "sgg": "태안",
+            "sido_sgg": "충청남도 태안",
+        },
+        {
+            "id": "NAEK500",
+            "name": "광주(유·스퀘어)",
+            "sido": "광주",
+            "sgg": "광주",
+            "sido_sgg": "광주 광주",
+        },
+        {
+            "id": "NAEK580",
+            "name": "장흥",
+            "sido": "전라남도",
+            "sgg": "장흥",
+            "sido_sgg": "전라남도 장흥",
+        },
+    ];
+
+    for (var i = 0; i < manual_express_data.length; i++) {
+        await db.Express.create({
+            ...manual_express_data[i]
         })
     }
 }
