@@ -2,7 +2,6 @@
     
   <div class="mapp">
            <div id="map" style="width:900px;height:800px;"></div>     
-    현재위치는 : {{ currentAdd }}
   </div>
 
 </template>
@@ -59,11 +58,10 @@ export default {
             // }); 
             // marker.setMap(map); 
 
-
-            //여러가지 마커 설정하기
+            // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+            var bounds = new kakao.maps.LatLngBounds();   
             
-
-               
+            //여러가지 마커 설정하기   
             for (var i = 0; i < this.positions.length; i ++) {
                 
                 // 마커 이미지의 이미지 크기 입니다
@@ -89,23 +87,14 @@ export default {
                 // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
                 // 이벤트 리스너로는 클로저를 만들어 등록합니다 
                 // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-                kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-                kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+                kakao.maps.event.addListener(marker, 'mouseover', this.makeOverListener(map, marker, infowindow));
+                kakao.maps.event.addListener(marker, 'mouseout', this.makeOutListener(infowindow));
+
+                // LatLngBounds 객체에 좌표를 추가합니다
+                bounds.extend(this.positions[i].latlng);
             }
 
-            // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-            function makeOverListener(map, marker, infowindow) {
-                return function() {
-                    infowindow.open(map, marker);
-                };
-            }
-
-            // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-            function makeOutListener(infowindow) {
-                return function() {
-                    infowindow.close();
-                };
-            }
+            
 
             //현위치 불러오기
             if (navigator.geolocation) {
@@ -121,13 +110,13 @@ export default {
                 //현재주소를 가져옴
                 getAddr(lat,lon).then(function(res) {                    
                     vm.updateCurrentAdd(res)
+
+                    var message = '<span class="title">현재위치</span>'+'<div>'+ res + '</div>' // 인포윈도우에 표시될 내용입니다
+
+                    // 마커와 인포윈도우를 표시합니다
+                    displayMarker(locPosition, message)
                 })
-                
-                var message = '<div  style="padding:5px;">현재 위치</div>'// 인포윈도우에 표시될 내용입니다
-                
-                // 마커와 인포윈도우를 표시합니다
-                displayMarker(locPosition, message)
-              
+                  
               });
     
             } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -176,19 +165,26 @@ export default {
                 // 인포윈도우를 생성합니다
                 var infowindow = new kakao.maps.InfoWindow({
                     content : iwContent,
-                    removable : iwRemoveable
+                    removable : iwRemoveable,
+                    zindex:1
                 });
-                
+                infowindow.setContent(message)
                 // 인포윈도우를 마커위에 표시합니다 
                 infowindow.open(map, marker)
                 
                 // 지도 중심좌표를 접속위치로 변경합니다
-                map.setCenter(locPosition)
+                //map.setCenter(locPosition)
+                // LatLngBounds 객체에 좌표를 추가합니다
+                bounds.extend(locPosition);
+                 
 
             }
-              
+            // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+            // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+            map.setBounds(bounds);
+
             this.addMapControl(map)
-           
+    
         }, 
         addScript() { 
             const script = document.createElement('script'); 
@@ -208,7 +204,20 @@ export default {
             // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
             var zoomControl = new kakao.maps.ZoomControl();
             map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-        }
+        },
+        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+        makeOverListener(map, marker, infowindow) {
+            return function() {
+                infowindow.open(map, marker);
+            };
+        },
+        // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+        makeOutListener(infowindow) {
+            return function() {
+                infowindow.close();
+            };
+        },
+            
     }
     
 }
