@@ -18,7 +18,7 @@ exports.test = async (req, res) => {
     }
     cities = sido_sgg_list
 
-    return res.json(await filterByExpressDirect(cities, origin))
+    return res.json(Array.from(await filterBySuburbsDirect(cities, origin)))
 
 }
 
@@ -83,12 +83,12 @@ exports.search = async (req, res) => {
         
         // union all three transportation sets
         const transportation_union = train_cities_set.union(express_cities_set).union(suburbs_cities_set)
-        console.log("transportation union: ", transportation_union)
 
-        cities = transportation_union
+        // compute the intersection of transportation union and cities
+        const cities_set = new Set(cities)
+        const intersection = new Set( [...cities_set].filter(x => transportation_union.has(x)));
+        cities = Array.from(intersection)
     }
-
-    cities = Array.from(cities)
 
     return res.json(cities)
 
@@ -121,7 +121,7 @@ async function filterBySuburbsDirect(cities, origin) {
         return new Set()
     }
 
-    var destination_terminal_id_set = new Set()
+    var destination_terminal_name_set = new Set()
     var destination_city_set = new Set()
 
     // if there exists at least one express bus terminal in city of origin,
@@ -134,7 +134,7 @@ async function filterBySuburbsDirect(cities, origin) {
 
         // call OpenAPI
         res = await axios.get(request_url)
-        // console.log("calling api")
+
         var totalCount = res.data.response.body.totalCount
         
         if (totalCount == 0) {
@@ -144,30 +144,33 @@ async function filterBySuburbsDirect(cities, origin) {
         var destination_terminals = res.data.response.body.items.item
 
         for (var j = 0; j < destination_terminals.length; j++) {
-            destination_terminal_id_set.add(destination_terminals[j]['arrTmnCd'])
+            destination_terminal_name_set.add(destination_terminals[j]['arrPlaceNm'])
         }
 
     }
 
-    for (let destination_terminal_id of destination_terminal_id_set) {
-        var destination_city = await convertExpressIDToSidoSgg(destination_terminal_id)
+    for (let destination_terminal_name of destination_terminal_name_set) {
+        var destination_city = await Suburbs.findOne({
+            where : {
+                name : destination_terminal_name
+            },
+            attributes: ['sido_sgg'],
+            raw: true
+        })
 
         if (destination_city != null) {
             destination_city_set.add(destination_city['sido_sgg'])
         } else {
-            console.log("else: ", destination_terminal_id)
+            console.log("else: ", destination_terminal_name)
         }
 
     }
 
-    // const cities_set = new Set(cities)
-    // destination_city_set = new Set( [...cities_set].filter(x => destination_city_set.has(x)));
-
-    return Array.from(destination_city_set)
+    return destination_city_set
 
 }
 
-function completeExpressURL(id) {
+function completeSuburbsURL(id) {
     const base_url = "http://openapi.tago.go.kr/openapi/service/SuburbsBusInfoService/getTrminlAcctoSuberbsBusInfo?ServiceKey=YIG48RZ4OVNbB15tDMQv6%2FS4eDc38APYyyBkaUCB%2BnrBCbtm7l1hpnNDmVQ1p4RXGoQC7GYdXhpYgoPn%2FIzZww%3D%3D&depPlandTime=20210706&numOfRows=1000&terminalId="
     return base_url + id
 }
@@ -233,7 +236,7 @@ async function filterByExpressDirect(cities, origin) {
     // const cities_set = new Set(cities)
     // destination_city_set = new Set( [...cities_set].filter(x => destination_city_set.has(x)));
 
-    return Array.from(destination_city_set)
+    return destination_city_set
 
 }
 

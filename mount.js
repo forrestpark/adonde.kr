@@ -194,7 +194,7 @@ async function load_express_data() {
 async function load_suburbs_data() {
 
     // reading suburban bus terminal data from a local csv file in data folder
-    const suburbs_data = await read_csv("data/suburbs/suburbs_combined.csv");
+    const suburbs_data = await read_csv("data/suburbs/suburbs_active.csv");
         
     // pushing suburban bus terminal data into suburbs table in database
     for (var i = 0; i < suburbs_data.length - 1; i++) {
