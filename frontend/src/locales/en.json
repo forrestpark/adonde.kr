@@ -1,6 +1,6 @@
 {
     "message": "hello i18n !!",
-    "startLabel" :"startpoint",
+    "originlabel" :"startpoint",
     "themaLabel": "thema",
     "themaHint" : "select thema!",
     "popuLabel" : "population",
@@ -9,5 +9,5 @@
     "distanceHint" :"select distance!",
     "accessLabel" : "access",
     "accessHint" : "select access!",
-    "StartItems": ["seoul", "busan", "daegu", "yeosu"]
+    "originItems": ["seoul", "busan", "daegu", "yeosu"]
 }

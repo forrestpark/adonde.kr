@@ -82,7 +82,8 @@
        
     </v-main>
 
-     <v-footer style="z-index:1;"
+     <v-footer 
+      prop
       dark
       padless
       >
@@ -109,7 +110,7 @@
         </v-btn>
       </v-card-title> 
     </v-card>
-    </v-footer>
+    </v-footer >
 
   </v-app>
 </template>
@@ -164,4 +165,5 @@ export default {
   height: 200px;
   background-color: yellow;
 }
+
 </style>

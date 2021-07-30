@@ -1,13 +1,13 @@
 {
   "message": "안녕 i18n !!",
   "originlabel":"(*필수)출발지",
-  "themalabel": "여행지 테마",
+  "themaLabel": "여행지 테마",
   "themaHint" : "여행지 테마를 선택하세요!",
-  "populabel" : "인구수(만명)",
+  "popuLabel" : "인구수(만명)",
   "popuHint" : "인구수를 선택하세요!",
-  "distancelabel" : "거리 필터(km)",
+  "distanceLabel" : "거리 필터(km)",
   "distanceHint" :"거리를 선택하세요!",
-  "accesslabel" : "접근성 필터",
+  "accessLabel" : "접근성 필터",
   "accessHint" : "접근성을 선택하세요!",
   "originItems": [
     {
@@ -249,5 +249,5 @@
     }
 ],
   "ThemaItems" :["산", "계곡", "바다"],
-  "AccessItems":["직통버스","직통기차","항공사직항","버스경유", "기차경유","항공권경유"]
+  "AccessItems":["직통버스","직통기차","항공사직항"]
 }

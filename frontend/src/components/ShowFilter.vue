@@ -1,37 +1,40 @@
 <template>
-  <v-container>
+  <v-container class="filter">
     <div class="filter">
       <!-- 출발지 선택 -->
-      <v-flex xs12 sm12 d-flex> 
-        {{$t('originlabel')}}
-        <vue-cascader-select style="z-index:2;"
+      {{$t('originlabel')}}
+      <v-flex>       
+        <vue-cascader-select style="z-index:2; width:300px"
         :options="$t('originItems')"
         @clear="(val) => value = ''"
         @select="(selected) => value = selected.value"
         :value="value"   
-        />
-        <dir>
-          <v-btn @click="setCurrentAsOrigin">현위치를 출발지로</v-btn>
-        </dir>
-        
+        />  
+        <v-btn @click="setCurrentAsOrigin">현위치를 출발지로</v-btn>
       </v-flex>
-      {{value}} {{label}}
+      
+ 
       <!-- 버튼 -->
       <div class="text-center d-flex pb-4">
         <v-btn @click="all"
         :disabled="disabled">
           모두 펼치기
         </v-btn>
-        
         <v-btn @click="none"
+        :disabled="disabled">
+          모두 접기
+        </v-btn>
+        
+        <v-btn @click="filterReset"
         :disabled="disabled">
           필터 초기화
         </v-btn>
       </div>
 
       <!--필터 -->
-      <v-flex xs12 sm6 d-flex> 
+      <v-flex> 
         <v-expansion-panels
+          
           v-model="panel"
           multiple
           :disabled="disabled"
@@ -68,7 +71,7 @@
             </v-expansion-panel-header>
 
             <v-expansion-panel-content>
-              <v-flex xs12 sm12>
+              <v-flex>
                 <v-combobox
                 :disabled="disabled"
                   v-model="thema"
@@ -117,7 +120,7 @@
               </v-expansion-panel-header>
 
               <v-expansion-panel-content>
-                <v-flex xs12 sm12 >
+                <v-flex>
             
                   <vue-slider
                   :disabled="disabled"
@@ -169,7 +172,7 @@
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-flex xs12 sm12 >
+              <v-flex>
                   <v-slider
                     :disabled="disabled"
                     v-model="distance"
@@ -261,7 +264,7 @@
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-flex xs12 sm12>
+              <v-flex>
                 <v-combobox
                   :disabled="disabled"
                   v-model="access"
@@ -307,7 +310,8 @@
         <span>Show All</span>
       </v-btn>
       <!-- 확인해보기 위함 -->
-      {{currentAdd}}}{{thema}}{{population}}{{distance}}{{access}}
+      <br>
+      {{value}}{{thema}}{{population}}{{distance}}{{access}}
     </div>
   </v-container>
 </template>
@@ -353,8 +357,11 @@ import { mapState } from 'vuex'
         this.panel = [0,1,2,3,4]
         
       },
+      none(){
+        this.panel = []
+      },
       //Reset the panel
-      none () {
+      filterReset() {
         this.panel = [],
         this.thema='',
         this.distance='',
@@ -404,7 +411,7 @@ import { mapState } from 'vuex'
                 console.log(Object.keys(this.finalValue)[i])
                 console.log(Object.values(this.finalValue)[i])
             }
-            alert('선택완룡!')
+            alert('제출!')
             }
         
       },
@@ -415,9 +422,13 @@ import { mapState } from 'vuex'
       //현위치를 출발지로 설정
       setCurrentAsOrigin(){
         //여기서 주소를 필터링 해주기..
-    
-        var addressSplit = this.currentAdd.split(' ')
 
+        //다른지역 test
+        // var name ="전남 영암군 금정면 안노리 498"
+        // var addressSplit = name.split(' ')
+
+        var addressSplit = this.currentAdd.split(' ')
+        
         if(addressSplit[0] in this.sido_unify){
           //특별시아님
           var sgg = addressSplit[1].slice(0, -1)
@@ -444,9 +455,33 @@ import { mapState } from 'vuex'
           this.$set(this.finalValue, '출발지', val + " " + val)
           
         }
-      }
-      
+      }      
     }
   }
 </script>
+
+<style scoped>
+.filter{
+  height: 800px;
+  background-color: rgb(179, 179, 173);
+}
+.vcs__picker input,
+.vcs__select-menu {
+  background: yellow;
+  color: white;
+  border-color: yellow;
+}
+
+.vcs__picker input::placeholder {
+  color: #bbb;
+}
+
+.vcs__option--active {
+  background: #41444e;
+}
+
+.vcs__option:hover {
+  background: #474b56;
+}
+</style>
 
