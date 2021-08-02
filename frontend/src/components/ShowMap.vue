@@ -10,32 +10,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data(){
         return{
-            //마커를 표시할 위치와 title 객체 배열입니다 
-            // positions :[
-            //     {
-            //         title: '부산', 
-            //         lat: 35.1795543,
-            //         lng: 129.0756416,
-            //     },
-            //     {
-            //         title: '대구', 
-            //         lat: 35.8714354,
-            //         lng: 128.6014450,
-
-            //     },
-            //     {
-            //         title: '인천', 
-            //         lat: 37.4562557,
-            //         lng: 126.7052062,
-
-            //     },
-            //     {
-            //         title: '광주',
-            //         lat: 35.1595454,
-            //         lng: 126.8526012,
-            //     }
-            // ],
-
+           
             //마커 이미지의 이미지 주소입니다
             imageSrc : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" 
         }
@@ -200,22 +175,12 @@ export default {
             // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
             map.setBounds(bounds);
 
+            //mapcontrol올리기
             this.addMapControl(map)
 
-            console.log('ggigi')
-
-            if(this.clickItemNum != null){
-                var lat1 = this.positions[this.clickItemNum].lat, // 위도
-                    lng1 = this.positions[this.clickItemNum].lng // 경도
-
-                console.log(lat1, lng1)
-                //위도, 경도 정보를 가지고 위치를 지정해줌
-                var latlng1= new kakao.maps.LatLng(lat1, lng1)
-
-                map.setCenter(latlng1)
-
-                this.updateClickItemNum(null)
-            }
+            console.log("clicknum: ",this.clickItemNum)
+            
+            this.Zoom(map)
     
         }, 
         addScript() { 
@@ -249,7 +214,29 @@ export default {
                 infowindow.close();
             };
         },
+        Zoom(map){
+            if(this.clickItemNum != null){
+                console.log('zooooom')
+                var lat1 = this.positions[this.clickItemNum].lat, // 위도
+                    lng1 = this.positions[this.clickItemNum].lng // 경도
+
+                console.log(lat1, lng1)
+                //위도, 경도 정보를 가지고 위치를 지정해줌
+                var latlng1= new kakao.maps.LatLng(lat1, lng1)
+
+                map.setCenter(latlng1)
+
+                this.updateClickItemNum(null)
+        
+            }
+        }
+        
             
+    },
+    watch:{
+        clickItemNum: function(newval, oldval) {
+            console.log("newval",newval +"," +oldval)
+        }
     }
     
 }

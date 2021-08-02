@@ -9,6 +9,7 @@ export default new Vuex.Store({
         submitValue:null,
         currentAdd:"",
         clickItemNum: null,
+        searchResult: [],
         positions :[
             {
                 title: '부산', 
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     updateSubmitValue(state , val){
         state.submitValue = val
+    },
+    updateSearchResult(state, val){
+        state.searchResult = val
     }
         //데이터를 실질적으로 바꿔줌
     },

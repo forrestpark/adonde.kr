@@ -45,7 +45,7 @@
               <template v-slot:default="{ open }">
                 <v-row no-gutters>
                   <v-col cols="4">
-                    {{ $t('themaLabel') }}
+                    {{ $t('themeLabel') }}
                   </v-col>
                   <v-col
                     cols="8"
@@ -56,13 +56,13 @@
                         v-if="open"
                         key="0"
                       >
-                        {{ $t('themaHint') }}
+                        {{ $t('themeHint') }}
                       </span>
                       <span
                         v-else
                         key="1"
                       >
-                      {{ `${thema}` }}
+                      {{ `${theme}` }}
                       </span>
                     </v-fade-transition>
                   </v-col>
@@ -74,8 +74,8 @@
               <v-flex>
                 <v-combobox
                 :disabled="disabled"
-                  v-model="thema"
-                  :items="$t('ThemaItems')"
+                  v-model="theme"
+                  :items="$t('themeItems')"
                   multiple
                   chips
                 ></v-combobox>
@@ -309,16 +309,21 @@
         :disabled ="!disabled">
         <span>Show All</span>
       </v-btn>
+      <search-result></search-result>
       <!-- 확인해보기 위함 -->
       <br>
-      {{value}}{{thema}}{{population}}{{distance}}{{access}}
+      {{value}}{{theme}}{{population}}{{distance}}{{access}}
     </div>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-  export default {
+import SearchResult from './SearchResult.vue'
+export default {
+    components:{
+      SearchResult
+    },
     computed:{
         ...mapState([
             'currentAdd'
@@ -338,7 +343,7 @@ import { mapState, mapMutations } from 'vuex'
         disabled: false,
         panel: [],
 
-        thema:'',
+        theme:'',
         distance:'',
         population: [0,0],
         options:{
@@ -366,7 +371,7 @@ import { mapState, mapMutations } from 'vuex'
       //Reset the panel
       filterReset() {
         this.panel = [],
-        this.thema='',
+        this.theme='',
         this.distance='',
         this.population=[0,0],
         this.access=''
@@ -388,7 +393,7 @@ import { mapState, mapMutations } from 'vuex'
         else
         {
             this.disabled = true
-            this.finalValue['thema'] = (this.thema)
+            this.finalValue['theme'] = (this.theme)
             if(this.population[0] == 0 && this.population[1] ==0){
                 this.population = ''
                 this.finalValue['population'] = this.population
@@ -467,28 +472,4 @@ import { mapState, mapMutations } from 'vuex'
   }
 </script>
 
-<style scoped>
-.filter{
-  height: 800px;
-  background-color: rgb(179, 179, 173);
-}
-.vcs__picker input,
-.vcs__select-menu {
-  background: yellow;
-  color: white;
-  border-color: yellow;
-}
-
-.vcs__picker input::placeholder {
-  color: #bbb;
-}
-
-.vcs__option--active {
-  background: #41444e;
-}
-
-.vcs__option:hover {
-  background: #474b56;
-}
-</style>
 

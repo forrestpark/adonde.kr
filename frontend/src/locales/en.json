@@ -1,8 +1,8 @@
 {
     "message": "hello i18n !!",
     "originlabel" :"startpoint",
-    "themaLabel": "thema",
-    "themaHint" : "select thema!",
+    "themeLabel": "theme",
+    "themeHint" : "select theme!",
     "popuLabel" : "population",
     "popuHint" : "select population!",
     "distanceLabel" : "distance(km)",

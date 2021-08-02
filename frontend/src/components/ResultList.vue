@@ -2,7 +2,7 @@
     <v-container>
       <v-row dense>
         <v-col
-          v-for="(item, i) in positions"
+          v-for="(item, i) in searchResults"
           :key="i"
           cols="12"
         >   
@@ -14,19 +14,19 @@
             <v-img 
                 @click="select($event)"
                 :id="i" 
-                :src="item.src"
+                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
                 class="white--text align-end"
                 height="200px">
                 <v-card-title
                   class="text-h5"
-                  v-text="item.title"
+                  v-text="item.sido_sgg"
                 ></v-card-title>
             </v-img>
             
             <v-card-subtitle 
                 @click="select($event)"
                 :id="i" 
-                v-text="item.lat">
+                v-text="item.latitude+item.longitude">
             </v-card-subtitle>
             
             <v-card-actions>
@@ -73,7 +73,7 @@ import { mapState , mapMutations} from 'vuex'
 export default {
     computed:{
         ...mapState([
-            'positions',
+            'searchResults',
             'clickItemNum'    
         ])
     },
@@ -84,7 +84,6 @@ export default {
         }
     },
     methods:{
-
         ...mapMutations([
             'updateClickItemNum'
         ]),
