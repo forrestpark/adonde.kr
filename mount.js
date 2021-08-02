@@ -41,7 +41,7 @@ async function mount_specialcity_data() {
         var express_destination_list = new Set()
         var suburbs_destination_list = new Set()
         // console.log("express body: ", JSON.stringify(expressBody))
-        var express_res = await axios.post("http://localhost:3000/search/", {
+        var express_res = await axios.post("https://adonde-kr.herokuapp.com/search/", {
             theme: [],
             distance: 10000,
             population: [0, 100000],
@@ -59,7 +59,7 @@ async function mount_specialcity_data() {
             destinations : Array.from(express_destination_list)
         })
 
-        var suburbs_res = await axios.post("http://localhost:3000/search/", {
+        var suburbs_res = await axios.post("https://adonde-kr.herokuapp.com/search/", {
             theme: [],
             distance: 10000,
             population: [0, 100000],
