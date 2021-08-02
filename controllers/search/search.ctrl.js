@@ -28,6 +28,67 @@ exports.test = async (req, res) => {
 }
 
 // overall filter that iterates through and checks all tables (city, express, suburbs, train)
+exports.mount = async (req, res) => {
+
+    const { theme, distance, population, transportation, origin } = req.body
+
+    try {
+        // get all sido_sgg values in city table
+        var cities = await City.findAll({
+            attributes: ['sido_sgg'],
+            raw: true
+        })
+
+        // converting cities from an array of city objects to an array of sido_sgg values
+        var sido_sgg_list = []
+        for (var i = 0; i < cities.length; i++) {
+            sido_sgg_list.push(cities[i]['sido_sgg'])
+        }
+        cities = sido_sgg_list
+
+        // if the population filter has been activated and given as parameter
+        if (population.length != 0) {
+
+            // calling a helper method filterByPopulation
+            // and filters cities by population value
+            cities = await filterByPopulation(cities, population)
+
+        }
+
+        if (distance.length != 0) {
+
+            // helper function
+            cities = await filterByDistance(cities, distance, origin)
+
+        }
+
+        const specialCities = ["서울 서울", "부산 부산", "인천 인천", "대구 대구", "대전 대전", "울산 울산", "광주 광주"]
+
+        // our transportation filter only supports direct transportation options at the moment
+        if (transportation.length != 0) {
+
+            var intersection = await filterNonSpecialOrigin(transportation, cities, origin)
+            
+            // intersection = await filterNonSpecialOrigin(transportation, cities, origin)
+            cities = Array.from(intersection)
+        }
+
+        // delete origin from response
+        const origin_index = cities.indexOf(origin)
+        if (origin_index != -1) {
+            cities.splice(origin_index, 1)
+        }
+
+        const cities_with_coords = await addCoords(cities)
+
+        return res.json(cities_with_coords)
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+
+}
+
+// overall filter that iterates through and checks all tables (city, express, suburbs, train)
 exports.search = async (req, res) => {
 
     const { theme, distance, population, transportation, origin } = req.body
