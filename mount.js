@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const db = require('./models');
 const path = require("path");
 const fs = require("fs");
+const axios = require('axios')
 
 const Op = db.Sequelize.Op;
 
@@ -16,11 +17,77 @@ const Op = db.Sequelize.Op;
         await load_city_data();
         // after mounting city data, mount the rest
         await mount_data();
+        await mount_specialcity_data();
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
     }
 })()
+
+async function mount_specialcity_data() {
+
+    console.log("mount special city data")
+
+    const specialCities = ["서울 서울", "부산 부산", "인천 인천", "대구 대구", "대전 대전", "울산 울산", "광주 광주"]
+    const express_search = ["express_direct"]
+    const suburbs_search = ["suburbs_direct"]
+
+    for (var i = 0; i < specialCities.length; i++) {
+        var origin = specialCities[i]
+        // console.log("express body: ", JSON.stringify(expressBody))
+        var express_res = await axios.get("https://adonde-kr.herokuapp.com/search/", {
+            theme: [],
+            distance: 10000,
+            population: [0, 100000],
+            transportation: express_search,
+            origin: origin
+        })
+
+        console.log(express_res.data.response.body)
+
+        // var express_city_destinations = await mount_specialcity_express(express_res, origin)
+
+        // var suburbsBody = completeBody("suburbs_direct", specialCities[i])
+        // var suburbs_res = await axios.get("https://adonde-kr.herokuapp.com/search/", suburbsBody)
+
+    }
+}
+
+async function mount_specialcity_express(express_res, origin) {
+    
+    var express_list = []
+    express_res = express_res.data.response.body
+    console.log("express res: ", express_res)
+    for (var i = 0; i < express_res.length; i++) {
+        express_list.push(express_res[i]['sido_sgg'])
+    }
+    
+    const specialcity_express = await db.specialexpress.create({
+        sido_sgg: origin,
+        destinations: express_list
+    })
+
+    console.log("create special city express")
+
+    return res.json(specialcity_express)
+
+}
+
+function completeBody(transportation, origin) {
+    var base_body = {
+        "theme": [],
+        "distance": 10000,
+        "population": [0, 100000],
+        "transportation": [],
+        "origin": ""
+    }
+
+    base_body['transportation'].push(transportation)
+    base_body['origin'] = origin
+
+    return base_body
+    
+}
 
 async function sync_db() {
     await db.sequelize.sync({force: true});

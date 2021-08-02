@@ -74,6 +74,12 @@ exports.search = async (req, res) => {
         cities = Array.from(intersection)
     }
 
+    // delete origin from response
+    const origin_index = cities.indexOf(origin)
+    if (origin_index != -1) {
+        cities.splice(origin_index, 1)
+    }
+
     const cities_with_coords = await addCoords(cities)
 
     return res.json(cities_with_coords)
