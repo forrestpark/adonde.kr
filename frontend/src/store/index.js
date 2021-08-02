@@ -6,11 +6,47 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
         //data
-        currentAdd:""
+        submitValue:null,
+        currentAdd:"",
+        clickItemNum: null,
+        positions :[
+            {
+                title: '부산', 
+                lat: 35.1795543,
+                lng: 129.0756416,
+                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+            },
+            {
+                title: '대구', 
+                lat: 35.8714354,
+                lng: 128.6014450,
+                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+
+            },
+            {
+                title: '인천', 
+                lat: 37.4562557,
+                lng: 126.7052062,
+                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+
+            },
+            {
+                title: '광주',
+                lat: 35.1595454,
+                lng: 126.8526012,
+                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+            }
+        ],
     },
     mutations:{
     updateCurrentAdd(state, start){
         state.currentAdd = start
+    },
+    updateClickItemNum(state , val){
+        state.clickItemNum = val
+    },
+    updateSubmitValue(state , val){
+        state.submitValue = val
     }
         //데이터를 실질적으로 바꿔줌
     },

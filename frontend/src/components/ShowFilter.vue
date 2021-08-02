@@ -317,7 +317,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
   export default {
     computed:{
         ...mapState([
@@ -351,6 +351,9 @@ import { mapState } from 'vuex'
         }
     },
     methods: {
+      ...mapMutations([
+          'updateSubmitValue'
+      ]),
       // Create an array the length of our items
       // with all values as true
       all () {
@@ -385,22 +388,22 @@ import { mapState } from 'vuex'
         else
         {
             this.disabled = true
-            this.finalValue['테마'] = (this.thema)
+            this.finalValue['thema'] = (this.thema)
             if(this.population[0] == 0 && this.population[1] ==0){
                 this.population = ''
-                this.finalValue['인구수'] = this.population
+                this.finalValue['population'] = this.population
             }
             else{
-                this.finalValue['인구수'] = this.population
+                this.finalValue['population'] = this.population
             }
             if(this.distance == 0){
                 this.distance = ''
-                this.finalValue['거리'] = this.distance
+                this.finalValue['distance'] = this.distance
             }
             else{
-                this.finalValue['거리'] = this.distance
+                this.finalValue['distance'] = this.distance
             }
-            this.finalValue['접근성'] = (this.access)
+            this.finalValue['transportation'] = (this.access)
 
             //출발지도 저장해준다.
             this.setValue(this.value)
@@ -411,6 +414,10 @@ import { mapState } from 'vuex'
                 console.log(Object.keys(this.finalValue)[i])
                 console.log(Object.values(this.finalValue)[i])
             }
+
+            //store에 저장해줌
+            this.updateSubmitValue(this.finalValue)
+            
             alert('제출!')
             }
         
@@ -448,11 +455,11 @@ import { mapState } from 'vuex'
         if(val.match(pattern))
         {
           //특별시가 아님
-          this.$set(this.finalValue, '출발지', val)
+          this.$set(this.finalValue, 'origin', val)
         }
         else{
           //특별시
-          this.$set(this.finalValue, '출발지', val + " " + val)
+          this.$set(this.finalValue, 'origin', val + " " + val)
           
         }
       }      

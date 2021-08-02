@@ -10,26 +10,33 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data(){
         return{
-            // 마커를 표시할 위치와 title 객체 배열입니다 
-            positions :[
-                {
-                    title: '부산', 
-                    latlng: new kakao.maps.LatLng(35.1795543,129.0756416)
-                },
-                {
-                    title: '대구', 
-                    latlng: new kakao.maps.LatLng(35.8714354,128.6014450)
-                },
-                {
-                    title: '인천', 
-                    latlng: new kakao.maps.LatLng(37.4562557,126.7052062)
-                },
-                {
-                    title: '광주',
-                    latlng: new kakao.maps.LatLng(35.1595454,126.8526012)
-                }
-            ],
-            // 마커 이미지의 이미지 주소입니다
+            //마커를 표시할 위치와 title 객체 배열입니다 
+            // positions :[
+            //     {
+            //         title: '부산', 
+            //         lat: 35.1795543,
+            //         lng: 129.0756416,
+            //     },
+            //     {
+            //         title: '대구', 
+            //         lat: 35.8714354,
+            //         lng: 128.6014450,
+
+            //     },
+            //     {
+            //         title: '인천', 
+            //         lat: 37.4562557,
+            //         lng: 126.7052062,
+
+            //     },
+            //     {
+            //         title: '광주',
+            //         lat: 35.1595454,
+            //         lng: 126.8526012,
+            //     }
+            // ],
+
+            //마커 이미지의 이미지 주소입니다
             imageSrc : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" 
         }
     },
@@ -38,12 +45,16 @@ export default {
     }, 
     computed:{
         ...mapState([
-            'currentAdd'
+            'currentAdd',
+            'positions',
+            'clickItemNum'
+            
         ])
     },
     methods : { 
         ...mapMutations([
-            'updateCurrentAdd'
+            'updateCurrentAdd',
+            'updateClickItemNum'
         ]),
         initMap() { 
             var container = document.getElementById('map'); 
@@ -60,7 +71,7 @@ export default {
 
             // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
             var bounds = new kakao.maps.LatLngBounds();   
-            
+
             //여러가지 마커 설정하기   
             for (var i = 0; i < this.positions.length; i ++) {
                 
@@ -70,10 +81,16 @@ export default {
                 // 마커 이미지를 생성합니다    
                 var markerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize); 
                 
+                var lat = this.positions[i].lat, // 위도
+                    lng = this.positions[i].lng // 경도
+
+                //위도, 경도 정보를 가지고 위치를 지정해줌
+                var latlng= new kakao.maps.LatLng(lat, lng)
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
+                    
                     map: map, // 마커를 표시할 지도
-                    position: this.positions[i].latlng, // 마커를 표시할 위치
+                    position: latlng, // 마커를 표시할 위치
                     title : this.positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                     image : markerImage // 마커 이미지 
                 });
@@ -91,7 +108,7 @@ export default {
                 kakao.maps.event.addListener(marker, 'mouseout', this.makeOutListener(infowindow));
 
                 // LatLngBounds 객체에 좌표를 추가합니다
-                bounds.extend(this.positions[i].latlng);
+                bounds.extend(latlng);
             }
 
             
@@ -103,12 +120,12 @@ export default {
             navigator.geolocation.getCurrentPosition(function(position) {
                 
                 var lat = position.coords.latitude, // 위도
-                    lon = position.coords.longitude // 경도
+                    lng = position.coords.longitude // 경도
                 
-                var locPosition = new kakao.maps.LatLng(lat, lon) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                var locPosition = new kakao.maps.LatLng(lat, lng) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 
                 //현재주소를 가져옴
-                getAddr(lat,lon).then(function(res) {                    
+                getAddr(lat,lng).then(function(res) {                    
                     vm.updateCurrentAdd(res)
 
                     var message = '<span class="title">현재위치</span>'+'<div>'+ res + '</div>' // 인포윈도우에 표시될 내용입니다
@@ -184,6 +201,21 @@ export default {
             map.setBounds(bounds);
 
             this.addMapControl(map)
+
+            console.log('ggigi')
+
+            if(this.clickItemNum != null){
+                var lat1 = this.positions[this.clickItemNum].lat, // 위도
+                    lng1 = this.positions[this.clickItemNum].lng // 경도
+
+                console.log(lat1, lng1)
+                //위도, 경도 정보를 가지고 위치를 지정해줌
+                var latlng1= new kakao.maps.LatLng(lat1, lng1)
+
+                map.setCenter(latlng1)
+
+                this.updateClickItemNum(null)
+            }
     
         }, 
         addScript() { 

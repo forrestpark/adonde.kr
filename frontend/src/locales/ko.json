@@ -249,5 +249,5 @@
     }
 ],
   "ThemaItems" :["산", "계곡", "바다"],
-  "AccessItems":["직통버스","직통기차","항공사직항"]
+  "AccessItems":["express_direct", "suburbs_direct", "train_direct"]
 }
