@@ -1,10 +1,10 @@
-const {models, City, Express, Suburbs, Train} = require('../../models')
+const { models, City, Express, Suburbs, Train } = require('../../models')
 const db = require('../../models')
-const {Op} = require('sequelize')
+const { Op } = require('sequelize')
 const axios = require('axios')
 
 exports.test = async (req, res) => {
-    const {theme, distance, population, transportation, origin} = req.body
+    const { theme, distance, population, transportation, origin } = req.body
     // get all sido_sgg values in city table
     var cities = await City.findAll({
         attributes: ['sido_sgg'],
@@ -25,7 +25,7 @@ exports.test = async (req, res) => {
 // overall filter that iterates through and checks all tables (city, express, suburbs, train)
 exports.search = async (req, res) => {
 
-    const {theme, distance, population, transportation, origin} = req.body
+    const { theme, distance, population, transportation, origin } = req.body
 
     // get all sido_sgg values in city table
     var cities = await City.findAll({
@@ -50,43 +50,27 @@ exports.search = async (req, res) => {
     }
 
     if (distance.length != 0) {
-        
+
         // helper function
         cities = await filterByDistance(cities, distance, origin)
 
     }
 
+    const specialCities = ["서울 서울", "부산 부산", "인천 인천", "대구 대구", "대전 대전", "울산 울산", "광주 광주"]
+
     // our transportation filter only supports direct transportation options at the moment
     if (transportation.length != 0) {
-        console.log("transportation filtering")
-        var train_cities_list = new Array()
-        var express_cities_set = new Set()
-        var suburbs_cities_set = new Set()
 
-        // helper function
-        if (transportation.includes("train_direct")) {
-            console.log("train filter")
-            train_cities_list = await filterByTrainDirect(cities, origin)
-        }
+        var intersection = new Set()
 
-        if (transportation.includes("express_direct")) {
-            console.log("express filter")
-            express_cities_set = await filterByExpressDirect(cities, origin)
-        }
+        // if (specialCities.includes(origin)) {
+        //     console.log("special city: ", origin)
 
-        if (transportation.includes("suburbs_direct")) {
-            console.log("suburbs filter")
-            suburbs_cities_set = await filterBySuburbsDirect(cities, origin)
-        }
-
-        var train_cities_set = new Set(train_cities_list)
+        // } else {
+        //     intersection = await filterNonSpecialOrigin(transportation, cities, origin)
+        // }
         
-        // union all three transportation sets
-        const transportation_union = train_cities_set.union(express_cities_set).union(suburbs_cities_set)
-
-        // compute the intersection of transportation union and cities
-        const cities_set = new Set(cities)
-        const intersection = new Set( [...cities_set].filter(x => transportation_union.has(x)));
+        intersection = await filterNonSpecialOrigin(transportation, cities, origin)
         cities = Array.from(intersection)
     }
 
@@ -94,6 +78,72 @@ exports.search = async (req, res) => {
 
     return res.json(cities_with_coords)
 
+}
+
+async function filterSpecialOrigin(transportation, cities, origin) {
+    var train_cities_list = new Array()
+    var express_cities_set = new Set()
+    var suburbs_cities_set = new Set()
+
+    // helper function
+    if (transportation.includes("train_direct")) {
+        console.log("train filter")
+        train_cities_list = await filterByTrainDirect(cities, origin)
+    }
+
+    if (transportation.includes("express_direct")) {
+        console.log("express filter")
+        express_cities_set = await filterByExpressDirect(cities, origin)
+    }
+
+    if (transportation.includes("suburbs_direct")) {
+        console.log("suburbs filter")
+        suburbs_cities_set = await filterBySuburbsDirect(cities, origin)
+    }
+
+    var train_cities_set = new Set(train_cities_list)
+
+    // union all three transportation sets
+    const transportation_union = train_cities_set.union(express_cities_set).union(suburbs_cities_set)
+
+    // compute the intersection of transportation union and cities
+    const cities_set = new Set(cities)
+    const intersection = new Set([...cities_set].filter(x => transportation_union.has(x)));
+
+    return intersection
+}
+
+async function filterNonSpecialOrigin(transportation, cities, origin) {
+    var train_cities_list = new Array()
+    var express_cities_set = new Set()
+    var suburbs_cities_set = new Set()
+
+    // helper function
+    if (transportation.includes("train_direct")) {
+        console.log("train filter")
+        train_cities_list = await filterByTrainDirect(cities, origin)
+    }
+
+    if (transportation.includes("express_direct")) {
+        console.log("express filter")
+        express_cities_set = await filterByExpressDirect(cities, origin)
+    }
+
+    if (transportation.includes("suburbs_direct")) {
+        console.log("suburbs filter")
+        suburbs_cities_set = await filterBySuburbsDirect(cities, origin)
+    }
+
+    var train_cities_set = new Set(train_cities_list)
+
+    // union all three transportation sets
+    const transportation_union = train_cities_set.union(express_cities_set).union(suburbs_cities_set)
+
+    // compute the intersection of transportation union and cities
+    const cities_set = new Set(cities)
+    const intersection = new Set([...cities_set].filter(x => transportation_union.has(x)));
+
+    return intersection
 }
 
 async function addCoords(cities) {
@@ -104,20 +154,20 @@ async function addCoords(cities) {
         var sido_sgg = cities[i]
 
         var city_with_coords = await City.findOne({
-            where : {sido_sgg},
+            where: { sido_sgg },
             attributes: ['sido_sgg', 'population', 'latitude', 'longitude'],
             raw: true
         })
-        
+
         cities_with_coords.push(city_with_coords)
     }
 
     return cities_with_coords
-    
+
 }
 
 // set union operation
-Set.prototype.union = function(setB) {
+Set.prototype.union = function (setB) {
     var union = new Set(this);
     for (var elem of setB) {
         union.add(elem);
@@ -151,14 +201,14 @@ async function filterBySuburbsDirect(cities, origin) {
     for (var i = 0; i < origin_terminals.length; i++) {
         // console.log("count: ", i)
         var origin_terminal_id = origin_terminals[i]['id']
-        
+
         request_url = completeSuburbsURL(origin_terminal_id)
 
         // call OpenAPI
         res = await axios.get(request_url)
 
         var totalCount = res.data.response.body.totalCount
-        
+
         if (totalCount == 0) {
             continue
         }
@@ -173,8 +223,8 @@ async function filterBySuburbsDirect(cities, origin) {
 
     for (let destination_terminal_name of destination_terminal_name_set) {
         var destination_city = await Suburbs.findOne({
-            where : {
-                name : destination_terminal_name
+            where: {
+                name: destination_terminal_name
             },
             attributes: ['sido_sgg'],
             raw: true
@@ -223,15 +273,15 @@ async function filterByExpressDirect(cities, origin) {
     for (var i = 0; i < origin_terminals.length; i++) {
         // console.log("count: ", i)
         var origin_terminal_id = origin_terminals[i]['id']
-        var origin_terminal_number = origin_terminal_id.slice(origin_terminal_id.length-3, origin_terminal_id.length)
-        
+        var origin_terminal_number = origin_terminal_id.slice(origin_terminal_id.length - 3, origin_terminal_id.length)
+
         request_url = completeExpressURL(origin_terminal_number)
 
         // call OpenAPI
         res = await axios.get(request_url)
         // console.log("calling api")
         var totalCount = res.data.response.body.totalCount
-        
+
         if (totalCount == 0) {
             continue
         }
@@ -265,7 +315,7 @@ async function filterByExpressDirect(cities, origin) {
 async function convertExpressIDToSidoSgg(id) {
     const expressID = "NAEK" + id.toString()
     const city = await Express.findOne({
-        where : {
+        where: {
             id: expressID
         },
         attributes: ['sido_sgg'],
@@ -284,7 +334,7 @@ function completeExpressURL(origin_terminal_number) {
 async function filterByTrainDirect(cities, origin) {
 
     var direct_train_destinations = await Train.findOne({
-        where : {
+        where: {
             sido_sgg: origin
         },
         attributes: ['destinations'],
@@ -309,7 +359,7 @@ async function filterByTrainDirect(cities, origin) {
         // concatenating sido value and sgg value to make sido_sgg value
         destination_sidosgg = sido_sgg_concat(direct_train_destinations[i])
 
-        if ( cities_set.has(destination_sidosgg) == true ) {
+        if (cities_set.has(destination_sidosgg) == true) {
             direct_train_destinations_list.push(destination_sidosgg)
         }
     }
@@ -333,7 +383,7 @@ async function filterByPopulation(cities, population) {
     for (var i = 0; i < cities.length; i++) {
 
         var population_filtered_city = await City.findOne({
-            where : {
+            where: {
                 sido_sgg: cities[i],
                 population: {
                     [Op.gte]: minPopulation,
@@ -356,7 +406,7 @@ async function filterByPopulation(cities, population) {
 async function filterByDistance(cities, distance, origin) {
 
     const originCity = await City.findOne({
-        where : {
+        where: {
             sido_sgg: origin
         },
         attributes: ['latitude', 'longitude']
@@ -371,7 +421,7 @@ async function filterByDistance(cities, distance, origin) {
     for (var i = 0; i < cities.length; i++) {
 
         var city = await City.findOne({
-            where : {
+            where: {
                 sido_sgg: cities[i]
             },
             attributes: ['sido_sgg', 'latitude', 'longitude'],
@@ -395,11 +445,11 @@ async function filterByDistance(cities, distance, origin) {
 
 function haversine_distance(orig_lat, orig_lng, dest_lat, dest_lng) {
     var R = 6371.0710; // Radius of the Earth in kilometers
-    var rlat1 = orig_lat * (Math.PI/180); // Convert degrees to radians
-    var rlat2 = dest_lat * (Math.PI/180); // Convert degrees to radians
-    var difflat = rlat2-rlat1; // Radian difference (latitudes)
-    var difflon = (dest_lng-orig_lng) * (Math.PI/180); // Radian difference (longitudes)
+    var rlat1 = orig_lat * (Math.PI / 180); // Convert degrees to radians
+    var rlat2 = dest_lat * (Math.PI / 180); // Convert degrees to radians
+    var difflat = rlat2 - rlat1; // Radian difference (latitudes)
+    var difflon = (dest_lng - orig_lng) * (Math.PI / 180); // Radian difference (longitudes)
 
-    var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+    var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
     return d;
 }
