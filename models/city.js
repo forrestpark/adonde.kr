@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Express, { foreignKey : 'sido_sgg' })
       this.hasMany(models.Suburbs, { foreignKey : 'sido_sgg' })
       this.hasMany(models.Train, { foreignKey : 'sido_sgg' })
+      this.hasMany(models.specialsuburbs, { foreignKey : 'sido_sgg' })
+      this.hasMany(models.specialexpress, { foreignKey : 'sido_sgg' })
     }
   };
   City.init({

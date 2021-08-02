@@ -27,16 +27,6 @@ const Op = db.Sequelize.Op;
     }
 })()
 
-async function testAxios() {
-
-    var express_findOne_res = await axios.post(`http://localhost:3000/express/findOne`, {
-            id : "NAEK120"
-        })
-
-    console.log(express_findOne_res)
-
-}
-
 async function mount_specialcity_data() {
 
     console.log("mount special city data")
@@ -47,8 +37,11 @@ async function mount_specialcity_data() {
 
     for (var i = 0; i < specialCities.length; i++) {
         var origin = specialCities[i]
+        console.log("origin: ", origin)
+        var express_destination_list = new Set()
+        var suburbs_destination_list = new Set()
         // console.log("express body: ", JSON.stringify(expressBody))
-        var express_res = await axios.get("https://adonde-kr.herokuapp.com/search/", {
+        var express_res = await axios.post("https://adonde-kr.herokuapp.com/search/", {
             theme: [],
             distance: 10000,
             population: [0, 100000],
@@ -56,12 +49,36 @@ async function mount_specialcity_data() {
             origin: origin
         })
 
-        console.log(express_res.data.response.body)
+        for (var j = 0; j < express_res.data.length; j++) {
+            express_destination_list.add(express_res.data[j]['sido_sgg'])
+            // console.log(express_res.data[j])
+        }
 
-        // var express_city_destinations = await mount_specialcity_express(express_res, origin)
+        const express_specialcity = await db.specialexpress.create({
+            sido_sgg : origin,
+            destinations : Array.from(express_destination_list)
+        })
 
-        // var suburbsBody = completeBody("suburbs_direct", specialCities[i])
-        // var suburbs_res = await axios.get("https://adonde-kr.herokuapp.com/search/", suburbsBody)
+        var suburbs_res = await axios.post("https://adonde-kr.herokuapp.com/search/", {
+            theme: [],
+            distance: 10000,
+            population: [0, 100000],
+            transportation: suburbs_search,
+            origin: origin
+        })
+
+        for (var k = 0; k < suburbs_res.data.length; k++) {
+            // console.log(suburbs_res.data[k])
+            suburbs_destination_list.add(suburbs_res.data[k]['sido_sgg'])
+        }
+
+        const suburbs_specialcity = await db.specialsuburbs.create({
+            sido_sgg : origin,
+            destinations : Array.from(suburbs_destination_list)
+        })
+
+        console.log("express res: ", express_specialcity)
+        console.log("suburbs res: ", suburbs_specialcity)
 
     }
 }
@@ -304,4 +321,16 @@ async function mount_data() {
     await load_suburbs_data();
 }
 
+async function testAxios() {
 
+    var res = await axios.post("https://adonde-kr.herokuapp.com/search/", {
+            theme: [],
+            distance: 10000,
+            population: [0, 100000],
+            transportation: ["train_direct"],
+            origin: "부산 부산"
+        })
+
+    console.log(res)
+
+}

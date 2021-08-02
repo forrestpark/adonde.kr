@@ -96,36 +96,67 @@ exports.search = async (req, res) => {
 }
 
 async function filterSpecialOrigin(transportation, cities, origin) {
-    var train_cities_list = new Array()
-    var express_cities_set = new Set()
-    var suburbs_cities_set = new Set()
+    try {
+        var train_cities_list = new Array()
+        var express_cities_list = new Array()
+        var suburbs_cities_list = new Array()
 
-    // helper function
-    if (transportation.includes("train_direct")) {
-        console.log("train filter")
-        train_cities_list = await filterByTrainDirect(cities, origin)
+        // helper function
+        if (transportation.includes("train_direct")) {
+            console.log("train filter")
+            train_cities_list = await filterByTrainDirect(cities, origin)
+        }
+
+        if (transportation.includes("express_direct")) {
+            console.log("express filter")
+            express_cities_list = await db.specialexpress.findOne({
+                where : {
+                    sido_sgg : origin
+                },
+                attributes: ['destinations'],
+                raw: true
+            })
+        }
+
+        express_cities_list = express_cities_list['destinations']
+
+        console.log("express cities list: ", express_cities_list)
+
+        if (transportation.includes("suburbs_direct")) {
+            console.log("suburbs filter")
+            suburbs_cities_list = await db.specialsuburbs.findOne({
+                where : {
+                    sido_sgg : origin
+                },
+                attributes: ['destinations'],
+                raw: true
+            })
+        }
+        
+        console.log("suburbs filter done")
+        console.log("suburbs cities list: ", suburbs_cities_list)
+
+        suburbs_cities_list = suburbs_cities_list['destinations']
+
+        console.log("suburbs cities list: ", suburbs_cities_list)
+
+        var train_cities_set = new Set(train_cities_list)
+        var express_cities_set = new Set(express_cities_list)
+        var suburbs_cities_set = new Set(suburbs_cities_list)
+
+        // union all three transportation sets
+        const transportation_union = train_cities_set.union(express_cities_set).union(suburbs_cities_set)
+
+        console.log("transport union: ", transportation_union)
+
+        // compute the intersection of transportation union and cities
+        const cities_set = new Set(cities)
+        const intersection = new Set([...cities_set].filter(x => transportation_union.has(x)));
+
+        return intersection
+    } catch (err) {
+        return res.json(err)
     }
-
-    if (transportation.includes("express_direct")) {
-        console.log("express filter")
-        express_cities_set = await filterByExpressDirect(cities, origin)
-    }
-
-    if (transportation.includes("suburbs_direct")) {
-        console.log("suburbs filter")
-        suburbs_cities_set = await filterBySuburbsDirect(cities, origin)
-    }
-
-    var train_cities_set = new Set(train_cities_list)
-
-    // union all three transportation sets
-    const transportation_union = train_cities_set.union(express_cities_set).union(suburbs_cities_set)
-
-    // compute the intersection of transportation union and cities
-    const cities_set = new Set(cities)
-    const intersection = new Set([...cities_set].filter(x => transportation_union.has(x)));
-
-    return intersection
 }
 
 async function filterNonSpecialOrigin(transportation, cities, origin) {
