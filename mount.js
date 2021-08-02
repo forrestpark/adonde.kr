@@ -12,17 +12,30 @@ const Op = db.Sequelize.Op;
         
         await sync_db();
         console.log('DB Sync complete.');
+        
 
         // need to load city data first due to foreign key constraints
         await load_city_data();
         // after mounting city data, mount the rest
         await mount_data();
+
+        // await testAxios();
         await mount_specialcity_data();
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
     }
 })()
+
+async function testAxios() {
+
+    var express_findOne_res = await axios.post(`http://localhost:3000/express/findOne`, {
+            id : "NAEK120"
+        })
+
+    console.log(express_findOne_res)
+
+}
 
 async function mount_specialcity_data() {
 

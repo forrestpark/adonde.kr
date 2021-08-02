@@ -12,6 +12,7 @@ exports.get_all_terminals = async (req, res) => {
 
 exports.find_terminal = async (req, res) => {
     const {id} = req.body
+    console.log("id: ", id)
 
     try {
         const terminal = await Express.findByPk(id)
