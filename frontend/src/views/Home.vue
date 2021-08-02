@@ -5,7 +5,7 @@
         <div style="width:400px; height:800px; position: relative; background-color: yellowgreen;">
             <result-list style="overflow: auto; height: 100%"></result-list>
         </div>
-        <div style="width:400px; height:800px; position: relative; background-color: yellow;">
+        <div style="width:400px; height:800px; position: relative; background-color: grey;">
             <show-filter style="overflow: auto"></show-filter> 
         </div>  
        </v-layout>

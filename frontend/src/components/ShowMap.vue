@@ -22,7 +22,8 @@ export default {
         ...mapState([
             'currentAdd',
             'positions',
-            'clickItemNum'
+            'clickItemNum',
+            'searchResults'
             
         ])
     },
@@ -39,16 +40,12 @@ export default {
             }; 
             //지도를 생성해준다
             var map = new kakao.maps.Map(container, options); 
-            // //마커추가하려면 객체를 아래와 같이 하나 만든다. 
-            // var marker = new kakao.maps.Marker({ position: map.getCenter() 
-            // }); 
-            // marker.setMap(map); 
 
             // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
             var bounds = new kakao.maps.LatLngBounds();   
 
             //여러가지 마커 설정하기   
-            for (var i = 0; i < this.positions.length; i ++) {
+            for (var i = 0; i < this.searchResults.length; i ++) {
                 
                 // 마커 이미지의 이미지 크기 입니다
                 var imageSize = new kakao.maps.Size(24, 35); 
@@ -56,8 +53,8 @@ export default {
                 // 마커 이미지를 생성합니다    
                 var markerImage = new kakao.maps.MarkerImage(this.imageSrc, imageSize); 
                 
-                var lat = this.positions[i].lat, // 위도
-                    lng = this.positions[i].lng // 경도
+                var lat = this.searchResults[i].latitude, // 위도
+                    lng = this.searchResults[i].longitude// 경도
 
                 //위도, 경도 정보를 가지고 위치를 지정해줌
                 var latlng= new kakao.maps.LatLng(lat, lng)
@@ -66,14 +63,14 @@ export default {
                     
                     map: map, // 마커를 표시할 지도
                     position: latlng, // 마커를 표시할 위치
-                    title : this.positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                    title : this.searchResults[i].sido_sgg, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                     image : markerImage // 마커 이미지 
                 });
                 marker.setMap(map);
 
                 // 마커에 표시할 인포윈도우를 생성합니다 
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: this.positions[i].title // 인포윈도우에 표시할 내용
+                    content: this.searchResults[i].title // 인포윈도우에 표시할 내용
                 });
 
                 // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
@@ -85,9 +82,6 @@ export default {
                 // LatLngBounds 객체에 좌표를 추가합니다
                 bounds.extend(latlng);
             }
-
-            
-
             //현위치 불러오기
             if (navigator.geolocation) {
             var vm = this;
@@ -217,8 +211,8 @@ export default {
         Zoom(map){
             if(this.clickItemNum != null){
                 console.log('zooooom')
-                var lat1 = this.positions[this.clickItemNum].lat, // 위도
-                    lng1 = this.positions[this.clickItemNum].lng // 경도
+                var lat1 = this.searchResults[this.clickItemNum].lat, // 위도
+                    lng1 = this.searchResults[this.clickItemNum].lng // 경도
 
                 console.log(lat1, lng1)
                 //위도, 경도 정보를 가지고 위치를 지정해줌

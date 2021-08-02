@@ -24,8 +24,7 @@ export default {
     },
     data(){
         return{
-            val: null
-        
+            val: null   
         }
     },
     methods:{
@@ -43,9 +42,14 @@ export default {
                     origin: Object.values(this.submitValue)[4]
                 }
             )
-            console.log("res : " ,res)
+            console.log("res : " ,res.data)
+
             this.val = res.data
-            this.updateSearchResults(res.data)
+
+            this.updateSearchResults(this.val)
+            console.log('update!!@')
+
+            console.log("searchresults: ",this.searchResults)
         },
     }
 }
