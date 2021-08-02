@@ -90,8 +90,30 @@ exports.search = async (req, res) => {
         cities = Array.from(intersection)
     }
 
-    return res.json(cities)
+    const cities_with_coords = await addCoords(cities)
 
+    return res.json(cities_with_coords)
+
+}
+
+async function addCoords(cities) {
+
+    var cities_with_coords = []
+
+    for (var i = 0; i < cities.length; i++) {
+        var sido_sgg = cities[i]
+
+        var city_with_coords = await City.findOne({
+            where : {sido_sgg},
+            attributes: ['sido_sgg', 'population', 'latitude', 'longitude'],
+            raw: true
+        })
+        
+        cities_with_coords.push(city_with_coords)
+    }
+
+    return cities_with_coords
+    
 }
 
 // set union operation
