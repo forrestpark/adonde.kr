@@ -6,6 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state:{
         //data
+        searchDisabled:true,
+        disabled:true,
         checkCurrentDisabled: true,
         submitValue:null,
         currentAdd:"",
@@ -56,6 +58,12 @@ export default new Vuex.Store({
     },
     updateCheckCurrentDisabled(state, val){
         state.checkCurrentDisabled = val
+    },
+    updateDisabled(state, val){
+        state.disabled = val
+    },
+    updateSearchDisabled(state, val){
+        state.searchDisabled = val
     }
         //데이터를 실질적으로 바꿔줌
     },

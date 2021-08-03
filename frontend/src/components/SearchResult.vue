@@ -1,7 +1,17 @@
 <template>
     <div>
-        <v-btn @click="getFilteredResult()">
-        search
+        <v-btn 
+        :disabled="searchDisabled"
+          color="primary"
+          >
+        <span>random</span>
+      </v-btn>
+        <v-btn 
+        :disabled="searchDisabled"
+        color="primary"
+        @click="getFilteredResult()"> 
+       
+        ShowAll
     </v-btn>
     {{submitValue}}
     
@@ -16,7 +26,10 @@ export default {
     computed:{
         ...mapState([
             'submitValue'   ,
-            'searchResults'
+            'searchResults',
+            'checkCurrentDisabled',
+            'disabled',
+            'searchDisabled'
         ])
     },
     methods:{
@@ -27,13 +40,14 @@ export default {
             const res = await axios.post(
                 `${BASE_URL}/search/`,
                 {
-                    theme : Object.values(this.submitValue)[0],
-                    population : Object.values(this.submitValue)[1],
-                    distance : Object.values(this.submitValue)[2],
-                    transportation :Object.values(this.submitValue)[3],
-                    origin: Object.values(this.submitValue)[4]
+                    theme : this.submitValue['theme'],
+                    population : this.submitValue['population'],
+                    distance : this.submitValue['distance'],
+                    transportation :this.submitValue['transportation'],
+                    origin: this.submitValue['origin']
                 }
             )
+            
             console.log("res : " ,res.data)
 
             await this.updateSearchResults(res.data)

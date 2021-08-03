@@ -6,7 +6,7 @@
             <result-list style="overflow: auto; height: 100%"></result-list>
         </div>
         <div style="width:400px; height:900px; position: relative; background-color: grey;">
-            <show-filter style="overflow: auto"></show-filter> 
+            <show-filter style="overflow: auto;height: 100%"></show-filter> 
         </div>  
        </v-layout>
    </v-container>

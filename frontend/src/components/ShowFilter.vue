@@ -19,6 +19,8 @@
       </v-flex>
       
       <br>
+      <v-divider></v-divider>
+      <br>
       <!-- 버튼 -->
       <div class="text-center d-flex pb-4">
         <v-btn @click="all"
@@ -237,6 +239,7 @@
 
         </v-expansion-panels>
       </v-flex>
+
       <!-- 버튼모음 -->
       <v-btn
         :disabled="disabled"
@@ -250,25 +253,20 @@
       </v-btn>
 
       <v-btn 
+        :disabled="refreshDisabled"
         @click="refresh"
-        :disabled="disabled">
+        >
         다시 선택하기
         <v-icon>
             mdi-sync
         </v-icon>
       </v-btn>
         <br>
-        <v-btn 
-          color="primary"
-          :disabled ="!disabled">
-        <span>random</span>
-      </v-btn>
-
-      <v-btn 
-        color="primary"
-        :disabled ="!disabled">
-        <span>Show All</span>
-      </v-btn>
+        
+      <br>
+      <v-divider></v-divider>
+      <br>
+      
       <search-result></search-result>
       <!-- 확인해보기 위함 -->
       <br>
@@ -289,7 +287,8 @@ export default {
     computed:{
         ...mapState([
             'currentAdd',
-            'checkCurrentDisabled'
+            'checkCurrentDisabled',
+            'disabled'
         ]),
         
     },
@@ -306,7 +305,7 @@ export default {
                       "제주특별자치도": "제주도", "제주": "제주도"},
 
         //filter
-        disabled: true,
+        // disabled: true,
         panel: [],
 
         theme:'',
@@ -318,14 +317,17 @@ export default {
         },
         access:'',
         accessItems:'',
-        
+        //refresh_btn
+        refreshDisabled:true,
         //최종결과값
         finalValue:{}
         }
     },
     methods: {
       ...mapMutations([
-          'updateSubmitValue'
+          'updateSubmitValue',
+          'updateDisabled',
+          'updateSearchDisabled'
       ]),
       async changeAccItemStatus(){
         try{
@@ -349,7 +351,10 @@ export default {
           //ko.json에서 복재 ->.data가 null인 경우 disabled 해줌
           this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
 
-          this.disabled = false
+          //filter, submit, 다시 선택하기 btn 보이도록함
+          this.updateDisabled(false)
+
+          this.refreshDisabled = false
         }catch(err){
           console.log(err)
         }
@@ -400,7 +405,7 @@ export default {
         }
         else
         {
-            this.disabled = true
+            this.updateDisabled(true)
             this.finalValue['theme'] = (this.theme)
             // if(this.population[0] == 0 && this.population[1] ==0){
             //     this.population = ''
@@ -429,18 +434,19 @@ export default {
                 console.log(Object.keys(this.finalValue)[i])
                 console.log(Object.values(this.finalValue)[i])
             }
-            console.log("string length test:" , "".length)
-            console.log("population: " , Object.values(this.finalValue)[1].length)
+           
             //store에 저장해줌
             this.updateSubmitValue(this.finalValue)
             
             alert('제출!')
+
+            this.updateSearchDisabled(false)
             }
         
       },
       //다시 선택하기 버튼 클릭시 필터가 다시 선택할 수 있도록 바뀐다
       refresh(){
-          this.disabled = false
+          this.updateDisabled(false)
       },
       //현위치를 출발지로 설정
       setCurrentAsOrigin(){
@@ -493,4 +499,23 @@ export default {
   }
 </script>
 
+<style>
+.vcs__picker input,
+.vcs__select-menu {
+  background: #282b34;
+  color:black;
+  border-color: #282b34;
+}
 
+.vcs__picker input::placeholder {
+  color: #bbb;
+}
+
+.vcs__option--active {
+  background: #bbcf78;
+}
+
+.vcs__option:hover {
+  background: #677cb6;
+}
+</style>
