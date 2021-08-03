@@ -341,7 +341,8 @@ export default {
       ...mapMutations([
           'updateSubmitValue',
           'updateDisabled',
-          'updateSearchDisabled'
+          'updateSearchDisabled',
+          'updateSearchResults'
       ]),
       async changeAccItemStatus(){
         this.loading = true
@@ -468,6 +469,8 @@ export default {
       refresh(){
           this.updateDisabled(false)
           this.updateSearchDisabled(true)
+          //목록초기화
+          this.updateSearchResults([])
       },
       //현위치를 출발지로 설정
       setCurrentAsOrigin(){
@@ -498,8 +501,11 @@ export default {
     watch:{
       value: function(newOrigin){
         //showall까지한 다음에 다시 출발지를 설정할 경우 random 과 showall btn을 disabled=true
+        //그래야 다시 ..처음부터 시작할 수 있음
         this.updateSearchDisabled(true)
-        
+        //목록 다시 초기화 해줌
+        this.updateSearchResults([])
+
         //특별시일 경우 *2 해서 다시 저장
         var pattern = /\s/g;
         if(newOrigin.match(pattern))
