@@ -4,10 +4,7 @@
         search
     </v-btn>
     {{submitValue}}
-    <div v-for="(value,i) in val"
-            :key="i">
-            {{value}}
-    </div>
+    
     </div>
 </template>
 
@@ -21,11 +18,6 @@ export default {
             'submitValue'   ,
             'searchResults'
         ])
-    },
-    data(){
-        return{
-            val: null   
-        }
     },
     methods:{
         ...mapMutations([
@@ -44,10 +36,7 @@ export default {
             )
             console.log("res : " ,res.data)
 
-            this.val = res.data
-
-            this.updateSearchResults(this.val)
-            console.log('update!!@')
+            await this.updateSearchResults(res.data)
 
             console.log("searchresults: ",this.searchResults)
         },
