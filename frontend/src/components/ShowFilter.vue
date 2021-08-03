@@ -16,13 +16,24 @@
         >
         현위치를 출발지로
         </v-btn>
-        
+      
+      
       </v-flex>
       
       <br>
-      <v-divider></v-divider>
+      <!-- 출발지 설정 후 accessitem status 기다리기 -->
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        striped
+        color="yellow"
+        rounded
+        height="6"
+      ></v-progress-linear>
+
       <br>
       <!-- 버튼 -->
+      
       <div class="text-center d-flex pb-4">
         <v-btn @click="all"
         :disabled="disabled">
@@ -297,7 +308,7 @@ export default {
     },
     data () {
       return {
-        
+        loading: false,
         //출발지 select
         sido_sgg: '',
         label: '',
@@ -333,7 +344,7 @@ export default {
           'updateSearchDisabled'
       ]),
       async changeAccItemStatus(){
-      
+        this.loading = true
         this.refreshDisabled = true
         this.updateDisabled(true)
         try{
@@ -362,6 +373,8 @@ export default {
 
           this.refreshDisabled = false
 
+          //loading 끝
+          this.loading = false
         }catch(err){
           console.log(err)
         }
@@ -500,7 +513,12 @@ export default {
         console.log("this.value: ",this.value + "this.sido_sgg : ", this.sido_sgg)
 
         this.changeAccItemStatus()
-      }
+      },
+      // loading (val) {
+      //   if (!val) return
+
+      //   setTimeout(() => (this.loading = false), 3000)
+      // },
       
     }
   }
