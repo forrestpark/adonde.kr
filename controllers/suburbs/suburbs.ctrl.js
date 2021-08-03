@@ -14,7 +14,7 @@ exports.find_terminal = async (req, res) => {
     const {id} = req.body
 
     try {
-        const terminal = await Express.findByPk(id)
+        const terminal = await Suburbs.findByPk(id)
         return res.json(terminal)
     } catch (err) {
         console.log(err)
@@ -36,7 +36,7 @@ exports.create_terminal = async (req, res) => {
 exports.update_terminal = async (req, res) => {
     const {id, name, sido, sgg, sido_sgg} = req.body
     try {
-        const terminal = await Express.findByPk(id)
+        const terminal = await Suburbs.findByPk(id)
         terminal.name = name
         terminal.sido = sido
         terminal.sgg = sgg
@@ -54,11 +54,26 @@ exports.update_terminal = async (req, res) => {
 exports.delete_terminal = async (req, res) => {
     const {id} = req.body
     try {
-        const terminal = await Express.findByPk(id)
+        const terminal = await Suburbs.findByPk(id)
         
         await terminal.destroy()
         return res.json(terminal)
 
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.find_any_by_sido_sgg = async (req, res) => {
+    const {sido_sgg} = req.body
+    try {
+        const terminal = await Suburbs.findOne({
+            where : {
+                sido_sgg : sido_sgg
+            }
+        })
+        return res.json(terminal)
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)

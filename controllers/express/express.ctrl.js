@@ -66,6 +66,21 @@ exports.create_terminal = async (req, res) => {
     }
 }
 
+exports.find_any_by_sido_sgg = async (req, res) => {
+    const {sido_sgg} = req.body
+    try {
+        const terminal = await Express.findOne({
+            where : {
+                sido_sgg : sido_sgg
+            }
+        })
+        return res.json(terminal)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
 // exports.name = async (req, res) => {
 //     try {
 //     } catch (err) {

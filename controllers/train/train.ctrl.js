@@ -55,7 +55,7 @@ exports.update_train = async (req, res) => {
 
         await train.save()
         return res.json(train)
-        
+
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)
