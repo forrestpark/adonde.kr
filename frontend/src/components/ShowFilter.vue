@@ -249,12 +249,13 @@
       </v-icon>
       </v-btn>
 
-      <v-btn @click="refresh">
+      <v-btn 
+        @click="refresh"
+        :disabled="disabled">
         다시 선택하기
         <v-icon>
             mdi-sync
         </v-icon>
-          
       </v-btn>
         <br>
         <v-btn 
