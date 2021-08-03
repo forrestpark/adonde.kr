@@ -9,11 +9,16 @@
         @clear="(val) => value = ''"
         @select="(selected) => value = selected.value"
         :value="value"   
-        />  
-        <v-btn @click="setCurrentAsOrigin">현위치를 출발지로</v-btn>
+        />     
+        {{currentAdd}}
+        <v-btn  @click="setCurrentAsOrigin"
+                :disabled="checkCurrentDisabled"
+        >
+        현위치를 출발지로
+        </v-btn>
       </v-flex>
       
- 
+      <br>
       <!-- 버튼 -->
       <div class="text-center d-flex pb-4">
         <v-btn @click="all"
@@ -33,8 +38,7 @@
 
       <!--필터 -->
       <v-flex> 
-        <v-expansion-panels
-          
+        <v-expansion-panels  
           v-model="panel"
           multiple
           :disabled="disabled"
@@ -187,52 +191,6 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
 
-          <!-- <v-expansion-panel>
-              <v-expansion-panel-header>
-                  <template v-slot:default="{ open }">
-              <v-row no-gutters>
-                <v-col cols="4">
-                    혼잡도
-                </v-col>
-                <v-col
-                  cols="8"
-                  class="text--secondary"
-                >
-                  <v-fade-transition leave-absolute>
-                    <span
-                      v-if="open"
-                      key="0"
-                    >
-                      여행지 혼잡도를 선택하세요!
-                    </span>
-                    <span
-                      v-else
-                      key="1"
-                    >
-                      {{ `${honjabdo}` }}
-                    </span>
-                  </v-fade-transition>
-                </v-col>
-              </v-row>
-            </template>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-flex xs12 sm12>
-                    <v-select
-                    :disabled="disabled"
-                    v-model="honjabdo"
-                    :items="items3"                
-                    >
-                        <template v-slot:prepend-item>
-                        <div @click="nohonjab">선택하지 않음</div>
-                        <v-divider class="mt-2"></v-divider>
-                        </template>
-
-                    </v-select>
-                </v-flex>
-              </v-expansion-panel-content>
-          </v-expansion-panel> -->
-
           <!--접근성 필터 -->
           <v-expansion-panel>
             <v-expansion-panel-header>
@@ -263,15 +221,16 @@
                 </v-row>
               </template>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content
+              >
               <v-flex>
-                <v-combobox
-                  :disabled="disabled"
-                  v-model="access"
+                <v-select
+                  :disabled="disabled"    
                   :items="$t('AccessItems')"
+                  v-model="access"
+                  item-disabled="customDisabled"
                   multiple
-                  chips
-                ></v-combobox>
+                ></v-select>
               </v-flex>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -319,6 +278,8 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import axios from 'axios'
+import {BASE_URL} from '@/api.js'
 import SearchResult from './SearchResult.vue'
 export default {
     components:{
@@ -326,12 +287,16 @@ export default {
     },
     computed:{
         ...mapState([
-            'currentAdd'
-        ])
+            'currentAdd',
+            'checkCurrentDisabled'
+        ]),
+        
     },
     data () {
       return {
+        
         //출발지 select
+        sido_sgg: '',
         label: '',
         value: '' ,
         sido_unify : { "경기": "경기도", "강원": "강원도", "충북": "충청북도", 
@@ -340,7 +305,7 @@ export default {
                       "제주특별자치도": "제주도", "제주": "제주도"},
 
         //filter
-        disabled: false,
+        disabled: true,
         panel: [],
 
         theme:'',
@@ -351,6 +316,8 @@ export default {
           step: 10,
         },
         access:'',
+        accessItems:'',
+        
         //최종결과값
         finalValue:{}
         }
@@ -359,6 +326,46 @@ export default {
       ...mapMutations([
           'updateSubmitValue'
       ]),
+      async changeAccItemStatus(){
+        try{
+          const express_res = await axios.post(`${BASE_URL}/express/findAny`,{
+            // request body
+            // key : value
+            sido_sgg : this.sido_sgg
+            
+          })
+          const suburbs_res = await axios.post(`${BASE_URL}/suburbs/findAny`,{
+            sido_sgg : this.sido_sgg
+          })
+          const train_res = await axios.post(`${BASE_URL}/train/findOne`,{
+            sido_sgg : this.sido_sgg
+          })
+
+          // console.log("express.data: " ,express_res.data)
+          // console.log("sub.data: " , suburbs_res.data)
+          // console.log("train.data: " ,train_res.data)
+
+          //ko.json에서 복재 ->.data가 null인 경우 disabled 해줌
+          this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
+
+          this.disabled = false
+        }catch(err){
+          console.log(err)
+        }
+      },
+      setAccItemStatus(express, suburbs, train){
+          this.accessItems = this.$i18n.t('AccessItems')
+          if(express == null){
+            this.accessItems[0].customDisabled = true
+          }
+          if(suburbs == null){
+            this.accessItems[1].customDisabled = true
+          }
+          if(train == null){
+            this.accessItems[2].customDisabled = true
+          }
+      },
+      
       // Create an array the length of our items
       // with all values as true
       all () {
@@ -394,13 +401,15 @@ export default {
         {
             this.disabled = true
             this.finalValue['theme'] = (this.theme)
-            if(this.population[0] == 0 && this.population[1] ==0){
-                this.population = ''
-                this.finalValue['population'] = this.population
-            }
-            else{
-                this.finalValue['population'] = this.population
-            }
+            // if(this.population[0] == 0 && this.population[1] ==0){
+            //     this.population = ''
+            //     this.finalValue['population'] = this.population
+            // }
+            // else{
+            //     this.finalValue['population'] = this.population
+            // }
+            this.finalValue['population'] = this.population
+
             if(this.distance == 0){
                 this.distance = ''
                 this.finalValue['distance'] = this.distance
@@ -411,15 +420,16 @@ export default {
             this.finalValue['transportation'] = (this.access)
 
             //출발지도 저장해준다.
-            this.setValue(this.value)
+            this.$set(this.finalValue, 'origin', this.sido_sgg)
 
-            console.log(this.finalValue)
+            console.log("this.finalValue: ", this.finalValue)
 
             for(var i= 0; i<5;i++){
                 console.log(Object.keys(this.finalValue)[i])
                 console.log(Object.values(this.finalValue)[i])
             }
-
+            console.log("string length test:" , "".length)
+            console.log("population: " , Object.values(this.finalValue)[1].length)
             //store에 저장해줌
             this.updateSubmitValue(this.finalValue)
             
@@ -438,36 +448,46 @@ export default {
         //다른지역 test
         // var name ="전남 영암군 금정면 안노리 498"
         // var addressSplit = name.split(' ')
-
-        var addressSplit = this.currentAdd.split(' ')
-        
-        if(addressSplit[0] in this.sido_unify){
-          //특별시아님
-          var sgg = addressSplit[1].slice(0, -1)
-          console.log('sido: ' +this.sido_unify[addressSplit[0]] + 'sgg: ' + sgg)
-          this.value = this.sido_unify[addressSplit[0]] + " " + sgg    
+        if(this.currentAdd != null){
+          var addressSplit = this.currentAdd.split(' ')
+      
+          if(addressSplit[0] in this.sido_unify){
+            //특별시아님
+            var sgg = addressSplit[1].slice(0, -1)
+            //console.log('sido: ' +this.sido_unify[addressSplit[0]] + 'sgg: ' + sgg)
+            this.value = this.sido_unify[addressSplit[0]] + " " + sgg    
+          }
+          else{
+            //특별시
+            console.log('sido: ' + addressSplit[0])
+            this.value = addressSplit[0]
+          }
+        }else{
+          alert('현위치를 불러올 수 없습니다!')
         }
-        else{
-          //특별시
-          console.log('sido: ' + addressSplit[0])
-          this.value = addressSplit[0]
-        }
-      },
-      //시군구 체크후 출발지를 저장해준다
-      setValue(val){
-        //공백체크
+      },  
+    },
+    watch:{
+      value: function(newOrigin){
+        //특별시일 경우 *2 해서 다시 저장
         var pattern = /\s/g;
-        if(val.match(pattern))
+        if(newOrigin.match(pattern))
         {
           //특별시가 아님
-          this.$set(this.finalValue, 'origin', val)
+          this.sido_sgg = newOrigin
+          this.$set(this.finalValue, 'origin', this.sido_sgg)
         }
         else{
           //특별시
-          this.$set(this.finalValue, 'origin', val + " " + val)
+          this.sido_sgg = newOrigin + " " + newOrigin
+          this.$set(this.finalValue, 'origin', this.sido_sgg)
           
         }
-      }      
+        console.log("this.value: ",this.value + "this.sido_sgg : ", this.sido_sgg)
+
+        this.changeAccItemStatus()
+      }
+      
     }
   }
 </script>
