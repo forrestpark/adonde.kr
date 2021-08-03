@@ -15,11 +15,9 @@
                 :disabled="checkCurrentDisabled"
         >
         현위치를 출발지로
-        </v-btn>
-      
-      
+        </v-btn>  
       </v-flex>
-      
+    
       <br>
       <!-- 출발지 설정 후 accessitem status 기다리기 -->
       <v-progress-linear
@@ -352,7 +350,6 @@ export default {
             // request body
             // key : value
             sido_sgg : this.sido_sgg
-            
           })
           const suburbs_res = await axios.post(`${BASE_URL}/suburbs/findAny`,{
             sido_sgg : this.sido_sgg
@@ -389,6 +386,10 @@ export default {
           }
           if(train == null){
             this.accessItems[2].customDisabled = true
+          }
+          if(express == null && suburbs == null && train == null){
+            alert('선택가능한 access 없음')
+            
           }
       },
       
@@ -457,8 +458,6 @@ export default {
             //store에 저장해줌
             this.updateSubmitValue(this.finalValue)
             
-            alert('제출!')
-
             this.updateSearchDisabled(false)
             }
         

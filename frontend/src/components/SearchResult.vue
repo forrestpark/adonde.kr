@@ -1,21 +1,6 @@
 <template>
     <div>
-        <div>
-            <v-btn 
-        :disabled="searchDisabled"
-          color="primary"
-          >
-        <span>random</span>
-      </v-btn>
-        <v-btn 
-        :disabled="searchDisabled"
-        color="primary"
-        @click="getFilteredResult()"> 
-        ShowAll
-    </v-btn>
-        </div>
-    <br>
-    <v-progress-linear
+        <v-progress-linear
         :active="loading"
         :indeterminate="loading"
         striped
@@ -23,6 +8,25 @@
         rounded
         height="6"
     ></v-progress-linear>
+    <br>
+        <div>
+        <v-btn 
+        :disabled="searchDisabled"
+          color="primary"
+          @click="showRandom"
+          >
+        <span>random</span>
+      </v-btn>
+        <v-btn 
+        :disabled="searchDisabled"
+        color="primary"
+        @click="showAll"
+        > 
+        ShowAll
+    </v-btn>
+        </div>
+
+    
     <br>
     제출한 결과값
     <br>
@@ -38,7 +42,8 @@ import {BASE_URL} from '@/api.js'
 export default {
     data(){
         return{
-            loading: false
+            loading: false,
+            filteredResult: '',
         }
     },
     computed:{
@@ -52,7 +57,8 @@ export default {
     },
     methods:{
         ...mapMutations([
-            'updateSearchResults'
+            'updateSearchResults',
+            'updateSearchDisabled'
         ]),
         async getFilteredResult() {
             this.loading= true
@@ -68,13 +74,29 @@ export default {
             )
             
             console.log("res : " ,res.data)
+            this.filteredResult = res.data
+            //await this.updateSearchResults(res.data)
 
-            await this.updateSearchResults(res.data)
-
-            console.log("searchresults: ",this.searchResults)
+            console.log("searchresults: ",this.filteredResult)
 
             this.loading = false
+
+            
         },
+        showAll(){
+            this.updateSearchResults(this.filteredResult)
+        },
+        showRandom(){
+            const randNum = Math.floor(Math.random() * this.filteredResult.length);
+            this.updateSearchResults([this.filteredResult[randNum]])
+        }
+    },
+    watch:{
+        searchDisabled: function(newval){
+            if(!newval){
+                this.getFilteredResult()       
+            }
+        }
     }
 }
 </script>
