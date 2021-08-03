@@ -81,7 +81,7 @@ export default {
 
             this.loading = false
 
-            
+  
         },
         showAll(){
             this.updateSearchResults(this.filteredResult)

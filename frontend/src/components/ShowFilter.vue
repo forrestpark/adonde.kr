@@ -333,6 +333,8 @@ export default {
         refreshDisabled:true,
         //최종결과값
         finalValue:{}
+        //submit_btn_click
+        
         }
     },
     methods: {
@@ -495,6 +497,7 @@ export default {
     },
     watch:{
       value: function(newOrigin){
+        this.updateSearchDisabled(true)
         //특별시일 경우 *2 해서 다시 저장
         var pattern = /\s/g;
         if(newOrigin.match(pattern))
