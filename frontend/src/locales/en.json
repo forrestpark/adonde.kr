@@ -1,0 +1,13 @@
+{
+    "message": "hello i18n !!",
+    "originlabel" :"startpoint",
+    "themeLabel": "theme",
+    "themeHint" : "select theme!",
+    "popuLabel" : "population",
+    "popuHint" : "select population!",
+    "distanceLabel" : "distance(km)",
+    "distanceHint" :"select distance!",
+    "accessLabel" : "access",
+    "accessHint" : "select access!",
+    "originItems": ["seoul", "busan", "daegu", "yeosu"]
+}
