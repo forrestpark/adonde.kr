@@ -107,7 +107,8 @@ exports.search = async (req, res) => {
         }
         cities = sido_sgg_list
 
-        console.log("population: ", population[0], population[1])
+        console.log("population: ", population)
+        console.log("population 0,1: ", population[0], population[1])
 
         // if the population filter has been activated and given as parameter
         if (population[0] == 0 && population[1] == 0) {
