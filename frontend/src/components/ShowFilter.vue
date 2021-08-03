@@ -497,7 +497,9 @@ export default {
     },
     watch:{
       value: function(newOrigin){
+        //showall까지한 다음에 다시 출발지를 설정할 경우 random 과 showall btn을 disabled=true
         this.updateSearchDisabled(true)
+        
         //특별시일 경우 *2 해서 다시 저장
         var pattern = /\s/g;
         if(newOrigin.match(pattern))
