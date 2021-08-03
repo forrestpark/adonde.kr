@@ -16,6 +16,7 @@
         >
         현위치를 출발지로
         </v-btn>
+        
       </v-flex>
       
       <br>
@@ -270,6 +271,8 @@
       <search-result></search-result>
       <!-- 확인해보기 위함 -->
       <br>
+      현재 선택값 실시간확인
+      <br> 
       {{value}}{{theme}}{{population}}{{distance}}{{access}}
     </div>
   </v-container>
@@ -330,6 +333,9 @@ export default {
           'updateSearchDisabled'
       ]),
       async changeAccItemStatus(){
+      
+        this.refreshDisabled = true
+        this.updateDisabled(true)
         try{
           const express_res = await axios.post(`${BASE_URL}/express/findAny`,{
             // request body
@@ -355,6 +361,7 @@ export default {
           this.updateDisabled(false)
 
           this.refreshDisabled = false
+
         }catch(err){
           console.log(err)
         }
@@ -389,7 +396,6 @@ export default {
         this.population=[0,0],
         this.access=''
       },
-      
       //인구수와 거리 slider설정시 버튼을 누르면 초기화 된다
       popuTozero(){
           this.population=[0,0]
@@ -447,6 +453,7 @@ export default {
       //다시 선택하기 버튼 클릭시 필터가 다시 선택할 수 있도록 바뀐다
       refresh(){
           this.updateDisabled(false)
+          this.updateSearchDisabled(true)
       },
       //현위치를 출발지로 설정
       setCurrentAsOrigin(){

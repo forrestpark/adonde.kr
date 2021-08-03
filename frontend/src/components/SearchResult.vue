@@ -13,6 +13,9 @@
        
         ShowAll
     </v-btn>
+    <br>
+    제출한 결과값
+    <br>
     {{submitValue}}
     
     </div>
