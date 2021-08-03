@@ -108,12 +108,13 @@ exports.search = async (req, res) => {
         cities = sido_sgg_list
 
         // if the population filter has been activated and given as parameter
-        if (population.length != 0) {
-
+        if (population[0] == 0 && population[1] == 0) {
+            // no reason to filter by population when no values are selected
+            
+        } else {
             // calling a helper method filterByPopulation
             // and filters cities by population value
             cities = await filterByPopulation(cities, population)
-
         }
 
         if (distance.length != 0) {
