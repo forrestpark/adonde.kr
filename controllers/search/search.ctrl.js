@@ -79,9 +79,9 @@ exports.mount = async (req, res) => {
             cities.splice(origin_index, 1)
         }
 
-        const cities_with_coords = await addCoords(cities)
+        const cities_with_coords_and_images = await completeCityObjects(cities)
 
-        return res.json(cities_with_coords)
+        return res.json(cities_with_coords_and_images)
     } catch (err) {
         return res.status(500).json(err)
     }
