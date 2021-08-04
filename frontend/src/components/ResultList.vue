@@ -2,9 +2,9 @@
     <v-container>
       <v-row dense>
         <v-col
-          v-for="(item, i) in searchResults"
-          :key="i"
-          cols="12"
+            v-for="(item, i) in searchResults"
+            :key="i"
+            cols="12"
         >   
           <v-card 
             :id="i"
@@ -31,9 +31,7 @@
             <v-card-actions>
             
             <card-component></card-component>
-           </v-card-actions>
-           
-            
+           </v-card-actions>  
           </v-card>
         </v-col>
       </v-row>

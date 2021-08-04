@@ -25,18 +25,11 @@
         ShowAll
     </v-btn>
         </div>
-
-    
-    <br>
-    제출한 결과값
-    <br>
-    {{submitValue}}
-    
     </div>
 </template>
 
 <script>
-import { mapState , mapMutations } from 'vuex'
+import { mapState , mapMutations} from 'vuex'
 import axios from 'axios'
 import {BASE_URL} from '@/api.js'
 export default {
@@ -52,13 +45,15 @@ export default {
             'searchResults',
             'checkCurrentDisabled',
             'disabled',
-            'searchDisabled'
+            'searchDisabled',
+            'isSubmitValueChange'
         ])
     },
     methods:{
         ...mapMutations([
             'updateSearchResults',
-            'updateSearchDisabled'
+            'updateSearchDisabled',
+            'updateisSubmitValueChange'
         ]),
         async getFilteredResult() {
             this.loading= true
@@ -74,14 +69,24 @@ export default {
             )
             
             console.log("res : " ,res.data)
-            this.filteredResult = res.data
+            if(res.data.length == 0){
+                this.updateSearchDisabled(true)
+                alert('결과값이 없습니다')
+            }
+            else{
+                this.updateSearchDisabled(false)
+                this.filteredResult = res.data
+            }
+            
             //await this.updateSearchResults(res.data)
 
             console.log("searchresults: ",this.filteredResult)
 
             this.loading = false
 
-  
+            this.updateisSubmitValueChange(false)
+
+
         },
         showAll(){
             this.updateSearchResults(this.filteredResult)
@@ -92,11 +97,15 @@ export default {
         }
     },
     watch:{
-        searchDisabled: function(newval){
-            if(!newval){
+        isSubmitValueChange : function(newval){
+            if(newval){
                 this.getFilteredResult()       
             }
-        }
+        },
+        // getSubmitValue:function(newval){
+        //     console.log("watch submitvalue:", newval)
+        //     this.getFilteredResult()
+        // }
     }
 }
 </script>

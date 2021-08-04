@@ -280,9 +280,13 @@
       <search-result></search-result>
       <!-- 확인해보기 위함 -->
       <br>
-      현재 선택값 실시간확인
-      <br> 
-      {{value}}{{theme}}{{population}}{{distance}}{{access}}
+    제출한 결과값
+    <br>
+    {{submitValue}}
+    <br>
+    현재 선택값 실시간확인
+    <br> 
+    {{value}}{{theme}}{{population}}{{distance}}{{access}}
     </div>
   </v-container>
 </template>
@@ -300,9 +304,9 @@ export default {
         ...mapState([
             'currentAdd',
             'checkCurrentDisabled',
-            'disabled'
-        ]),
-        
+            'disabled',
+            'submitValue'
+        ]),      
     },
     data () {
       return {
@@ -342,12 +346,23 @@ export default {
           'updateSubmitValue',
           'updateDisabled',
           'updateSearchDisabled',
-          'updateSearchResults'
+          'updateSearchResults',
+          
       ]),
       async changeAccItemStatus(){
+        //ko.json에서 가져와서 저장
+        this.accessItems = this.$i18n.t('AccessItems')
+        //초기화
+        await this.resetAccItemDisabled()
+        //로딩시작
         this.loading = true
+
+        //다시선택하기 버튼 안보임
         this.refreshDisabled = true
+
+        //필터도 선택하지 못하게 막아줌
         this.updateDisabled(true)
+
         try{
           const express_res = await axios.post(`${BASE_URL}/express/findAny`,{
             // request body
@@ -361,26 +376,26 @@ export default {
             sido_sgg : this.sido_sgg
           })
 
-          // console.log("express.data: " ,express_res.data)
-          // console.log("sub.data: " , suburbs_res.data)
-          // console.log("train.data: " ,train_res.data)
+          console.log("express.data: " ,express_res.data)
+          console.log("sub.data: " , suburbs_res.data)
+          console.log("train.data: " ,train_res.data)
 
-          //ko.json에서 복재 ->.data가 null인 경우 disabled 해줌
+          //.data가 null인 경우 disabled 해줌
           this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
 
           //filter, submit, 다시 선택하기 btn 보이도록함
           this.updateDisabled(false)
-
           this.refreshDisabled = false
 
           //loading 끝
           this.loading = false
+
         }catch(err){
           console.log(err)
         }
       },
       setAccItemStatus(express, suburbs, train){
-          this.accessItems = this.$i18n.t('AccessItems')
+          
           if(express == null){
             this.accessItems[0].customDisabled = true
           }
@@ -430,13 +445,7 @@ export default {
         {
             this.updateDisabled(true)
             this.finalValue['theme'] = (this.theme)
-            // if(this.population[0] == 0 && this.population[1] ==0){
-            //     this.population = ''
-            //     this.finalValue['population'] = this.population
-            // }
-            // else{
-            //     this.finalValue['population'] = this.population
-            // }
+            
             this.finalValue['population'] = this.population
 
             if(this.distance == 0){
@@ -461,16 +470,25 @@ export default {
             //store에 저장해줌
             this.updateSubmitValue(this.finalValue)
             
-            this.updateSearchDisabled(false)
+            // this.updateSearchDisabled(false)
             }
         
       },
       //다시 선택하기 버튼 클릭시 필터가 다시 선택할 수 있도록 바뀐다
       refresh(){
+
           this.updateDisabled(false)
+
           this.updateSearchDisabled(true)
-          //목록초기화
+          //search 목록초기화
           this.updateSearchResults([])
+      },
+      resetAccItemDisabled(){
+        this.access=''
+        //접근성필터 초기화
+        for(var i = 0; i<3; i++){
+          this.accessItems[i].customDisabled = false
+        }
       },
       //현위치를 출발지로 설정
       setCurrentAsOrigin(){
@@ -512,23 +530,18 @@ export default {
         {
           //특별시가 아님
           this.sido_sgg = newOrigin
-          this.$set(this.finalValue, 'origin', this.sido_sgg)
+          //this.$set(this.finalValue, 'origin', this.sido_sgg)
         }
         else{
           //특별시
           this.sido_sgg = newOrigin + " " + newOrigin
-          this.$set(this.finalValue, 'origin', this.sido_sgg)
+          //this.$set(this.finalValue, 'origin', this.sido_sgg)
           
         }
         console.log("this.value: ",this.value + "this.sido_sgg : ", this.sido_sgg)
 
         this.changeAccItemStatus()
-      },
-      // loading (val) {
-      //   if (!val) return
-
-      //   setTimeout(() => (this.loading = false), 3000)
-      // },
+      }
       
     }
   }
