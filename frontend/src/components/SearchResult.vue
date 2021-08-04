@@ -53,7 +53,8 @@ export default {
         ...mapMutations([
             'updateSearchResults',
             'updateSearchDisabled',
-            'updateisSubmitValueChange'
+            'updateisSubmitValueChange',
+            'updateIsSetMarker'
         ]),
         async getFilteredResult() {
             this.loading= true
@@ -72,28 +73,31 @@ export default {
             if(res.data.length == 0){
                 this.updateSearchDisabled(true)
                 alert('결과값이 없습니다')
+                this.filteredResult = ''
             }
             else{
                 this.updateSearchDisabled(false)
                 this.filteredResult = res.data
             }
             
-            //await this.updateSearchResults(res.data)
-
-            console.log("searchresults: ",this.filteredResult)
+            console.log("filterResult: ",this.filteredResult)
 
             this.loading = false
-
+            
+            //search를 실행해준 다음 다시 isSubmitValuechnage를 false로 초기화해준다
             this.updateisSubmitValueChange(false)
 
 
         },
         showAll(){
             this.updateSearchResults(this.filteredResult)
+            this.updateIsSetMarker(true)
+
         },
         showRandom(){
             const randNum = Math.floor(Math.random() * this.filteredResult.length);
             this.updateSearchResults([this.filteredResult[randNum]])
+            this.updateIsSetMarker(true)
         }
     },
     watch:{

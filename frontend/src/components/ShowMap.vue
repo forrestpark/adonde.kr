@@ -10,7 +10,7 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data(){
         return{
-           
+            markers:[],
             //마커 이미지의 이미지 주소입니다
             imageSrc : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" 
         }
@@ -24,6 +24,11 @@ export default {
             'positions',
             'clickItemNum',
             'searchResults',
+            'map',
+            'bounds',
+            'isSetMarker',
+            'isSubmitValueChange'
+            
             
         ])
     },
@@ -31,7 +36,10 @@ export default {
         ...mapMutations([
             'updateCurrentAdd',
             'updateClickItemNum',
-            'updateCheckCurrentDisabled'
+            'updateCheckCurrentDisabled',
+            'updateMap',
+            'updateBounds',
+            'updateIsSetMarker'
         ]),
         initMap() { 
             var container = document.getElementById('map'); 
@@ -41,9 +49,11 @@ export default {
             }; 
             //지도를 생성해준다
             var map = new kakao.maps.Map(container, options); 
+            this.updateMap(map)
 
             // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
             var bounds = new kakao.maps.LatLngBounds();   
+            this.updateBounds(bounds)
 
             //현위치 불러오기
             if (navigator.geolocation) {
@@ -64,7 +74,7 @@ export default {
                     var message = '<span class="title" style="width:max-content;">현재위치</span>'+'<div tyle="width:max-content;">'+ res + '</div>' // 인포윈도우에 표시될 내용입니다
 
                     // 마커와 인포윈도우를 표시합니다
-                    vm.displayMarker(locPosition, message, map, bounds)
+                    vm.displayMarker(locPosition, message, map, vm.bounds)
                 })
                   
               });
@@ -74,18 +84,18 @@ export default {
                     var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
                         message = 'geolocation을 사용할수 없어요..'
                     vm.updateCurrentAdd(null)
-                    vm.displayMarker(locPosition, message, map,bounds)
+                    vm.displayMarker(locPosition, message, map, vm.bounds)
             }
 
 
             //mapcontrol올리기
-            this.addMapControl(map)
+            this.addMapControl(this.map)
 
             // console.log("clicknum: ",this.clickItemNum)
             
             //여러가지 마커들 표시하기
             //this.callSetMarkers(map, bounds)
-            this.setMarkers(map, bounds)
+            //this.setMarkers(this.map, bounds)
 
             // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
             // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
@@ -186,9 +196,9 @@ export default {
             bounds.extend(locPosition);
         },
         setMarkers(map, bounds){
+            this.markers = []
             //여러가지 마커 설정하기   
             for (var i = 0; i < this.searchResults.length; i ++) {
-                console.log('마커설정')
                 // 마커 이미지의 이미지 크기 입니다
                 var imageSize = new kakao.maps.Size(24, 35); 
                 
@@ -208,23 +218,34 @@ export default {
                     title : this.searchResults[i].sido_sgg, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                     image : markerImage // 마커 이미지 
                 });
-                marker.setMap(map);
+                this.markers.push(marker)
 
-                // 마커에 표시할 인포윈도우를 생성합니다 
-                var infowindow = new kakao.maps.InfoWindow({
-                    content: this.searchResults[i].sido_sgg// 인포윈도우에 표시할 내용
-                });
+                //marker.setMap(map);
 
-                // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-                // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-                // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-                kakao.maps.event.addListener(marker, 'mouseover', this.makeOverListener(map, marker, infowindow));
-                kakao.maps.event.addListener(marker, 'mouseout', this.makeOutListener(infowindow));
+                // // 마커에 표시할 인포윈도우를 생성합니다 
+                // var infowindow = new kakao.maps.InfoWindow({
+                //     content: this.searchResults[i].sido_sgg// 인포윈도우에 표시할 내용
+                // });
+
+                // // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+                // // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+                // // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+                // kakao.maps.event.addListener(marker, 'mouseover', this.makeOverListener(map, marker, infowindow));
+                // kakao.maps.event.addListener(marker, 'mouseout', this.makeOutListener(infowindow));
 
                 // LatLngBounds 객체에 좌표를 추가합니다
                 bounds.extend(latlng);
             }
+            this.updateIsSetMarker(false)
+            console.log("markers: ",this.markers)
+            console.log("bounds: ", this.bounds)
+            
         },
+        // resetMarkers(map, bounds){
+        //     for (var i = 0; i < this.markers; i ++) {
+        //         markers[i].setMap(null)
+        //     }
+        // },
         async callSetMarkers(map, bounds){
             await this.setMarkers(map, bounds)
         }
@@ -233,6 +254,20 @@ export default {
     watch:{
         clickItemNum: function(newval, oldval) {
             console.log("newval",newval +"," +oldval)
+        },
+        isSubmitValueChange: function(newval){
+            if(!newval){
+                console.log("지도에서 감지함")
+            }
+        },
+        isSetMarker: function(newval){
+            if(newval){
+                this.setMarkers(this.map, this.bounds)
+                console.log("isSetmarker : ", newval )
+            }
+            else{
+                console.log("issetmarker false")
+            }
         }
     }
     

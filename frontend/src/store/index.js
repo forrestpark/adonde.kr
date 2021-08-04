@@ -15,34 +15,12 @@ export default new Vuex.Store({
         currentAdd:"",
         clickItemNum: null,
         searchResults: [],
-        positions :[
-            {
-                title: '부산', 
-                lat: 35.1795543,
-                lng: 129.0756416,
-                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
-            },
-            {
-                title: '대구', 
-                lat: 35.8714354,
-                lng: 128.6014450,
-                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
 
-            },
-            {
-                title: '인천', 
-                lat: 37.4562557,
-                lng: 126.7052062,
-                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+        //map
+        map: '',
+        bounds: '',
+        isSetMarker: false
 
-            },
-            {
-                title: '광주',
-                lat: 35.1595454,
-                lng: 126.8526012,
-                src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
-            }
-        ],
     },
     mutations:{
     updateCurrentAdd(state, start){
@@ -73,6 +51,15 @@ export default new Vuex.Store({
     },
     updateisSubmitValueChange(state, val){
         state.isSubmitValueChange = val
+    },
+    updateMap(state,val){
+        state.map = val
+    },
+    updateBounds(state, val){
+        state.bounds = val
+    },
+    updateIsSetMarker(state, val){
+        state.isSetMarker = val
     }
      //데이터를 실질적으로 바꿔줌
     },
