@@ -54,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    image_src: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     sequelize,
     tableName : 'cities',
