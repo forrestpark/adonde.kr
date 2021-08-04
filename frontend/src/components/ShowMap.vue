@@ -10,6 +10,8 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data(){
         return{
+            currentLat:'',
+            currentLog:'',
             markers:[],
             //마커 이미지의 이미지 주소입니다
             imageSrc : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" 
@@ -63,6 +65,9 @@ export default {
                 
                 var lat = position.coords.latitude, // 위도
                     lng = position.coords.longitude // 경도
+
+                this.currentLat = lat
+                this.currentLog = lng
                 
                 var locPosition = new kakao.maps.LatLng(lat, lng) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
                 
@@ -99,7 +104,7 @@ export default {
 
             // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
             // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-            //map.setBounds(bounds);
+            //map.setBounds(this.bounds);
     
         }, 
         addScript() { 
@@ -239,7 +244,7 @@ export default {
             this.updateIsSetMarker(false)
             console.log("markers: ",this.markers)
             console.log("bounds: ", this.bounds)
-            
+            map.setBounds(this.bounds);
         },
         // resetMarkers(map, bounds){
         //     for (var i = 0; i < this.markers; i ++) {
