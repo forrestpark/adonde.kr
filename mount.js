@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const db = require('./models');
 const path = require("path");
 const fs = require("fs");
-const axios = require('axios')
+const axios = require('axios');
 
 const Op = db.Sequelize.Op;
 
@@ -15,11 +15,11 @@ const Op = db.Sequelize.Op;
         
         // need to load city data first due to foreign key constraints
         await load_city_data();
-        // // after mounting city data, mount the rest
-        // await mount_data();
+        // after mounting city data, mount the rest
+        await mount_data();
 
-        // // await testAxios();
-        // await mount_specialcity_data();
+        // await testAxios();
+        await mount_specialcity_data();
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
@@ -216,26 +216,40 @@ async function load_city_data() {
     // pushing city data into city table in database
     for (var i = 0; i < city_data.length - 1; i++) {
         console.log(city_data[i])
-        // await db.City.create({
-        //     sido: city_data[i]['sido'],
-        //     sgg: city_data[i]['sgg'],
-        //     population: city_data[i]['population'],
-        //     latitude: city_data[i]['lat'],
-        //     longitude: city_data[i]['long'],
-        //     sido_sgg: city_data[i]['sido_sgg']
-        // })
+        await db.City.create({
+            sido: city_data[i]['sido'],
+            sgg: city_data[i]['sgg'],
+            population: city_data[i]['population'],
+            latitude: city_data[i]['lat'],
+            longitude: city_data[i]['long'],
+            sido_sgg: city_data[i]['sido_sgg'],
+            sido_code: 0,
+            sgg_code: 0,
+        })
+    }
+
+    const city_data_code = await read_csv("data/city/city_combined_code.csv");
+
+    for (var j = 0; j < city_data_code.length - 1; j++) {
+        console.log(city_data_code[j])
+        var city = await db.City.findOne({
+            where : {
+                sido: city_data_code[j]['sido'],
+                sgg: city_data_code[j]['sgg'],
+            }
+        })
+
+        if (city == null) {
+            console.log("not in code data: ", city_data_code[j]['sido'], city_data_code[j]['sgg'])
+        } else {
+            city.sido_code = city_data_code[j]['sido_code']
+        city.sgg_code = city_data_code[j]['sgg_code']
+        await city.save() 
+        }
     }
 
     // await addImageSrc()
 
-}
-
-async function addImageSrc() {
-
-}
-
-function sido2code(sido) {
-    
 }
 
 async function load_express_data() {

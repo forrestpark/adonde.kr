@@ -46,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
     },
+    sido_code: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    sgg_code: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   }, {
     sequelize,
     tableName : 'cities',
