@@ -14,7 +14,7 @@
             <v-img 
                 @click="select($event)"
                 :id="i" 
-                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                :src="item.image_src"
                 class="white--text align-end"
                 height="200px">
                 <v-card-title

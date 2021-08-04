@@ -10,8 +10,9 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data(){
         return{
-            currentLat:'',
-            currentLog:'',
+            currentLat:null,
+            currentLng:null,
+            currentLocation: null,
             markers:[],
             //마커 이미지의 이미지 주소입니다
             imageSrc : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" 
@@ -66,11 +67,11 @@ export default {
                 var lat = position.coords.latitude, // 위도
                     lng = position.coords.longitude // 경도
 
-                this.currentLat = lat
-                this.currentLog = lng
+                // this.currentLat = lat
+                // this.currentLng = lng
                 
                 var locPosition = new kakao.maps.LatLng(lat, lng) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                
+                vm.currentLocation = locPosition
                 //현재주소를 가져옴
                 vm.getAddr(lat,lng).then(function(res) {                    
                     vm.updateCurrentAdd(res)
@@ -201,7 +202,9 @@ export default {
             bounds.extend(locPosition);
         },
         setMarkers(map, bounds){
-            this.markers = []
+            this.removeMarker()
+            // this.bounds.extend(null)
+            // this.bounds.extend(this.currentLocation)
             //여러가지 마커 설정하기   
             for (var i = 0; i < this.searchResults.length; i ++) {
                 // 마커 이미지의 이미지 크기 입니다
@@ -225,18 +228,18 @@ export default {
                 });
                 this.markers.push(marker)
 
-                //marker.setMap(map);
+                marker.setMap(map);
 
-                // // 마커에 표시할 인포윈도우를 생성합니다 
-                // var infowindow = new kakao.maps.InfoWindow({
-                //     content: this.searchResults[i].sido_sgg// 인포윈도우에 표시할 내용
-                // });
+                // 마커에 표시할 인포윈도우를 생성합니다 
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: this.searchResults[i].sido_sgg// 인포윈도우에 표시할 내용
+                });
 
-                // // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-                // // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-                // // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-                // kakao.maps.event.addListener(marker, 'mouseover', this.makeOverListener(map, marker, infowindow));
-                // kakao.maps.event.addListener(marker, 'mouseout', this.makeOutListener(infowindow));
+                // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+                // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+                // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+                kakao.maps.event.addListener(marker, 'mouseover', this.makeOverListener(map, marker, infowindow));
+                kakao.maps.event.addListener(marker, 'mouseout', this.makeOutListener(infowindow));
 
                 // LatLngBounds 객체에 좌표를 추가합니다
                 bounds.extend(latlng);
@@ -245,12 +248,14 @@ export default {
             console.log("markers: ",this.markers)
             console.log("bounds: ", this.bounds)
             map.setBounds(this.bounds);
+            
         },
-        // resetMarkers(map, bounds){
-        //     for (var i = 0; i < this.markers; i ++) {
-        //         markers[i].setMap(null)
-        //     }
-        // },
+        removeMarker() {
+            for ( var i = 0; i < this.markers.length; i++ ) {
+                this.markers[i].setMap(null);
+            }   
+            this.markers = [];
+        },
         async callSetMarkers(map, bounds){
             await this.setMarkers(map, bounds)
         }
@@ -260,11 +265,11 @@ export default {
         clickItemNum: function(newval, oldval) {
             console.log("newval",newval +"," +oldval)
         },
-        isSubmitValueChange: function(newval){
-            if(!newval){
-                console.log("지도에서 감지함")
-            }
-        },
+        // isSubmitValueChange: function(newval){
+        //     if(!newval){
+        //         console.log("지도에서 감지함")
+        //     }
+        // },
         isSetMarker: function(newval){
             if(newval){
                 this.setMarkers(this.map, this.bounds)
