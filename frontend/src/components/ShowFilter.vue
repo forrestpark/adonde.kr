@@ -15,11 +15,23 @@
                 :disabled="checkCurrentDisabled"
         >
         현위치를 출발지로
-        </v-btn>
+        </v-btn>  
       </v-flex>
-      
+    
+      <br>
+      <!-- 출발지 설정 후 accessitem status 기다리기 -->
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        striped
+        color="yellow"
+        rounded
+        height="6"
+      ></v-progress-linear>
+
       <br>
       <!-- 버튼 -->
+      
       <div class="text-center d-flex pb-4">
         <v-btn @click="all"
         :disabled="disabled">
@@ -237,6 +249,7 @@
 
         </v-expansion-panels>
       </v-flex>
+
       <!-- 버튼모음 -->
       <v-btn
         :disabled="disabled"
@@ -250,29 +263,30 @@
       </v-btn>
 
       <v-btn 
+        :disabled="refreshDisabled"
         @click="refresh"
-        :disabled="disabled">
+        >
         다시 선택하기
         <v-icon>
             mdi-sync
         </v-icon>
       </v-btn>
         <br>
-        <v-btn 
-          color="primary"
-          :disabled ="!disabled">
-        <span>random</span>
-      </v-btn>
-
-      <v-btn 
-        color="primary"
-        :disabled ="!disabled">
-        <span>Show All</span>
-      </v-btn>
+        
+      <br>
+      <v-divider></v-divider>
+      <br>
+      
       <search-result></search-result>
       <!-- 확인해보기 위함 -->
       <br>
-      {{value}}{{theme}}{{population}}{{distance}}{{access}}
+    제출한 결과값
+    <br>
+    {{submitValue}}
+    <br>
+    현재 선택값 실시간확인
+    <br> 
+    {{value}}{{theme}}{{population}}{{distance}}{{access}}
     </div>
   </v-container>
 </template>
@@ -289,13 +303,14 @@ export default {
     computed:{
         ...mapState([
             'currentAdd',
-            'checkCurrentDisabled'
-        ]),
-        
+            'checkCurrentDisabled',
+            'disabled',
+            'submitValue'
+        ]),      
     },
     data () {
       return {
-        
+        loading: false,
         //출발지 select
         sido_sgg: '',
         label: '',
@@ -306,7 +321,7 @@ export default {
                       "제주특별자치도": "제주도", "제주": "제주도"},
 
         //filter
-        disabled: true,
+        // disabled: true,
         panel: [],
 
         theme:'',
@@ -318,22 +333,41 @@ export default {
         },
         access:'',
         accessItems:'',
-        
+        //refresh_btn
+        refreshDisabled:true,
         //최종결과값
         finalValue:{}
+        //submit_btn_click
+        
         }
     },
     methods: {
       ...mapMutations([
-          'updateSubmitValue'
+          'updateSubmitValue',
+          'updateDisabled',
+          'updateSearchDisabled',
+          'updateSearchResults',
+          
       ]),
       async changeAccItemStatus(){
+        //ko.json에서 가져와서 저장
+        this.accessItems = this.$i18n.t('AccessItems')
+        //초기화
+        await this.resetAccItemDisabled()
+        //로딩시작
+        this.loading = true
+
+        //다시선택하기 버튼 안보임
+        this.refreshDisabled = true
+
+        //필터도 선택하지 못하게 막아줌
+        this.updateDisabled(true)
+
         try{
           const express_res = await axios.post(`${BASE_URL}/express/findAny`,{
             // request body
             // key : value
             sido_sgg : this.sido_sgg
-            
           })
           const suburbs_res = await axios.post(`${BASE_URL}/suburbs/findAny`,{
             sido_sgg : this.sido_sgg
@@ -342,20 +376,26 @@ export default {
             sido_sgg : this.sido_sgg
           })
 
-          // console.log("express.data: " ,express_res.data)
-          // console.log("sub.data: " , suburbs_res.data)
-          // console.log("train.data: " ,train_res.data)
+          console.log("express.data: " ,express_res.data)
+          console.log("sub.data: " , suburbs_res.data)
+          console.log("train.data: " ,train_res.data)
 
-          //ko.json에서 복재 ->.data가 null인 경우 disabled 해줌
+          //.data가 null인 경우 disabled 해줌
           this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
 
-          this.disabled = false
+          //filter, submit, 다시 선택하기 btn 보이도록함
+          this.updateDisabled(false)
+          this.refreshDisabled = false
+
+          //loading 끝
+          this.loading = false
+
         }catch(err){
           console.log(err)
         }
       },
       setAccItemStatus(express, suburbs, train){
-          this.accessItems = this.$i18n.t('AccessItems')
+          
           if(express == null){
             this.accessItems[0].customDisabled = true
           }
@@ -364,6 +404,10 @@ export default {
           }
           if(train == null){
             this.accessItems[2].customDisabled = true
+          }
+          if(express == null && suburbs == null && train == null){
+            alert('선택가능한 access 없음')
+            
           }
       },
       
@@ -384,7 +428,6 @@ export default {
         this.population=[0,0],
         this.access=''
       },
-      
       //인구수와 거리 slider설정시 버튼을 누르면 초기화 된다
       popuTozero(){
           this.population=[0,0]
@@ -400,15 +443,9 @@ export default {
         }
         else
         {
-            this.disabled = true
+            this.updateDisabled(true)
             this.finalValue['theme'] = (this.theme)
-            // if(this.population[0] == 0 && this.population[1] ==0){
-            //     this.population = ''
-            //     this.finalValue['population'] = this.population
-            // }
-            // else{
-            //     this.finalValue['population'] = this.population
-            // }
+            
             this.finalValue['population'] = this.population
 
             if(this.distance == 0){
@@ -429,18 +466,29 @@ export default {
                 console.log(Object.keys(this.finalValue)[i])
                 console.log(Object.values(this.finalValue)[i])
             }
-            console.log("string length test:" , "".length)
-            console.log("population: " , Object.values(this.finalValue)[1].length)
+           
             //store에 저장해줌
             this.updateSubmitValue(this.finalValue)
             
-            alert('제출!')
+            // this.updateSearchDisabled(false)
             }
         
       },
       //다시 선택하기 버튼 클릭시 필터가 다시 선택할 수 있도록 바뀐다
       refresh(){
-          this.disabled = false
+
+          this.updateDisabled(false)
+
+          this.updateSearchDisabled(true)
+          //search 목록초기화
+          this.updateSearchResults([])
+      },
+      resetAccItemDisabled(){
+        this.access=''
+        //접근성필터 초기화
+        for(var i = 0; i<3; i++){
+          this.accessItems[i].customDisabled = false
+        }
       },
       //현위치를 출발지로 설정
       setCurrentAsOrigin(){
@@ -470,18 +518,24 @@ export default {
     },
     watch:{
       value: function(newOrigin){
+        //showall까지한 다음에 다시 출발지를 설정할 경우 random 과 showall btn을 disabled=true
+        //그래야 다시 ..처음부터 시작할 수 있음
+        this.updateSearchDisabled(true)
+        //목록 다시 초기화 해줌
+        this.updateSearchResults([])
+
         //특별시일 경우 *2 해서 다시 저장
         var pattern = /\s/g;
         if(newOrigin.match(pattern))
         {
           //특별시가 아님
           this.sido_sgg = newOrigin
-          this.$set(this.finalValue, 'origin', this.sido_sgg)
+          //this.$set(this.finalValue, 'origin', this.sido_sgg)
         }
         else{
           //특별시
           this.sido_sgg = newOrigin + " " + newOrigin
-          this.$set(this.finalValue, 'origin', this.sido_sgg)
+          //this.$set(this.finalValue, 'origin', this.sido_sgg)
           
         }
         console.log("this.value: ",this.value + "this.sido_sgg : ", this.sido_sgg)
@@ -493,4 +547,23 @@ export default {
   }
 </script>
 
+<style>
+.vcs__picker input,
+.vcs__select-menu {
+  background: #282b34;
+  color:black;
+  border-color: #282b34;
+}
 
+.vcs__picker input::placeholder {
+  color: #bbb;
+}
+
+.vcs__option--active {
+  background: #bbcf78;
+}
+
+.vcs__option:hover {
+  background: #677cb6;
+}
+</style>

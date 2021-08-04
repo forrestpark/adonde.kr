@@ -10,7 +10,10 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data(){
         return{
-           
+            currentLat:null,
+            currentLng:null,
+            currentLocation: null,
+            markers:[],
             //마커 이미지의 이미지 주소입니다
             imageSrc : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" 
         }
@@ -24,6 +27,10 @@ export default {
             'positions',
             'clickItemNum',
             'searchResults',
+            'map',
+            'isSetMarker',
+            'isSubmitValueChange'
+            
             
         ])
     },
@@ -31,7 +38,9 @@ export default {
         ...mapMutations([
             'updateCurrentAdd',
             'updateClickItemNum',
-            'updateCheckCurrentDisabled'
+            'updateCheckCurrentDisabled',
+            'updateMap',
+            'updateIsSetMarker'
         ]),
         initMap() { 
             var container = document.getElementById('map'); 
@@ -41,9 +50,11 @@ export default {
             }; 
             //지도를 생성해준다
             var map = new kakao.maps.Map(container, options); 
+            this.updateMap(map)
 
             // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
-            var bounds = new kakao.maps.LatLngBounds();   
+            // var bounds = new kakao.maps.LatLngBounds();   
+            // this.updateBounds(bounds)
 
             //현위치 불러오기
             if (navigator.geolocation) {
@@ -53,9 +64,12 @@ export default {
                 
                 var lat = position.coords.latitude, // 위도
                     lng = position.coords.longitude // 경도
+
+                // this.currentLat = lat
+                // this.currentLng = lng
                 
                 var locPosition = new kakao.maps.LatLng(lat, lng) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                
+                vm.currentLocation = locPosition
                 //현재주소를 가져옴
                 vm.getAddr(lat,lng).then(function(res) {                    
                     vm.updateCurrentAdd(res)
@@ -64,7 +78,7 @@ export default {
                     var message = '<span class="title" style="width:max-content;">현재위치</span>'+'<div tyle="width:max-content;">'+ res + '</div>' // 인포윈도우에 표시될 내용입니다
 
                     // 마커와 인포윈도우를 표시합니다
-                    vm.displayMarker(locPosition, message, map, bounds)
+                    vm.displayMarker(locPosition, message, map)
                 })
                   
               });
@@ -74,22 +88,22 @@ export default {
                     var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
                         message = 'geolocation을 사용할수 없어요..'
                     vm.updateCurrentAdd(null)
-                    vm.displayMarker(locPosition, message, map,bounds)
+                    vm.displayMarker(locPosition, message, map)
             }
 
 
             //mapcontrol올리기
-            this.addMapControl(map)
+            this.addMapControl(this.map)
 
             // console.log("clicknum: ",this.clickItemNum)
             
             //여러가지 마커들 표시하기
             //this.callSetMarkers(map, bounds)
-            this.setMarkers(map, bounds)
+            //this.setMarkers(this.map, bounds)
 
             // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
             // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-            //map.setBounds(bounds);
+            //map.setBounds(this.bounds);
     
         }, 
         addScript() { 
@@ -158,7 +172,7 @@ export default {
 
             return callBackPromise
         },
-        displayMarker(locPosition, message, map, bounds) {
+        displayMarker(locPosition, message, map) {
 
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({  
@@ -183,12 +197,16 @@ export default {
             map.setCenter(locPosition)
             
             // LatLngBounds 객체에 좌표를 추가합니다
-            bounds.extend(locPosition);
+            //bounds.extend(locPosition);
         },
-        setMarkers(map, bounds){
+        setMarkers(map){
+            this.removeMarker()
+            var bounds = new kakao.maps.LatLngBounds();   
+            bounds.extend(this.currentLocation)
+            // this.bounds.extend(null)
+            // this.bounds.extend(this.currentLocation)
             //여러가지 마커 설정하기   
             for (var i = 0; i < this.searchResults.length; i ++) {
-                console.log('마커설정')
                 // 마커 이미지의 이미지 크기 입니다
                 var imageSize = new kakao.maps.Size(24, 35); 
                 
@@ -202,12 +220,13 @@ export default {
                 var latlng= new kakao.maps.LatLng(lat, lng)
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
-                    
                     map: map, // 마커를 표시할 지도
                     position: latlng, // 마커를 표시할 위치
                     title : this.searchResults[i].sido_sgg, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
                     image : markerImage // 마커 이미지 
                 });
+                this.markers.push(marker)
+
                 marker.setMap(map);
 
                 // 마커에 표시할 인포윈도우를 생성합니다 
@@ -224,6 +243,17 @@ export default {
                 // LatLngBounds 객체에 좌표를 추가합니다
                 bounds.extend(latlng);
             }
+            this.updateIsSetMarker(false)
+            console.log("markers: ",this.markers)
+            console.log("bounds: ", bounds)
+            map.setBounds(bounds);
+            
+        },
+        removeMarker() {
+            for ( var i = 0; i < this.markers.length; i++ ) {
+                this.markers[i].setMap(null);
+            }   
+            this.markers = [];
         },
         async callSetMarkers(map, bounds){
             await this.setMarkers(map, bounds)
@@ -233,6 +263,17 @@ export default {
     watch:{
         clickItemNum: function(newval, oldval) {
             console.log("newval",newval +"," +oldval)
+        },
+        // isSubmitValueChange: function(newval){
+        //     if(!newval){
+        //         console.log("지도에서 감지함")
+        //     }
+        // },
+        isSetMarker: function(newval){
+            if(newval){
+                this.setMarkers(this.map, this.bounds)
+                console.log("isSetmarker : ", newval )
+            }
         }
     }
     

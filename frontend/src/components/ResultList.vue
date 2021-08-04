@@ -2,9 +2,9 @@
     <v-container>
       <v-row dense>
         <v-col
-          v-for="(item, i) in searchResults"
-          :key="i"
-          cols="12"
+            v-for="(item, i) in searchResults"
+            :key="i"
+            cols="12"
         >   
           <v-card 
             :id="i"
@@ -14,7 +14,7 @@
             <v-img 
                 @click="select($event)"
                 :id="i" 
-                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                :src="item.image_src"
                 class="white--text align-end"
                 height="200px">
                 <v-card-title
@@ -31,9 +31,7 @@
             <v-card-actions>
             
             <card-component></card-component>
-           </v-card-actions>
-           
-            
+           </v-card-actions>  
           </v-card>
         </v-col>
       </v-row>

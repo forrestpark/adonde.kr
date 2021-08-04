@@ -1,45 +1,115 @@
 <template>
     <div>
-        <v-btn @click="getFilteredResult()">
-        search
+        <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        striped
+        color="yellow"
+        rounded
+        height="6"
+    ></v-progress-linear>
+    <br>
+        <div>
+        <v-btn 
+        :disabled="searchDisabled"
+          color="primary"
+          @click="showRandom"
+          >
+        <span>random</span>
+      </v-btn>
+        <v-btn 
+        :disabled="searchDisabled"
+        color="primary"
+        @click="showAll"
+        > 
+        ShowAll
     </v-btn>
-    {{submitValue}}
-    
+        </div>
     </div>
 </template>
 
 <script>
-import { mapState , mapMutations } from 'vuex'
+import { mapState , mapMutations} from 'vuex'
 import axios from 'axios'
 import {BASE_URL} from '@/api.js'
 export default {
+    data(){
+        return{
+            loading: false,
+            filteredResult: '',
+        }
+    },
     computed:{
         ...mapState([
             'submitValue'   ,
-            'searchResults'
+            'searchResults',
+            'checkCurrentDisabled',
+            'disabled',
+            'searchDisabled',
+            'isSubmitValueChange'
         ])
     },
     methods:{
         ...mapMutations([
-            'updateSearchResults'
+            'updateSearchResults',
+            'updateSearchDisabled',
+            'updateisSubmitValueChange',
+            'updateIsSetMarker'
         ]),
         async getFilteredResult() {
+            this.loading= true
             const res = await axios.post(
                 `${BASE_URL}/search/`,
                 {
-                    theme : Object.values(this.submitValue)[0],
-                    population : Object.values(this.submitValue)[1],
-                    distance : Object.values(this.submitValue)[2],
-                    transportation :Object.values(this.submitValue)[3],
-                    origin: Object.values(this.submitValue)[4]
+                    theme : this.submitValue['theme'],
+                    population : this.submitValue['population'],
+                    distance : this.submitValue['distance'],
+                    transportation :this.submitValue['transportation'],
+                    origin: this.submitValue['origin']
                 }
             )
+            
             console.log("res : " ,res.data)
+            if(res.data.length == 0){
+                this.updateSearchDisabled(true)
+                alert('결과값이 없습니다')
+                this.filteredResult = ''
+            }
+            else{
+                this.updateSearchDisabled(false)
+                this.filteredResult = res.data
+            }
+            
+            console.log("filterResult: ",this.filteredResult)
 
-            await this.updateSearchResults(res.data)
+            this.loading = false
+            
+            //search를 실행해준 다음 다시 isSubmitValuechnage를 false로 초기화해준다
+            this.updateisSubmitValueChange(false)
 
-            console.log("searchresults: ",this.searchResults)
+
         },
+        showAll(){
+            this.updateSearchResults(this.filteredResult)
+            this.updateIsSetMarker(true)
+
+        },
+        showRandom(){
+            const randNum = Math.floor(Math.random() * this.filteredResult.length);
+            this.updateSearchResults([this.filteredResult[randNum]])
+            this.updateIsSetMarker(true)
+        }
+    },
+    watch:{
+        isSubmitValueChange : function(newval){
+            if(newval){
+                this.getFilteredResult()       
+            }
+        },
+        // getSubmitValue:function(newval){
+        //     console.log("watch submitvalue:", newval)
+        //     this.getFilteredResult()
+        // }
     }
 }
 </script>
