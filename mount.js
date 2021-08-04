@@ -240,7 +240,7 @@ async function read_csv(filePath) {
 async function load_city_data() {
 
     // reading city data from a local csv file in data folder
-    const city_data = await read_csv("data/city/city_combined.csv");
+    const city_data = await read_csv("data/city/city_code_image.csv");
 
     // pushing city data into city table in database
     for (var i = 0; i < city_data.length - 1; i++) {
@@ -255,7 +255,7 @@ async function load_city_data() {
             sido_sgg: city_data[i]['sido_sgg'],
             sido_code: city_data[i]['sido_code'],
             sgg_code: city_data[i]['sgg_code'],
-            image_src: image_src
+            image_src: city_data[i]['image_src']
         })
     }
 
