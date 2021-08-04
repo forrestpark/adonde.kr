@@ -151,9 +151,9 @@ exports.search = async (req, res) => {
             cities.splice(origin_index, 1)
         }
 
-        const cities_with_coords = await addCoords(cities)
+        const cities_with_coords_and_images = await completeCityObjects(cities)
 
-        return res.json(cities_with_coords)
+        return res.json(cities_with_coords_and_images)
     } catch (err) {
         return res.status(500).json(err)
     }
@@ -257,23 +257,23 @@ async function filterNonSpecialOrigin(transportation, cities, origin) {
     return intersection
 }
 
-async function addCoords(cities) {
+async function completeCityObjects(cities) {
 
-    var cities_with_coords = []
+    var complete_cities = []
 
     for (var i = 0; i < cities.length; i++) {
         var sido_sgg = cities[i]
 
-        var city_with_coords = await City.findOne({
+        var complete_city = await City.findOne({
             where: { sido_sgg },
-            attributes: ['sido_sgg', 'population', 'latitude', 'longitude'],
+            attributes: ['sido_sgg', 'population', 'latitude', 'longitude', 'sido_code', 'sgg_code', 'image_src'],
             raw: true
         })
 
-        cities_with_coords.push(city_with_coords)
+        complete_cities.push(complete_city)
     }
 
-    return cities_with_coords
+    return complete_cities
 
 }
 
