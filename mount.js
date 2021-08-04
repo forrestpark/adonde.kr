@@ -13,14 +13,13 @@ const Op = db.Sequelize.Op;
         await sync_db();
         console.log('DB Sync complete.');
         
-
         // need to load city data first due to foreign key constraints
         await load_city_data();
-        // after mounting city data, mount the rest
-        await mount_data();
+        // // after mounting city data, mount the rest
+        // await mount_data();
 
-        // await testAxios();
-        await mount_specialcity_data();
+        // // await testAxios();
+        // await mount_specialcity_data();
 
     } catch (error) {
         console.error('Database mounting unsuccessful:', error)
@@ -217,16 +216,26 @@ async function load_city_data() {
     // pushing city data into city table in database
     for (var i = 0; i < city_data.length - 1; i++) {
         console.log(city_data[i])
-        await db.City.create({
-            sido: city_data[i]['sido'],
-            sgg: city_data[i]['sgg'],
-            population: city_data[i]['population'],
-            latitude: city_data[i]['lat'],
-            longitude: city_data[i]['long'],
-            sido_sgg: city_data[i]['sido_sgg']
-        })
+        // await db.City.create({
+        //     sido: city_data[i]['sido'],
+        //     sgg: city_data[i]['sgg'],
+        //     population: city_data[i]['population'],
+        //     latitude: city_data[i]['lat'],
+        //     longitude: city_data[i]['long'],
+        //     sido_sgg: city_data[i]['sido_sgg']
+        // })
     }
 
+    // await addImageSrc()
+
+}
+
+async function addImageSrc() {
+
+}
+
+function sido2code(sido) {
+    
 }
 
 async function load_express_data() {
