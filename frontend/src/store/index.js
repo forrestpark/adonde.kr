@@ -11,6 +11,7 @@ export default new Vuex.Store({
         searchDisabled:true,
         disabled:true,
         checkCurrentDisabled: true,
+
         submitValue:null,
         currentAdd:"",
         clickItemNum: null,
@@ -18,7 +19,6 @@ export default new Vuex.Store({
 
         //map
         map: '',
-        bounds: '',
         isSetMarker: false
 
     },
@@ -54,9 +54,6 @@ export default new Vuex.Store({
     },
     updateMap(state,val){
         state.map = val
-    },
-    updateBounds(state, val){
-        state.bounds = val
     },
     updateIsSetMarker(state, val){
         state.isSetMarker = val
