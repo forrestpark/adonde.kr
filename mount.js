@@ -33,25 +33,9 @@ async function test() {
     // pushing city data into city table in database
     for (var i = 0; i < city_data.length - 1; i++) {
         
-        
-
-
-        // await db.City.create({
-        //     sido: city_data[i]['sido'],
-        //     sgg: city_data[i]['sgg'],
-        //     population: city_data[i]['population'],
-        //     latitude: city_data[i]['lat'],
-        //     longitude: city_data[i]['long'],
-        //     sido_sgg: city_data[i]['sido_sgg'],
-        //     sido_code: 0,
-        //     sgg_code: 0,
-        // })
     }
 
     const city_data_code = await read_csv("data/city/city_combined_code.csv");
-
-    // console.log("city_data: ", city_data)
-    // console.log("city_data_code: ", city_data_code)
        
 }
 
@@ -69,7 +53,6 @@ async function mount_specialcity_data() {
         var express_destination_list = new Set()
         var suburbs_destination_list = new Set()
         // console.log("express body: ", JSON.stringify(expressBody))
-        console.log("pre express res")
 
         var express_res = await axios.post("https://adonde-kr.herokuapp.com/search/mount", {
             theme: [],
@@ -79,22 +62,22 @@ async function mount_specialcity_data() {
             origin: origin
         })
 
-        console.log("post express res")
+        // console.log("post express res")
 
         for (var j = 0; j < express_res.data.length; j++) {
             express_destination_list.add(express_res.data[j]['sido_sgg'])
             // console.log(express_res.data[j])
         }
-        console.log("express list add")
+        // console.log("express list add")
 
         const express_specialcity = await db.specialexpress.create({
             sido_sgg : origin,
             destinations : Array.from(express_destination_list)
         })
 
-        console.log("express create")
+        // console.log("express create")
 
-        console.log("pre suburb res")
+        // console.log("pre suburb res")
 
         var suburbs_res = await axios.post("https://adonde-kr.herokuapp.com/search/mount", {
             theme: [],
@@ -104,7 +87,7 @@ async function mount_specialcity_data() {
             origin: origin
         })
 
-        console.log("post suburb res")
+        // console.log("post suburb res")
 
         for (var k = 0; k < suburbs_res.data.length; k++) {
             // console.log(suburbs_res.data[k])
