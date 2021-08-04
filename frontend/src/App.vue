@@ -98,14 +98,16 @@
         <v-spacer></v-spacer>
 
         <v-btn
-          v-for="icon in icons"
-          :key="icon"
+          v-for="(icon, idx) in iconItems"
+          :href="icon.link"
+          :key="idx"
           class="mx-4"
           dark
           icon
         >
-          <v-icon size="24px">
-            {{ icon }}
+          <v-icon  
+            size="24px">
+            {{ icon.icon }}
           </v-icon>
         </v-btn>
       </v-card-title> 
@@ -147,11 +149,19 @@ export default {
         }
       ],
     right: null,
-    icons: [
-        'mdi-facebook',
-        'mdi-twitter',
-        'mdi-linkedin',
-        'mdi-instagram',
+    iconItems: [
+        {
+          link : "https://www.linkedin.com/in/jangwoopark/",
+          icon : 'mdi-linkedin'
+        },
+        {
+          link : "https://www.instagram.com/adonde.kr/",
+          icon :'mdi-instagram'
+        },
+        {
+          link : "https://github.com/forrestpark/adonde.kr",
+          icon :'mdi-github'
+        },
       ],
   }),
  
