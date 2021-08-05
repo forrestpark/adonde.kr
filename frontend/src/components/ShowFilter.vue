@@ -323,7 +323,10 @@ export default {
                       "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
                       "전북": "전라북도", "전남": "전라남도", 
                       "제주특별자치도": "제주도", "제주": "제주도"},
-
+        access_unify :{"직통 고속버스": "express_direct",
+        "직통 시외버스": "suburbs_direct",
+        "직통 기차" : "train_direct"
+        },
         //filter
         // disabled: true,
         panel: [],
@@ -482,6 +485,9 @@ export default {
             else{
                 this.finalValue['distance'] = this.distance
             }
+
+            //한글인 경우 영어로 바꿔줌
+            this.translateAccessKoToEn()
             this.finalValue['transportation'] = (this.access)
 
             //출발지도 저장해준다.
@@ -536,6 +542,13 @@ export default {
           alert('현위치를 불러올 수 없습니다!')
         }
       }, 
+      translateAccessKoToEn(){
+        for(var i = 0 ; i<this.access.length; i++){
+          if(!this.isAlpha(this.access[i])){
+          this.access[i] = this.access_unify[this.access[i]]
+          }
+        }
+      },
       isAlpha(str) {	
         var pattern_eng = /[a-zA-Z]/
         if(pattern_eng.test(str)){
@@ -544,7 +557,7 @@ export default {
           return false
         }
       },
-      translateEnToKo(val){
+      translateOriginEntoKo(val){
         if(val in this.originEntoKo_unify){
           return this.originEntoKo_unify[val]
         }else
@@ -566,7 +579,7 @@ export default {
         var temp_Sido_Sgg
         //출발지가 영어면 한국어로 바꿔줌
         if(this.isAlpha(newOrigin)){
-          temp_Sido_Sgg = this.translateEnToKo(newOrigin)
+          temp_Sido_Sgg = this.translateOriginEntoKo(newOrigin)
         }else{
           temp_Sido_Sgg = newOrigin
         }

@@ -249,5 +249,5 @@
     }
 ],
   "themeItems" :["산", "계곡", "바다"],
-  "AccessItems":[{"text":"express_direct","value":"express_direct", "customDisabled": false}, {"text":"suburbs_direct","value":"suburbs_direct", "customDisabled": false}, {"text":"train_direct","value":"train_direct","customDisabled": false}]
+  "AccessItems":[{"text":"직통 고속버스","value":"직통 고속버스", "customDisabled": false}, {"text":"직통 시외버스","value":"직통 시외버스", "customDisabled": false}, {"text":"직통 기차","value":"직통 기차","customDisabled": false}]
 }
