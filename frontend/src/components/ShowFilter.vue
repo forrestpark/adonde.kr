@@ -305,7 +305,8 @@ export default {
             'currentAdd',
             'checkCurrentDisabled',
             'disabled',
-            'submitValue'
+            'submitValue',
+            'originEntoKo_unify'
         ]),  
         setAccItem(){
           return this.$t('AccessItems')
@@ -354,15 +355,15 @@ export default {
           
       ]),
       async changeAccItemStatus(){ 
-        console.log("json1:", this.$i18n.t('AccessItems'))
+        // console.log("json1:", this.$i18n.t('AccessItems'))
         this.accessItems = this.$i18n.t('AccessItems')
         //await console.log("inputDisabled")
         //this.accessItems = this.setAccItem
         
         this.inputAccItemCustomDisabled()
 
-        console.log("afterinputcustomdisabled", this.accessItems)
-        console.log("json2:", this.$i18n.t('AccessItems'))
+        // console.log("afterinputcustomdisabled", this.accessItems)
+        // console.log("json2:", this.$i18n.t('AccessItems'))
 
         //초기화
         await this.resetAccItemDisabled()
@@ -408,7 +409,7 @@ export default {
       },
       inputAccItemCustomDisabled(){
         for(var i = 0 ; i< this.access.length; i++){
-          console.log("customdisabled 넣어줌")
+
           this.$set(this.accessItems, 'customDisabled', false)
         }
       },
@@ -434,8 +435,7 @@ export default {
             alert('선택가능한 access 없음')
             
           }
-          console.log("json:", this.$i18n.t('AccessItems'))
-          console.log("local:", this.accessItems)
+
       },
       
       // Create an array the length of our items
@@ -535,7 +535,23 @@ export default {
         }else{
           alert('현위치를 불러올 수 없습니다!')
         }
-      },  
+      }, 
+      isAlpha(str) {	
+        var pattern_eng = /[a-zA-Z]/
+        if(pattern_eng.test(str)){
+          return true
+        }else{
+          return false
+        }
+      },
+      translateEnToKo(val){
+        if(val in this.originEntoKo_unify){
+          return this.originEntoKo_unify[val]
+        }else
+        {
+          alert('originEntoKo_unify에 없습니다')
+        }
+      }
     },
     watch:{
       value: function(newOrigin){
@@ -545,17 +561,28 @@ export default {
         //목록 다시 초기화 해줌
         this.updateSearchResults([])
 
+        // console.log("newOrigin: ", newOrigin)
+        // console.log("isalpha",this.isAlpha(newOrigin))
+        var temp_Sido_Sgg
+        //출발지가 영어면 한국어로 바꿔줌
+        if(this.isAlpha(newOrigin)){
+          temp_Sido_Sgg = this.translateEnToKo(newOrigin)
+        }else{
+          temp_Sido_Sgg = newOrigin
+        }
+
+        //console.log("한국어로: ",this.originEntoKo_unify[newOrigin])
         //특별시일 경우 *2 해서 다시 저장
         var pattern = /\s/g;
-        if(newOrigin.match(pattern))
+        if(temp_Sido_Sgg.match(pattern))
         {
           //특별시가 아님
-          this.sido_sgg = newOrigin
+          this.sido_sgg = temp_Sido_Sgg
           //this.$set(this.finalValue, 'origin', this.sido_sgg)
         }
         else{
           //특별시
-          this.sido_sgg = newOrigin + " " + newOrigin
+          this.sido_sgg = temp_Sido_Sgg + " " + temp_Sido_Sgg
           //this.$set(this.finalValue, 'origin', this.sido_sgg)
           
         }
