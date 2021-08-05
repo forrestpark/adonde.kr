@@ -110,7 +110,7 @@ export default {
             const script = document.createElement('script'); 
         /* global kakao */ 
         script.onload = () => kakao.maps.load(this.initMap); 
-        script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=550faf105c804c40b3de88738409eed0'; 
+        script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=550faf105c804c40b3de88738409eed0'; 
         document.head.appendChild(script); 
         },
         addMapControl(map){
