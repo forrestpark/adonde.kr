@@ -16,7 +16,7 @@
                 :id="i" 
                 :src="item.image_src"
                 class="white--text align-end"
-                height="200px">
+                >
                 <v-card-title
                   class="text-h5"
                   v-text="item.sido_sgg"
