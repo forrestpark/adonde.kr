@@ -14,7 +14,7 @@
             <v-img 
                 @click="select($event)"
                 :id="i" 
-                src="http://tong.visitkorea.or.kr/cms/resource/80/746580_image2_1.jpg"
+                src="https://tong.visitkorea.or.kr/cms/resource/80/746580_image2_1.jpg"
                 class="white--text align-end"
                 height="200px">
                 <v-card-title
