@@ -3,10 +3,10 @@ module.exports = {
     'vuetify'
   ],
 
-  devServer: {
+  // devServer: {
     
-    host: 'localhost'
-    },
+  //   host: 'localhost'
+  //   },
 
   pluginOptions: {
     i18n: {

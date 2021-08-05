@@ -238,7 +238,7 @@
               <v-flex>
                 <v-select
                   :disabled="disabled"    
-                  :items="$t('AccessItems')"
+                  :items="accessItems"
                   v-model="access"
                   item-disabled="customDisabled"
                   multiple
@@ -306,7 +306,11 @@ export default {
             'checkCurrentDisabled',
             'disabled',
             'submitValue'
-        ]),      
+        ]),  
+        setAccItem(){
+          return this.$t('AccessItems')
+        },
+          
     },
     data () {
       return {
@@ -328,11 +332,12 @@ export default {
         distance:'',
         population: [0,0],
         options:{
-          max: 300,
+          max: 1000,
           step: 10,
         },
         access:'',
-        accessItems:'',
+        //ko.json에서 가져와서 저장
+        accessItems : '',
         //refresh_btn
         refreshDisabled:true,
         //최종결과값
@@ -349,11 +354,19 @@ export default {
           'updateSearchResults',
           
       ]),
-      async changeAccItemStatus(){
-        //ko.json에서 가져와서 저장
-        this.accessItems = this.$i18n.t('AccessItems')
+      async changeAccItemStatus(){ 
+        console.log("json1:", this.$i18n.t('AccessItems'))
+  
+        //await console.log("inputDisabled")
+        this.accessItems = this.setAccItem
+        
+        this.inputAccItemCustomDisabled()
+
+        console.log("afterinputcustomdisabled", this.accessItems)
+        console.log("json2:", this.$i18n.t('AccessItems'))
+
         //초기화
-        await this.resetAccItemDisabled()
+        //await this.resetAccItemDisabled()
         //로딩시작
         this.loading = true
 
@@ -380,8 +393,8 @@ export default {
           console.log("sub.data: " , suburbs_res.data)
           console.log("train.data: " ,train_res.data)
 
-          //.data가 null인 경우 disabled 해줌
-          this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
+          //.data가 null인 경우 Customdisabled = true 해줌
+          //this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
 
           //filter, submit, 다시 선택하기 btn 보이도록함
           this.updateDisabled(false)
@@ -392,6 +405,14 @@ export default {
 
         }catch(err){
           console.log(err)
+        }
+      },
+      
+      resetAccItemDisabled(){
+        this.access=''
+        //접근성필터 초기화
+        for(var i = 0; i<3; i++){
+          this.accessItems[i].customDisabled = false
         }
       },
       setAccItemStatus(express, suburbs, train){
@@ -409,6 +430,8 @@ export default {
             alert('선택가능한 access 없음')
             
           }
+          console.log("json:", this.$i18n.t('AccessItems'))
+          console.log("local:", this.accessItems)
       },
       
       // Create an array the length of our items
@@ -483,13 +506,7 @@ export default {
           //search 목록초기화
           this.updateSearchResults([])
       },
-      resetAccItemDisabled(){
-        this.access=''
-        //접근성필터 초기화
-        for(var i = 0; i<3; i++){
-          this.accessItems[i].customDisabled = false
-        }
-      },
+      
       //현위치를 출발지로 설정
       setCurrentAsOrigin(){
         //여기서 주소를 필터링 해주기..

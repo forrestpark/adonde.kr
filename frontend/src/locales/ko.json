@@ -249,5 +249,5 @@
     }
 ],
   "themeItems" :["산", "계곡", "바다"],
-  "AccessItems":[{"text":"express_direct","value":"express_direct", "customDisabled": false}, {"text":"suburbs_direct","value":"suburbs_direct", "customDisabled": false}, {"text":"train_direct","value":"train_direct","customDisabled": false}]
+  "AccessItems":[{"text":"express_direct","value":"express_direct"}, {"text":"suburbs_direct","value":"suburbs_direct"}, {"text":"train_direct","value":"train_direct"}]
 }
