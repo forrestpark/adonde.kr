@@ -365,7 +365,7 @@ export default {
         console.log("json2:", this.$i18n.t('AccessItems'))
 
         //초기화
-        //await this.resetAccItemDisabled()
+        await this.resetAccItemDisabled()
         //로딩시작
         this.loading = true
 
