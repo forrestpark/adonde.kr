@@ -309,8 +309,7 @@ export default {
         ]),  
         setAccItem(){
           return this.$t('AccessItems')
-        },
-          
+        },   
     },
     data () {
       return {
@@ -356,9 +355,9 @@ export default {
       ]),
       async changeAccItemStatus(){ 
         console.log("json1:", this.$i18n.t('AccessItems'))
-  
+        this.accessItems = this.$i18n.t('AccessItems')
         //await console.log("inputDisabled")
-        this.accessItems = this.setAccItem
+        //this.accessItems = this.setAccItem
         
         this.inputAccItemCustomDisabled()
 
@@ -394,7 +393,7 @@ export default {
           console.log("train.data: " ,train_res.data)
 
           //.data가 null인 경우 Customdisabled = true 해줌
-          //this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
+          this.setAccItemStatus(express_res.data,suburbs_res.data,train_res.data)
 
           //filter, submit, 다시 선택하기 btn 보이도록함
           this.updateDisabled(false)
@@ -407,7 +406,12 @@ export default {
           console.log(err)
         }
       },
-      
+      inputAccItemCustomDisabled(){
+        for(var i = 0 ; i< this.access.length; i++){
+          console.log("customdisabled 넣어줌")
+          this.$set(this.accessItems, 'customDisabled', false)
+        }
+      },
       resetAccItemDisabled(){
         this.access=''
         //접근성필터 초기화
