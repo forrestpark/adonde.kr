@@ -37,6 +37,10 @@ export default {
         return{
             loading: false,
             filteredResult: '',
+            sido_unify : { "경기": "경기도", "강원": "강원도", "충북": "충청북도", 
+                      "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
+                      "전북": "전라북도", "전남": "전라남도", 
+                      "제주특별자치도": "제주도", "제주": "제주도"}        
         }
     },
     computed:{
@@ -69,6 +73,9 @@ export default {
                 }
             )
             
+            this.checkIsSpecialCity(res.data)
+
+            console.log("submitValue: ", this.submitValue)
             console.log("res : " ,res.data)
             if(res.data.length == 0){
                 this.updateSearchDisabled(true)
@@ -98,6 +105,31 @@ export default {
             const randNum = Math.floor(Math.random() * this.filteredResult.length);
             this.updateSearchResults([this.filteredResult[randNum]])
             this.updateIsSetMarker(true)
+        },
+        checkIsSpecialCity(cities){
+            //결과값중 특별시가 있는경우는 서울 서울 -> 서울 로 바꿔줌
+            for( var i = 0; i<cities.length; i++){
+
+                var sido = this.split_sido_sgg(cities[i].sido_sgg)['sido']
+ 
+                if (this.checkSpecialCity(sido)) {
+                    continue
+                } else {
+                    //특별시 아님
+                    cities[i].sido_sgg = sido
+                }
+            }
+        },
+        split_sido_sgg(sido_sgg) {
+            var sido_sgg_split = sido_sgg.split(' ')
+            return {"sido": sido_sgg_split[0], "sgg":sido_sgg_split[1]}
+        },
+        checkSpecialCity(sido) {
+            if (Object.values(this.sido_unify).includes(sido)) {
+                return true
+            } else {
+                return false
+            }
         }
     },
     watch:{
