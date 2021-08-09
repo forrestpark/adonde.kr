@@ -1,0 +1,127 @@
+const {models, User} = require('../../models')
+
+exports.get_all_users = async (req, res) => {
+    try {
+        const users = await User.findAll()
+        return res.json(users)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.get_one_user_by_email = async (req, res) => {
+    const {email} = req.body
+    try {
+        const user = await City.findOne({
+            where : {
+                email : email
+            }
+        })
+        return res.json(user)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.get_one_user_by_id = async (req, res) => {
+    const {id} = req.body
+    try {
+        const user = await City.findByPk(id)
+        return res.json(user)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.create_user = async (req, res) => {
+    const {email, password, dateofbirth, storedCities} = req.body
+    try {
+        const user = await User.create({email, password, dateofbirth, storedCities})
+        return res.json(user)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.update_user = async (req, res) => {
+    const {id, email, password, dateofbirth, storedCities} = req.body
+    try {
+        const user = await User.findByPk(id);
+ 
+        user.email = email
+        user.password = password
+        user.dateofbirth = dateofbirth
+        user.storedCities = storedCities
+
+        await user.save()
+
+        return res.json(user)
+
+    } catch (err) {
+
+        console.log(err)
+        return res.status(500).json(err)
+
+    }
+}
+
+exports.delete_user_by_id = async (req, res) => {
+    const {id} = req.body
+    try {
+        const user = await User.findByPk(id);
+        await user.destroy()
+        return res.json({message : 'User successfully deleted'})
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.delete_user_by_email = async (req, res) => {
+    const {email} = req.body
+    try {
+        const user = await User.findByOne({
+            where : {
+                email : email
+            }
+        });
+        await user.destroy()
+        return res.json({message : 'User successfully deleted'})
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.addStoredCity = async (req, res) => {
+    const {id, sido_sgg} = req.body
+    try {
+        console.log("sido_sgg: ", sido_sgg)
+        // console.log("array typeof: ", typeof [1])
+        const user = await User.findByPk(id)
+        const newStoredCities = user.storedCities
+        newStoredCities.push(sido_sgg)
+        user.storedCities = newStoredCities
+
+        // for Array datatypes in sequelize, we need to set the variable of array datatype as changed so that sequelize detect it as changed
+        user.changed('storedCities', true)
+        await user.save()
+
+        return res.json(user)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+// exports.name = async (req, res) => {
+//     try {
+//     } catch (err) {
+//         console.log(err)
+//         return res.status(500).json(err)
+//     }
+// }

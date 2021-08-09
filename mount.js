@@ -14,6 +14,7 @@ const Op = db.Sequelize.Op;
         console.log('DB Sync complete.');
         
         // await test();
+
         // need to load city data first due to foreign key constraints
         await load_city_data();
         // after mounting city data, mount the rest
@@ -28,15 +29,11 @@ const Op = db.Sequelize.Op;
 })()
 
 async function test() {
-    const city_data = await read_csv("data/city/city_combined.csv");
-
-    // pushing city data into city table in database
-    for (var i = 0; i < city_data.length - 1; i++) {
-        
-    }
-
-    const city_data_code = await read_csv("data/city/city_combined_code.csv");
-       
+    await db.User.create({
+        email: "abc@abc.com",
+        password: "nothing",
+        storedCities: ["서울 서울", "전라남도 여수"]
+    })   
 }
 
 async function mount_specialcity_data() {

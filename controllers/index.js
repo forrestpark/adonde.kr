@@ -11,5 +11,6 @@ router.use('/suburbs', require('./suburbs'));
 router.use('/city', require('./city'));
 router.use('/train', require('./train'));
 router.use('/search', require('./search'));
+router.use('/user', require('./user'));
 
 module.exports = router;
