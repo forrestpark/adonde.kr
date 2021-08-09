@@ -164,11 +164,11 @@ exports.login = async (req, res) => {
                 dateofbirth: dateofbirth,
                 storedCities: []
             })
-            return res.json(newUser.id)
+            return res.json(newUser)
         }
         // if yes, do not create new account but login with existing account
         else {
-            return res.json(user.id)
+            return res.json(user)
         }
 
         
