@@ -37,9 +37,15 @@ exports.get_one_user_by_id = async (req, res) => {
 }
 
 exports.create_user = async (req, res) => {
-    const {email, password, dateofbirth, storedCities} = req.body
+    const {email, nickname, dateofbirth, profile_image} = req.body
     try {
-        const user = await User.create({email, password, dateofbirth, storedCities})
+        const user = await User.create({
+            email: email,
+            nickname: nickname,
+            dateofbirth: dateofbirth,
+            profile_image: profile_image,
+            storedCities: []
+        })
         return res.json(user)
     } catch (err) {
         console.log(err)
@@ -112,6 +118,40 @@ exports.addStoredCity = async (req, res) => {
         await user.save()
 
         return res.json(user)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.login = async (req, res) => {
+    const {email, nickname, profile_image, dateofbirth} = req.body
+    try {
+        // see if the user already has an account
+        const user = await User.findOne({
+            where : {
+                email : email
+            }
+        })
+
+        // if not, create account and login
+        if (user == null) {
+            // creating new account
+            const newUser = await User.create({
+                email : email,
+                nickname : nickname,
+                profile_image: profile_image,
+                dateofbirth: dateofbirth,
+                storedCities: []
+            })
+            return res.json(newUser.id)
+        }
+        // if yes, do not create new account but login with existing account
+        else {
+            return res.json(user.id)
+        }
+
+        
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)

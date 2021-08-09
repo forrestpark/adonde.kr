@@ -10,5 +10,6 @@ router.put('/update', ctrl.update_user);
 router.delete('/deleteByEmail', ctrl.delete_user_by_email);
 router.delete('/deleteById', ctrl.delete_user_by_id);
 router.post('/addStoredCity', ctrl.addStoredCity);
+router.post('/login', ctrl.login);
 
 module.exports = router;
