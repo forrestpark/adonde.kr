@@ -124,6 +124,26 @@ exports.addStoredCity = async (req, res) => {
     }
 }
 
+exports.deleteStoredCity = async (req, res) => {
+    const {id, sido_sgg} = req.body
+    try {
+        console.log("sido_sgg: ", sido_sgg)
+        // console.log("array typeof: ", typeof [1])
+        const user = await User.findByPk(id)
+        const idx = user.storedCities.indexOf(sido_sgg)
+        user.storedCities.splice(idx, 1)
+
+        // for Array datatypes in sequelize, we need to set the variable of array datatype as changed so that sequelize detect it as changed
+        user.changed('storedCities', true)
+        await user.save()
+
+        return res.json(user)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
 exports.login = async (req, res) => {
     const {email, nickname, profile_image, dateofbirth} = req.body
     try {
