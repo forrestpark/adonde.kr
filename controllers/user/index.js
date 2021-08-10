@@ -12,5 +12,6 @@ router.delete('/deleteById', ctrl.delete_user_by_id);
 router.put('/addStoredCity', ctrl.addStoredCity);
 router.put('/deleteStoredCity', ctrl.deleteStoredCity);
 router.post('/login', ctrl.login);
+router.post('/getStoredCitiesDetail', ctrl.getStoredCitiesDetail);
 
 module.exports = router;
