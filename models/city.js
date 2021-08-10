@@ -57,7 +57,15 @@ module.exports = (sequelize, DataTypes) => {
     image_src: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    description: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    tourism_link: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
   }, {
     sequelize,
     tableName : 'cities',

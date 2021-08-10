@@ -218,8 +218,13 @@ async function read_csv(filePath) {
         else {
             var data = {}; // 빈 객체를 생성하고 여기에 데이터를 추가한다.
             for (var columnIndex in columns) { // 칼럼 갯수만큼 돌면서 적절한 데이터 추가하기.
+                // console.log("row[columnIndex]: ", row[columnIndex])
                 var column = columns[columnIndex];
-                data[column] = row[columnIndex];
+                var eachData = row[columnIndex]
+                if (eachData instanceof String) {
+                    eachData = eachData.replace('[,]', ',')
+                }
+                data[column] = eachData;
             }
             result.push(data);
         }
@@ -232,7 +237,7 @@ async function read_csv(filePath) {
 async function load_city_data() {
 
     // reading city data from a local csv file in data folder
-    const city_data = await read_csv("data/city/city_code_image.csv");
+    const city_data = await read_csv("data/city/city_20210810.csv");
 
     // pushing city data into city table in database
     for (var i = 0; i < city_data.length - 1; i++) {
@@ -247,7 +252,9 @@ async function load_city_data() {
             sido_sgg: city_data[i]['sido_sgg'],
             sido_code: city_data[i]['sido_code'],
             sgg_code: city_data[i]['sgg_code'],
-            image_src: city_data[i]['image_src']
+            image_src: city_data[i]['image_src'],
+            description: city_data[i]['description'],
+            tourism_link: city_data[i]['tourism_link'],
         })
     }
 
