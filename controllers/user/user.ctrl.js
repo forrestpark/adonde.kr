@@ -1,4 +1,4 @@
-const {models, User} = require('../../models')
+const {models, City, User} = require('../../models')
 
 exports.get_all_users = async (req, res) => {
     try {
@@ -54,12 +54,13 @@ exports.create_user = async (req, res) => {
 }
 
 exports.update_user = async (req, res) => {
-    const {id, email, password, dateofbirth, storedCities} = req.body
+    const {id, email, password, nickname, dateofbirth, storedCities} = req.body
     try {
         const user = await User.findByPk(id);
  
         user.email = email
         user.password = password
+        user.nickname = nickname
         user.dateofbirth = dateofbirth
         user.storedCities = storedCities
 
@@ -172,6 +173,23 @@ exports.login = async (req, res) => {
         }
 
         
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json(err)
+    }
+}
+
+exports.getStoredCitiesDetail = async (req, res) => {
+    const {storedCities} = req.body
+    var storedCitiesDetail = new Array()
+    try {
+
+        for (var i = 0; i < storedCities.length; i++) {
+            var city = await City.findByPk(storedCities[i])
+            storedCitiesDetail.push(city)
+        }
+
+        return res.json(storedCitiesDetail)
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)
