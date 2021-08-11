@@ -266,7 +266,6 @@ async function completeCityObjects(cities) {
 
         var complete_city = await City.findOne({
             where: { sido_sgg },
-            attributes: ['sido_sgg', 'population', 'latitude', 'longitude', 'sido_code', 'sgg_code', 'image_src'],
             raw: true
         })
 

@@ -4,6 +4,7 @@ const db = require('./models');
 const path = require("path");
 const fs = require("fs");
 const axios = require('axios');
+const { type } = require('os');
 
 const Op = db.Sequelize.Op;
 
@@ -221,8 +222,9 @@ async function read_csv(filePath) {
                 // console.log("row[columnIndex]: ", row[columnIndex])
                 var column = columns[columnIndex];
                 var eachData = row[columnIndex]
-                if (eachData instanceof String) {
-                    eachData = eachData.replace('[,]', ',')
+                if (typeof eachData == 'string') {
+                    // console.log("replace: ", eachData.replace(/\[\.\]/g, ','))
+                    eachData = eachData.replace(/\[\.\]/g, ',')
                 }
                 data[column] = eachData;
             }
