@@ -28,7 +28,7 @@ exports.get_one_user_by_email = async (req, res) => {
 exports.get_one_user_by_id = async (req, res) => {
     const {id} = req.body
     try {
-        const user = await City.findByPk(id)
+        const user = await User.findByPk(id)
         return res.json(user)
     } catch (err) {
         console.log(err)
