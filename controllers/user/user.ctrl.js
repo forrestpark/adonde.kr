@@ -111,6 +111,12 @@ exports.addStoredCity = async (req, res) => {
         // console.log("array typeof: ", typeof [1])
         const user = await User.findByPk(id)
         const newStoredCities = user.storedCities
+
+        // if the city is already included in the storedCities array, do nothing
+        if (newStoredCities.includes(sido_sgg)) {
+            return res.json(user)
+        }
+
         newStoredCities.push(sido_sgg)
         user.storedCities = newStoredCities
 
@@ -118,7 +124,7 @@ exports.addStoredCity = async (req, res) => {
         user.changed('storedCities', true)
         await user.save()
 
-        return res.json(user)
+        return res.json(user.storedCities)
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)
@@ -132,13 +138,19 @@ exports.deleteStoredCity = async (req, res) => {
         // console.log("array typeof: ", typeof [1])
         const user = await User.findByPk(id)
         const idx = user.storedCities.indexOf(sido_sgg)
+
+        // if the city is not stored in storedCities array, do nothing
+        if (idx == -1) {
+            return res.json(user)
+        }
+
         user.storedCities.splice(idx, 1)
 
         // for Array datatypes in sequelize, we need to set the variable of array datatype as changed so that sequelize detect it as changed
         user.changed('storedCities', true)
         await user.save()
 
-        return res.json(user)
+        return res.json(user.storedCities)
     } catch (err) {
         console.log(err)
         return res.status(500).json(err)
