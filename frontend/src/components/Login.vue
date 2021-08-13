@@ -55,44 +55,45 @@ export default {
                     profile_image: profile_image,
                     dateofbirth: dateofbirth
                 }
-
             )
             console.log("res:",res)
             this.updateUser(res.data)
             console.log("res.data: ", res.data)
-            
-                        
         },
+  
         kakaoLogin(){
             var vm = this
             window.Kakao.Auth.login({
-                scope:'profile_nickname, profile_image,	account_email, 	birthday',
-                success:function(){
+                scope: 'profile_nickname, profile_image, account_email, birthday',
+                success: function(authObj) {
+                    console.log('authobj', authObj)
                     window.Kakao.API.request({
-                        url:'/v2/user/me',
-                        success: res => {
-                            const kakao_account = res.kakao_account;
-                            console.log(kakao_account)
-                            console.log("email:" ,kakao_account.email)
-                            console.log("birthday:",kakao_account.birthday)
-                            console.log("nickname:", kakao_account.profile.nickname)
-                            console.log("img",kakao_account.profile.profile_image_url)  
+                    url:'/v2/user/me',
+                    success: res => {
+                        const kakao_account = res.kakao_account;
+                        console.log(kakao_account)
+                        console.log("email:" ,kakao_account.email)
+                        console.log("birthday:",kakao_account.birthday)
+                        console.log("nickname:", kakao_account.profile.nickname)
+                        console.log("img",kakao_account.profile.profile_image_url)  
 
-                            vm.login(kakao_account.email, kakao_account.profile.nickname,
-                            kakao_account.profile.profile_image_url,
-                            kakao_account.birthday)
-                        }
+                        vm.login(kakao_account.email, kakao_account.profile.nickname,
+                        kakao_account.profile.profile_image_url,
+                        kakao_account.birthday)
 
-                    })
+                        vm.$router.push({path:'/home'})
+                    }
+                })
+                
                 }
             })
         },
         kakaoLogout() {
             window.Kakao.Auth.logout((response) => {
                 console.log(response);
-                this.$store.commit("updateUser", {});
+                this.$store.commit("updateUser", {})
                 alert("로그아웃");
-                this.$router.push({path:'/home'}); 
+                this.$router.push({path:'/home'})
             });
         } 
     }

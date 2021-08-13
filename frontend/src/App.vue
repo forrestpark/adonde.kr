@@ -31,17 +31,7 @@
           어디든
         </h2>
         <v-spacer />
-        <v-btn
-          v-if="user.email == undefined"
-          @click="$router.push('/login')">
-          로그인
-        </v-btn>
-        <v-btn
-          v-else
-          @click="kakaoLogout">
-          로그아웃
-        </v-btn>
-
+       
          <div class="i18n">
           <v-select v-model="$i18n.locale"
                     :items="lang">{{lang}}
@@ -172,11 +162,7 @@ export default {
         },
       ],
   }),
-  methods:{
-    kakaoLogout(){
-      alert('음...로그아웃')
-    }
-  }
+
  
  
 };
