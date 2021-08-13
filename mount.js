@@ -19,7 +19,9 @@ const Op = db.Sequelize.Op;
         // need to load city data first due to foreign key constraints
         await load_city_data();
         // after mounting city data, mount the rest
-        await mount_data();
+        // await mount_data();
+
+        await load_places_data();
 
         // await testAxios();
         await mount_specialcity_data();
@@ -239,7 +241,7 @@ async function read_csv(filePath) {
 async function load_city_data() {
 
     // reading city data from a local csv file in data folder
-    const city_data = await read_csv("data/city/city_20210810.csv");
+    const city_data = await read_csv("data/city/city_20210813.csv");
 
     // pushing city data into city table in database
     for (var i = 0; i < city_data.length - 1; i++) {
@@ -257,6 +259,10 @@ async function load_city_data() {
             image_src: city_data[i]['image_src'],
             description: city_data[i]['description'],
             tourism_link: city_data[i]['tourism_link'],
+            mountains: city_data[i]['mountains'],
+            valleys: city_data[i]['valleys'],
+            beaches: city_data[i]['beaches'],
+            rivers: city_data[i]['rivers'],
         })
     }
 
@@ -358,6 +364,18 @@ async function mount_data() {
     await load_train_data();
     await load_express_data();
     await load_suburbs_data();
+    await load_places_data();
+}
+
+async function load_places_data() {
+    const place_data = await read_csv("data/places/city_places_theme.csv");
+
+    for (var i = 0; i < place_data.length - 1; i++) {
+        console.log(place_data[i])
+        await db.Place.create({
+            ...place_data[i]
+        })
+    }
 }
 
 async function testAxios() {
