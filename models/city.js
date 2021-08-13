@@ -39,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: DataTypes.STRING,
     sido_sgg: {
       // foreign key in express, suburbs, and train table
       type: DataTypes.STRING,
@@ -65,6 +64,22 @@ module.exports = (sequelize, DataTypes) => {
     tourism_link: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    moutains: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    rivers: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    valleys: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    beaches: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     },
   }, {
     sequelize,
