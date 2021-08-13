@@ -20,6 +20,7 @@
                 <v-card-title
                   class="text-h5"
                   v-text="item.sido_sgg"
+                  
                 ></v-card-title>
             </v-img>
            
@@ -30,7 +31,12 @@
             </v-card-subtitle>
             <v-card-actions>
             
-            <card-component></card-component>
+            <card-component
+                :key="i"
+                :detail="item.description"
+                :num="i"
+                :sido_sgg="item.sido_sgg"
+                ></card-component>
            </v-card-actions>  
           </v-card>
         </v-col>
@@ -54,8 +60,9 @@ export default {
     },
     data(){
         return{
-            heart: false,
-            show: false      
+            detail:''   ,
+            num:'',
+            sido_sgg:''
         }
     },
     methods:{
