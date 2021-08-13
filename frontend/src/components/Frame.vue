@@ -31,23 +31,13 @@
           어디든
         </h2>
         <v-spacer />
-        <v-btn
-          v-if="user.email == undefined"
-          @click="$router.push('/login')">
-          로그인
-        </v-btn>
-        <v-btn
-          v-else
-          @click="kakaoLogout">
-          로그아웃
-        </v-btn>
 
          <div class="i18n">
-          <v-select v-model="$i18n.locale"
-                    :items="lang">{{lang}}
-          </v-select>
-        </div> 
-      
+        <v-select v-model="$i18n.locale"
+                  :items="lang">{{lang}}
+        </v-select>
+
+      </div> 
     
       </v-app-bar>
       
@@ -127,15 +117,10 @@
 
   </v-app>
 </template>
- 
+
 <script>
 export default {
-  name: 'App',
-  computed:{
-    user(){
-      return this.$store.state.user
-    }
-  },
+    
   data: () => ({
     lang:['ko','en'],
     drawer: false,
@@ -172,19 +157,5 @@ export default {
         },
       ],
   }),
-  methods:{
-    kakaoLogout(){
-      alert('음...로그아웃')
-    }
-  }
- 
- 
-};
+}
 </script>
-
-<style lang="scss">
-  .to-home.router-link-exact-active{
-    display: none;
-  }
-
-</style>
