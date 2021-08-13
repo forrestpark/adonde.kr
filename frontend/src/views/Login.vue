@@ -1,15 +1,15 @@
 <template>
     <div>
-        <LayTest/>
+        <Login/>
     </div>
 </template>
 
 <script>
-import LayTest from '@/components/LayoutTest.vue'
+import Login from '@/components/Login.vue'
 
 export default {
     components:{
-        LayTest
+        Login
     }
     
 }

@@ -6,6 +6,9 @@ Vue.use(Vuex);
 // import {BASE_URL} from '@/api.js'
 export default new Vuex.Store({
     state:{
+        //user
+        user :'',
+
         //data
         isSubmitValueChange:false,
         searchDisabled:true,
@@ -183,6 +186,7 @@ export default new Vuex.Store({
         "Jeju, Jeju Province": "제주도 제주",
         "Seogwipo, Jeju Province": "제주도 서귀포"}
     },
+    
     mutations:{
     updateCurrentAdd(state, start){
         state.currentAdd = start
@@ -218,6 +222,10 @@ export default new Vuex.Store({
     },
     updateIsSetMarker(state, val){
         state.isSetMarker = val
+    },
+    //user
+    updateUser(state, val){
+        state.user = val
     }
      //데이터를 실질적으로 바꿔줌
     },

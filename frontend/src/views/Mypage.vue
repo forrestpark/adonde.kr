@@ -1,40 +1,21 @@
 <template>
-  
-   <div>
-       <v-progress-linear
-        :active="loading"
-        :indeterminate="loading"
-        absolute
-        bottom
-        color="deep-purple accent-4"
-      ></v-progress-linear>
-    
-
-    
-        
-            <v-btn
-              color="primary"
-              @click="loading = true"
-            >
-              Start loading
-            </v-btn>
-   </div>
-         
-
+    <div>
+        mypage
+    </div>
 </template>
 
 <script>
   export default {
-    data: () => ({
-      loading: false,
-    }),
-
-    watch: {
-      loading (val) {
-        if (!val) return
-
-        setTimeout(() => (this.loading = false), 3000)
-      },
+    computed:{
+        user(){
+            return this.$store.state.user
+        }
     },
+    mounted(){
+        if(this.user.email == undefined){
+            alert('로그인을 해야 사용할 수 있습니다!')
+            this.$router.push({path:'/home'})
+        }
+    }
   }
 </script>

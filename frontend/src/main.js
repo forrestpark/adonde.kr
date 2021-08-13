@@ -9,15 +9,16 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 import VueCascaderSelect from 'vue-cascader-select';
 
-
 Vue.use(VueCascaderSelect);
-
 
 Vue.component('VueSlider', VueSlider)
 
 Vue.config.productionTip = false
 
 const apiKey = '0b3e12f49e69284bc5e44c27065a9f7b'
+
+window.Kakao.init(apiKey)
+
 Vue.use(VueKakaoSdk, { apiKey })
 
 new Vue({
