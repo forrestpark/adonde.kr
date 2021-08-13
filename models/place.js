@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class place extends Model {
+  class Place extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -15,11 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       
     }
   };
-  place.init({
+  Place.init({
     sido_sgg: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true
     },
     theme: {
       type: DataTypes.STRING,
@@ -40,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     tableName: 'places',
-    modelName: 'place',
+    modelName: 'Place',
   });
-  return place;
+  return Place;
 };

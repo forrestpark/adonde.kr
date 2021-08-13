@@ -12,5 +12,6 @@ router.use('/city', require('./city'));
 router.use('/train', require('./train'));
 router.use('/search', require('./search'));
 router.use('/user', require('./user'));
+router.use('/place', require('./place'));
 
 module.exports = router;

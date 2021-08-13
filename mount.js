@@ -4,7 +4,6 @@ const db = require('./models');
 const path = require("path");
 const fs = require("fs");
 const axios = require('axios');
-const { type } = require('os');
 
 const Op = db.Sequelize.Op;
 
@@ -19,9 +18,7 @@ const Op = db.Sequelize.Op;
         // need to load city data first due to foreign key constraints
         await load_city_data();
         // after mounting city data, mount the rest
-        // await mount_data();
-
-        await load_places_data();
+        await mount_data();
 
         // await testAxios();
         await mount_specialcity_data();
