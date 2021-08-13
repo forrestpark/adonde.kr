@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Train, { foreignKey : 'sido_sgg' })
       this.hasMany(models.specialsuburbs, { foreignKey : 'sido_sgg' })
       this.hasMany(models.specialexpress, { foreignKey : 'sido_sgg' })
+      // this.hasMany(models.Place, { foreignKey : 'sido_sgg' })
     }
   };
   City.init({
@@ -39,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: DataTypes.STRING,
     sido_sgg: {
       // foreign key in express, suburbs, and train table
       type: DataTypes.STRING,
@@ -57,7 +57,31 @@ module.exports = (sequelize, DataTypes) => {
     image_src: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    description: {
+      type: DataTypes.STRING(1000),
+      allowNull: true
+    },
+    tourism_link: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    mountains: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    rivers: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    valleys: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    beaches: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
   }, {
     sequelize,
     tableName : 'cities',
