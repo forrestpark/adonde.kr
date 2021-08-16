@@ -27,4 +27,11 @@
 * Frontend deployed on Netlify
   * Site live at https://adonde.netlify.app/
 
+### Creators
+* [Jang Woo Park][1]
+* [Jisun Chung][2]
+
+[1]:https://github.com/forrestpark
+[2]:https://github.com/jisunchung
+
 <!-- <h1 align="center">어디든 adonde.kr</h1> -->
