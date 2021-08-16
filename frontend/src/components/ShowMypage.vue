@@ -61,9 +61,7 @@ export default {
     data(){
         return{
             userStoredDetails:'',
-            links: [
-    { name: "detail", href: "http://localhost:8080/details", target: "_blank" }
-]
+            
         }
     },
     computed:{
