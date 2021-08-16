@@ -30,7 +30,15 @@
                 v-text="item.description">
             </v-card-subtitle>
             <v-card-actions>
-            
+            <v-btn
+            color="orange lighten-2"
+            text
+            @click="clickParams(item.sido_sgg)"
+            >
+            showDetails
+        </v-btn>
+           
+        
             <!-- <card-component
                 :key="i"
                 :detail="item.description"
@@ -52,7 +60,10 @@ import {BASE_URL} from '@/api.js'
 export default {
     data(){
         return{
-            userStoredDetails:''
+            userStoredDetails:'',
+            links: [
+    { name: "detail", href: "http://localhost:8080/details", target: "_blank" }
+]
         }
     },
     computed:{
@@ -94,7 +105,10 @@ export default {
             }catch(err){
             console.log(err)
             }
-        }
+        },
+        clickParams (sido_sgg) {
+                this.$router.push({name: 'details', query: {name: sido_sgg}})
+            }
     },
     mounted(){
         if(this.user.email == undefined){
