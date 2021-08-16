@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Center an Image using text align center</title>
     <style>
       .img-container {
         text-align: center;
