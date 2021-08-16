@@ -3,7 +3,7 @@
 </p>
 
 ## Project Description
-### What is 어디든 / Adonde.kr?
+### What is 어디든 / Adonde.kr ![Alt](/proposal/logo.png "logo")?
 어디든 (pronounced `[ʌdidɯn]` or `[uh-dee-dun]`), also known as adonde.kr, is a comprehensive search portal for tourism in Korea. Adonde provides various filters that any user can so easily pin down Korean travel destinations of their preference. Filters vary from distance and city size to public transportation and destination themes.
 
 ### Technology it uses
