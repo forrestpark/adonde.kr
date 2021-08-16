@@ -133,7 +133,7 @@ export default {
         {
           title: 'Home',
           icon: 'mdi-home',
-          to: '/home'
+          to: '/'
         },
         {
           title: 'Login',
