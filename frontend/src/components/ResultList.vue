@@ -36,7 +36,8 @@
                 :detail="item.description"
                 :num="i"
                 :sido_sgg="item.sido_sgg"
-                ></card-component>
+
+            ></card-component>
            </v-card-actions>  
           </v-card>
         </v-col>
@@ -55,14 +56,17 @@ export default {
     computed:{
         ...mapState([
             'searchResults',
-            'clickItemNum'    
+            'clickItemNum'  ,
+            'userStoredCities'
         ])
     },
+   
     data(){
         return{
             detail:''   ,
             num:'',
-            sido_sgg:''
+            sido_sgg:'',
+
         }
     },
     methods:{
@@ -75,6 +79,29 @@ export default {
         select(event){
             this.updateClickItemNum(event.currentTarget.id)
             alert(event.currentTarget.id)
+        },
+        checkHeart(){
+            // //특별시일 경우 *2 해서 다시 저장
+            var sido_sgg_value=""
+            var pattern = /\s/g;
+            if(this.sido_sgg.match(pattern))
+            {
+            //특별시가 아님
+            sido_sgg_value = this.sido_sgg
+            //this.$set(this.finalValue, 'origin', this.sido_sgg)
+            }
+            else{
+            //특별시
+            sido_sgg_value = this.sido_sgg + " " + this.sido_sgg
+            //this.$set(this.finalValue, 'origin', this.sido_sgg)
+            
+            }
+
+            if(this.userStoredCities.includes(sido_sgg_value)){   
+                console.log('갖고있음', sido_sgg_value)
+                this.heart = true
+            }
+           
         }
     }
   }

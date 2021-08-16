@@ -46,6 +46,25 @@ export default {
         sido_sgg:String
      
     },
+    mounted(){
+            //특별시일 경우 *2 해서 다시 저장
+            var sido_sgg_value=""
+            var pattern = /\s/g;
+            if(this.sido_sgg.match(pattern))
+            {
+            //특별시가 아님
+            sido_sgg_value = this.sido_sgg
+            }
+            else{
+            //특별시
+            sido_sgg_value = this.sido_sgg + " " + this.sido_sgg
+            }
+
+            if(this.userStoredCities.includes(sido_sgg_value)){   
+                console.log('갖고있음', sido_sgg_value)
+                this.heart = true
+            }
+    },
     computed:{
         ...mapState([
             'searchResults'  ,
@@ -97,12 +116,12 @@ export default {
                 console.log('sido_sigg',this.sido_sgg_value )
                 this.apiAddStored()
             }else{
-                alert('삭제')
+                // this.deleteMypage()
                 
             }
             
         },
-        deleteMypage(){
+        async deleteMypage(){
 
         },
         async apiAddStored(){
@@ -119,7 +138,8 @@ export default {
             }catch(err){
             console.log(err)
             }
-        }
+        },
+        
     }
 }
 </script>
