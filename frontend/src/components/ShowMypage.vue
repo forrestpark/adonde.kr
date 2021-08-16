@@ -89,21 +89,6 @@ export default {
             console.log(err)
             }
         },
-        async findOneById(){
-            try{
-            const userDetails = await axios.post(
-                `${BASE_URL}/user/findOneById`,
-                {
-                    id: this.user.id
-                })
-                
-                console.log("userdetails:",userDetails.data.storedCities)
-                this.updateUserStoredCities(userDetails.data.storedCities)
-                this.getStoredCitiesDetail()
-            }catch(err){
-            console.log(err)
-            }
-        },
         clickParams (sido_sgg) {
                 let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
                 window.open(routeData.href, '_blank');
@@ -115,8 +100,7 @@ export default {
             alert('로그인을 해야 사용할 수 있습니다!')
             this.$router.push({path:'/home'})
         }else{
-           this.findOneById()
-           //console.log(this.user.id)
+           this.getStoredCitiesDetail()
             
         }
     }

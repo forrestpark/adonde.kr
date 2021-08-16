@@ -67,17 +67,18 @@ export default {
             'updateUserStoredCities'
         ]),
         changeHeart(){
-            this.heart = !this.heart
+            if(this.user.email == undefined){
+                alert('로그인을 해주세요')
+            }else{
+                this.heart = !this.heart
+            }
+            
         },
         storedMypage(){
             console.log(this.num)
             alert(this.num)
-            if(this.user.email == undefined){
-                alert('로그인을 해주세요')
-            }else{
-               
-
-                // //특별시일 경우 *2 해서 다시 저장
+            if(this.heart == true){
+                 // //특별시일 경우 *2 해서 다시 저장
                 var pattern = /\s/g;
                 if(this.sido_sgg.match(pattern))
                 {
@@ -95,7 +96,11 @@ export default {
                 console.log("id",this.user.id)
                 console.log('sido_sigg',this.sido_sgg_value )
                 this.apiAddStored()
+            }else{
+                alert('삭제')
+                
             }
+            
         },
         deleteMypage(){
 
