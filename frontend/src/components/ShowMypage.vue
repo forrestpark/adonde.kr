@@ -44,7 +44,7 @@
                 :detail="item.description"
                 :num="i"
                 :sido_sgg="item.sido_sgg"
-                ></card-component> -->
+            ></card-component> -->
            </v-card-actions>  
           </v-card>
         </v-col>
@@ -105,7 +105,9 @@ export default {
             }
         },
         clickParams (sido_sgg) {
-                this.$router.push({name: 'details', query: {name: sido_sgg}})
+                let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
+                window.open(routeData.href, '_blank');
+
             }
     },
     mounted(){

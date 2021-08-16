@@ -10,7 +10,7 @@
         <v-spacer></v-spacer>         
         <v-btn
             icon
-            @click="[changeHeart(),storedMypage()]"  
+            @click="[changeHeart(),storedMypage(),deleteMypage()]"  
             >
             <v-icon>{{ heart ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
             </v-btn>
@@ -57,7 +57,8 @@ export default {
         return{
             heart: false,
             show: false,
-            sido_sgg_value:''
+            sido_sgg_value:'',
+            storedCities:''
             
         }
     },
@@ -95,6 +96,9 @@ export default {
                 console.log('sido_sigg',this.sido_sgg_value )
                 this.apiAddStored()
             }
+        },
+        deleteMypage(){
+
         },
         async apiAddStored(){
             try{

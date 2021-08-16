@@ -42,7 +42,8 @@ export default {
     },
     methods:{
         ...mapMutations([
-            'updateUser'
+            'updateUser',
+            'updateUserStoredCities'
         ]),
         async login(email, nickname, profile_image, dateofbirth) {
             const res = await axios.post(
@@ -56,6 +57,7 @@ export default {
             )
             console.log("res:",res)
             this.updateUser(res.data)
+            this.findOneById(res.data.id)
             console.log("res.data: ", res.data)
         },
   
@@ -79,6 +81,8 @@ export default {
                         kakao_account.profile.profile_image_url,
                         kakao_account.birthday)
 
+                        
+
                         vm.$router.push({path:'/'})
                     }
                 })
@@ -93,7 +97,21 @@ export default {
                 alert("로그아웃");
                 this.$router.push({path:'/'})
             });
-        } 
+        } ,
+        async findOneById(id){
+            try{
+            const userDetails = await axios.post(
+                `${BASE_URL}/user/findOneById`,
+                {
+                    id
+                })
+                
+                console.log("userdetails:",userDetails.data.storedCities)
+                this.updateUserStoredCities(userDetails.data.storedCities)
+            }catch(err){
+            console.log(err)
+            }
+        },
     }
 }
 </script>
