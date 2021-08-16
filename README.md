@@ -28,8 +28,8 @@
   * Site live at https://adonde.netlify.app/
 
 ### Creators
-* [Jang Woo Park][1]
-* [Jisun Chung][2]
+* [Jang Woo Park][1] (Backend/Server Development, Product Design and Management)
+* [Jisun Chung][2] (Frontend Development, Marketing)
 
 [1]:https://github.com/forrestpark
 [2]:https://github.com/jisunchung
