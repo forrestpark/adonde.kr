@@ -79,7 +79,7 @@ export default {
                         kakao_account.profile.profile_image_url,
                         kakao_account.birthday)
 
-                        vm.$router.push({path:'/home'})
+                        vm.$router.push({path:'/'})
                     }
                 })
                 
@@ -91,7 +91,7 @@ export default {
                 console.log(response);
                 this.$store.commit("updateUser", {})
                 alert("로그아웃");
-                this.$router.push({path:'/home'})
+                this.$router.push({path:'/'})
             });
         } 
     }
