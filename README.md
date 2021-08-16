@@ -22,6 +22,11 @@
   * Python
   * Pandas
   * BeautifulSoup
+* Other frameworks/libraries/APIs
+  * [Google Maps Platform][googlemapslink]
+  * Kakao [Login][kakaologin]/[Maps][mapslink]/[Local][locallink] API
+  * [TourAPI][tourapi], Korea Tourism Organization
+  * Transportation OpenAPI ([train][trainlink], [express bus][expresslink], [suburban bus][suburbanlink]), Ministry of Land, Infrastructure, and Transport
 * Backend API server hosted on Heroku
   * Backend base URL: https://adonde-kr.herokuapp.com/
 * Frontend deployed on Netlify
@@ -35,6 +40,14 @@
 [2]:https://github.com/jisunchung
 [3]:https://adonde.netlify.app/
 [email]:mailto:adonde.kr@gmail.com
+[googlemapslink]:https://developers.google.com/maps?hl=ko
+[kakaologin]:https://developers.kakao.com/docs/latest/ko/kakaologin/common
+[locallink]:https://developers.kakao.com/docs/latest/ko/local/dev-guide
+[mapslink]:https://apis.map.kakao.com/
+[tourapi]:https://api.visitkorea.or.kr/main.do
+[trainlink]:https://www.data.go.kr/data/15000500/openapi.do
+[expresslink]:https://www.data.go.kr/data/15059034/openapi.do#
+[suburbanlink]:https://www.data.go.kr/data/15000590/openapi.do
 
 ### Motivation
 Have you ever experienced a time when you were certain that you needed or wanted a getaway but simply can’t think of a single travel destination that suits your needs or the mood? As a travel maniac myself, I most definitely have had a lot of those moments, stuck only with the idea of a getaway but without any concrete idea on where to go, full of motivation but without any inspirations. It is those moments that motivated me to design and create this product that is `어디든`, the perfect brainstorming tool for aspiring travelers, all who needs is some inspiration.
@@ -48,10 +61,15 @@ We are very proud that 어디든 / Adonde serves as a comprehensive travel desti
 ### What makes adonde.kr stand out?
 어디든 is the only travel information search portal to exist to date to provide such a combination of search features. Yet, the engineering that truly deserves attention and applause is its offering of solutions to public transportation travels that no other web service does. We have independently collected data from various websites and APIs, gathered them to create a database more comprehensive than that of any other travel-focused web service, and based on it, created an API server tailored to our service.
 
-### 어디든 is the only travel information search engine to present direct public transportation search results (ex. direct train, direct express/suburban bus between cities) in Korea. Please [contact us][email] if we ought to be informed otherwise.
+### 어디든 is the only travel information search engine to present direct public transportation search results in Korea.
+ex. direct train, direct express/suburban bus between cities
+
+Please [contact us][email] if we ought to be informed otherwise.
 
 ### Upcoming challenges
 To be updated
 
 ### What did the developers (Backend: [Jang Woo Park][1], Frontend: [Jisun Chung][2]) learn?
 To be updated
+
+
