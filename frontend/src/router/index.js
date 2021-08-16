@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Mypage from '@/views/Mypage.vue'
 import Intro from '@/views/Intro.vue'
+import Details from '@/views/Details.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,12 @@ const routes = [
       name: 'mypage',
       path: '/mypage',
       component: Mypage
+    },
+    {
+      name: 'details',
+      path: '/details',
+      component: Details,
+      props: true
     }
 ]
 

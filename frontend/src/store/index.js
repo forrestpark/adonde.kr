@@ -218,6 +218,7 @@ export default new Vuex.Store({
     updateisSubmitValueChange(state, val){
         state.isSubmitValueChange = val
     },
+    //map
     updateMap(state,val){
         state.map = val
     },

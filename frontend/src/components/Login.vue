@@ -1,8 +1,7 @@
 <template>
     <section class="Intro">
         <div class="intro">
-        
-       
+
         <v-img 
         @click="kakaoLogin"
         alt="user"
@@ -11,7 +10,6 @@
         transition="scale-transition"
         width="300px"
         />
-        
         
         <v-btn
             @click="kakaoLogout">
