@@ -57,16 +57,23 @@ exports.sort_places_by_theme_for_certain_city = async (req, res) => {
         })
 
         for (var i = 0; i < places.length; i++) {
+            
             var theme = places[i].theme
+            // console.log("theme: ", theme)
+            // console.log("place: ", places[i])
             switch (theme) {
                 case "산":
                     mountain_list.push(places[i])
+                    break
                 case "계곡":
                     valley_list.push(places[i])
+                    break
                 case "해변":
                     beach_list.push(places[i])
+                    break
                 case "강":
                     river_list.push(places[i])
+                    break
             }
         }
 
@@ -80,6 +87,13 @@ exports.sort_places_by_theme_for_certain_city = async (req, res) => {
     }
 }
 
+// exports.name = async (req, res) => {
+//     try {
+//     } catch (err) {
+//         console.log(err)
+//         return res.status(500).json(err)
+//     }
+// }
 
 
 // exports.name = async (req, res) => {
