@@ -3,6 +3,7 @@ const axios = require('axios');
 const router = Router()
 
 router.get('/', (_, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     res.send("welcome to adonde.kr")
 });
 
