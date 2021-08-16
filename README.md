@@ -1,17 +1,2 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      .img-container {
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="img-container"> <!-- Block parent element -->
-      <img src="proposal/logo.png" alt="adonde_logo" width="50%"/>
-    </div>
-  </body>
-</html>
-
+<img align="center" src="proposal/logo.png" alt="adonde_logo" width="50%"/>
 <h1 align="center">어디든 adonde.kr</h1>
