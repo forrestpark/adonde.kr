@@ -15,7 +15,7 @@
         <h3>
             인구수 : 
             {{cityDetails.population}}
-            (만명)
+            (명)
         </h3>
         <a :href="cityDetails.tourism_link"
             target='_blank'

@@ -49,11 +49,26 @@
     >
       <v-list-item>
         <v-list-item-avatar>
-          <v-icon>mdi-account</v-icon>
+          <!-- <div
+            v-if="user.email == undefined">
+            <img src="https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png" />
+          </div>
+          <div
+            v-else>
+            <img :src="`${user.profile_image}`" />
+          </div> -->
+          <img :src="user.profile_image" />
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>user name</v-list-item-title>
+          <div
+            v-if="user.email == undefined">
+            로그인 해주세요 :)
+          </div>
+          <div
+            v-else>
+            <v-list-item-title>{{user.nickname}} 님 :)</v-list-item-title>
+          </div>
         </v-list-item-content>
       </v-list-item>
 
@@ -111,6 +126,7 @@
             {{ icon.icon }}
           </v-icon>
         </v-btn>
+
       </v-card-title> 
     </v-card>
     </v-footer >
