@@ -2,18 +2,17 @@
     <v-container>
       <v-row dense>
         <v-col
-            v-for="(item, i) in userStoredDetails"
-            :key="i"
+            v-for="item in userStoredDetails"
+            :key="item.sido_sgg"
             cols="12"
         >   
           <v-card 
-            :id="i"
+            :id="item.sido_sgg"
             :color="'#1F7087'"
             dark
             >
             <v-img 
-                @click="select($event)"
-                :id="i" 
+                :id="item.sido_sgg" 
                 :src="item.image_src"
                 class="white--text align-end"
                 height="200px">
@@ -25,26 +24,21 @@
             </v-img>
            
             <v-card-subtitle 
-                @click="select($event)"
-                :id="i" 
+                :id="item.sido_sgg" 
                 v-text="item.description">
             </v-card-subtitle>
             <v-card-actions>
+
+            <heart-component
+                :sido_sgg="item.sido_sgg">
+            </heart-component>
             <v-btn
             color="orange lighten-2"
             text
             @click="clickParams(item.sido_sgg)"
             >
             showDetails
-        </v-btn>
-           
-        
-            <!-- <card-component
-                :key="i"
-                :detail="item.description"
-                :num="i"
-                :sido_sgg="item.sido_sgg"
-            ></card-component> -->
+            </v-btn>
            </v-card-actions>  
           </v-card>
         </v-col>
@@ -54,25 +48,32 @@
 </template>
 
 <script>
+import HeartComponent from './HeartComponent.vue'
 import {mapState, mapMutations} from 'vuex'
 import axios from 'axios'
 import {BASE_URL} from '@/api.js'
 export default {
+    components:{
+        HeartComponent
+    },
     data(){
         return{
-            userStoredDetails:'',
+            heart : true,
+            sido_sgg:''
             
         }
     },
     computed:{
         ...mapState([
             'user',
-            'userStoredCities'
+            'userStoredCities',
+            'userStoredDetails'
         ])
     },
     methods:{
         ...mapMutations([
-            'updateUserStoredCities'
+            'updateUserStoredCities',
+            'updateUserStoredDetails'
         ]),
         async getStoredCitiesDetail(){
             try{
@@ -81,19 +82,20 @@ export default {
                 {
                     storedCities: this.userStoredCities
                 })
-                this.userStoredDetails = citiesDetails.data
-                console.log(this.userStoredCities)
-                console.log("userstroeddetails:", this.userStoredDetails)
+                this.updateUserStoredDetails(citiesDetails.data)
+                console.log("userStoredCities: ",this.userStoredCities)
+                console.log("userstroeddetails: ", this.userStoredDetails)
                 
             }catch(err){
-            console.log(err)
+                console.log(err)
             }
         },
         clickParams (sido_sgg) {
                 let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
                 window.open(routeData.href, '_blank');
 
-            }
+        },
+        
     },
     mounted(){
         if(this.user.email == undefined){
@@ -102,6 +104,11 @@ export default {
         }else{
            this.getStoredCitiesDetail()
             
+        }
+    },
+    watch:{
+        userStoredCities :function(){
+            this.getStoredCitiesDetail()
         }
     }
     

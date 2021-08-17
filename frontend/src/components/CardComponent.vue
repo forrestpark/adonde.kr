@@ -10,7 +10,7 @@
         <v-spacer></v-spacer>         
         <v-btn
             icon
-            @click="[changeHeart(),storedMypage(),deleteMypage()]"  
+            @click="[changeHeart(),storedMypage()]"  
             >
             <v-icon>{{ heart ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
             </v-btn>
@@ -96,33 +96,43 @@ export default {
         storedMypage(){
             console.log(this.num)
             alert(this.num)
-            if(this.heart == true){
-                 // //특별시일 경우 *2 해서 다시 저장
+                //특별시일 경우 *2 해서 다시 저장
                 var pattern = /\s/g;
                 if(this.sido_sgg.match(pattern))
                 {
                 //특별시가 아님
                 this.sido_sgg_value = this.sido_sgg
-                //this.$set(this.finalValue, 'origin', this.sido_sgg)
                 }
                 else{
                 //특별시
-                this.sido_sgg_value = this.sido_sgg + " " + this.sido_sgg
-                //this.$set(this.finalValue, 'origin', this.sido_sgg)
-                
+                this.sido_sgg_value = this.sido_sgg + " " + this.sido_sgg     
                 }
+            if(this.heart == true){
+                
                 console.log("heart: ",this.heart)
                 console.log("id",this.user.id)
                 console.log('sido_sigg',this.sido_sgg_value )
                 this.apiAddStored()
             }else{
-                // this.deleteMypage()
-                
+                //삭제
+                this.apiDeleteStored()   
             }
             
         },
-        async deleteMypage(){
-
+        async apiDeleteStored(){
+            try{
+            const cities = await axios.put(
+                `${BASE_URL}/user/deleteStoredCity`,
+                {
+                    id : this.user.id,
+                    sido_sgg: this.sido_sgg_value
+                })
+                console.log("deletecities:", cities.data)
+                this.updateUserStoredCities(cities.data)
+                console.log("after delete: ",this.userStoredCities)
+            }catch(err){
+            console.log(err)
+            }
         },
         async apiAddStored(){
             try{
@@ -134,7 +144,7 @@ export default {
                 })
                 console.log("cities:", cities.data)
                 this.updateUserStoredCities(cities.data)
-                console.log(this.userStoredCities)
+                console.log("after add: ", this.userStoredCities)
             }catch(err){
             console.log(err)
             }

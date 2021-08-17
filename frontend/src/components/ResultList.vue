@@ -36,7 +36,6 @@
                 :detail="item.description"
                 :num="i"
                 :sido_sgg="item.sido_sgg"
-
             ></card-component>
            </v-card-actions>  
           </v-card>
