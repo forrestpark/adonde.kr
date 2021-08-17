@@ -1,10 +1,13 @@
 <template>
     <v-container>
-      <v-row dense>
+      <v-row>
         <v-col
             v-for="item in userStoredDetails"
             :key="item.sido_sgg"
             cols="12"
+            lg="4"
+            md="3"
+            sm="6"
         >   
           <v-card 
             :id="item.sido_sgg"
@@ -42,8 +45,7 @@
            </v-card-actions>  
           </v-card>
         </v-col>
-      </v-row>
-     
+      </v-row> 
     </v-container>
 </template>
 
@@ -100,7 +102,7 @@ export default {
     mounted(){
         if(this.user.email == undefined){
             alert('로그인을 해야 사용할 수 있습니다!')
-            this.$router.push({path:'/home'})
+            this.$router.push({path:'/'})
         }else{
            this.getStoredCitiesDetail()
             
