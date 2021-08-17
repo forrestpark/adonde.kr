@@ -76,7 +76,9 @@
 
       <v-list dense>
         <v-list-item
+          
           v-for="item in items" 
+          :disabled="item.disabled"
           :key="item.title"
           link
           :to="item.to"
@@ -142,6 +144,13 @@ export default {
       return this.$store.state.user
     }
   },
+  watch:{
+    user: function(){
+      if(this.user.email != undefined){
+        this.items[2].disabled = false
+      }
+    }
+  },
   data: () => ({
     lang:['ko','en'],
     drawer: false,
@@ -149,17 +158,20 @@ export default {
         {
           title: 'Home',
           icon: 'mdi-home',
-          to: '/'
+          to: '/',
+          disabled: false
         },
         {
           title: 'Login',
-          icon: 'mdi-information',
-          to: '/login'
+          icon: 'mdi-login',
+          to: '/login',
+          disabled: false
         },
         {
           title: 'mypage',
-          icon: 'mdi-home',
-          to: '/mypage'
+          icon: 'mdi-account-heart-outline',
+          to: '/mypage',
+          disabled: true
         }
       ],
     right: null,
@@ -177,10 +189,7 @@ export default {
           icon :'mdi-github'
         },
       ],
-  }),
-
- 
- 
+  }), 
 };
 </script>
 

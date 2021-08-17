@@ -19,19 +19,17 @@
                 
                 </v-img>
                 <h2>
-                    설명 : 
                     {{cityDetails.description}}
                 </h2>
                 <h2>
-                    인구수 : 
-                    {{cityDetails.population}}
-                    (명)
+                    
+                    {{`인구수: ${cityDetails.population} (명)`}}
+                    
                 </h2>
                 <h2>
                     <a :href="cityDetails.tourism_link"
-                    target='_blank'
-                    >
-                    관광청 링크
+                        target='_blank'
+                        >
                 </a>
                 </h2>
                 <div v-for="(place, index) in places"
@@ -40,6 +38,7 @@
                     <v-slide-group
                         v-if="place.length != 0"
                         show-arrows
+                        multiple
                         >
                         {{index}}
                         <v-slide-item
