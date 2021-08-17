@@ -13,7 +13,6 @@
             dark
             >
             <v-img 
-                @click="select($event)"
                 :id="item.sido_sgg" 
                 :src="item.image_src"
                 class="white--text align-end"
@@ -75,10 +74,6 @@ export default {
         ]),
         changeCenter(){
             alert('changeCenter')
-        },
-        select(event){
-            this.updateClickItemNum(event.currentTarget.id)
-            alert(event.currentTarget.id)
         },
         checkHeart(){
             // //특별시일 경우 *2 해서 다시 저장

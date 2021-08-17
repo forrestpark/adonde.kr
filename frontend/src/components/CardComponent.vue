@@ -75,15 +75,12 @@ export default {
         ]),
         changeHeart(){
             if(this.user.email == undefined){
-                alert('로그인을 해주세요')
+                alert('로그인 후 사용해주세요')
             }else{
                 this.heart = !this.heart
-            }
-            
+            }      
         },
-        storedMypage(){
-            console.log(this.num)
-            alert(this.num)
+        storedMypage(){    
                 //특별시일 경우 *2 해서 다시 저장
                 var pattern = /\s/g;
                 if(this.sido_sgg.match(pattern))
@@ -96,7 +93,6 @@ export default {
                 this.sido_sgg_value = this.sido_sgg + " " + this.sido_sgg     
                 }
             if(this.heart == true){
-                
                 console.log("heart: ",this.heart)
                 console.log("id",this.user.id)
                 console.log('sido_sigg',this.sido_sgg_value )

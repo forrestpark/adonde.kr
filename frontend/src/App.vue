@@ -93,7 +93,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    
+
     <v-main>
       
       <router-view></router-view>
@@ -148,6 +148,8 @@ export default {
     user: function(){
       if(this.user.email != undefined){
         this.items[2].disabled = false
+      }else{
+        this.items[2].disabled = true
       }
     }
   },
