@@ -43,8 +43,7 @@ import {BASE_URL} from '@/api.js'
 export default {
     mounted(){
         this.getCityDetail()
-
-       
+        this.getPlace()
 
     },
     data(){
@@ -69,6 +68,19 @@ export default {
                 this.longitude = Details.data.longitude
                 //지도 표시해주기
                 window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
+                
+            }catch(err){
+                console.log(err)
+            }
+        },
+        async getPlace(){
+            try{
+            const place = await axios.post(
+                `${BASE_URL}/place/findBySidoSggAndTheme`,
+                {
+                    sido_sgg :this.sido_sgg
+                })
+                console.log("palce ",place)
                 
             }catch(err){
                 console.log(err)

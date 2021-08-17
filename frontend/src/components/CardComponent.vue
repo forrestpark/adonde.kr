@@ -1,36 +1,27 @@
 <template>
     <div>
         <div>
-            <v-btn
-            color="orange lighten-2"
-            text
-            >
-            Explore
-        </v-btn>
-        <v-spacer></v-spacer>         
+                 
         <v-btn
             icon
             @click="[changeHeart(),storedMypage()]"  
             >
             <v-icon>{{ heart ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
             </v-btn>
-        <v-btn
+        <!-- <v-btn
             icon
             @click="show = !show"
             >
             <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        </v-btn>
-        <v-expand-transition>
-                <div v-show="show">
-                    <v-divider></v-divider>
-
-                    <v-card-text>
-                        {{num}}
-                    {{detail}} 
-
-                    </v-card-text>
-                </div>
-        </v-expand-transition>
+        </v-btn> -->
+            <v-btn
+            color="orange lighten-2"
+            @click="gotoDetailPage()"
+            text
+            >
+            showDetails
+            </v-btn>  
+        
         </div>
     </div>
 </template>
@@ -41,27 +32,24 @@ import axios from 'axios'
 import {BASE_URL} from '@/api.js'
 export default {
     props:{
-        detail:String,
         num:Number,
         sido_sgg:String
      
     },
     mounted(){
             //특별시일 경우 *2 해서 다시 저장
-            var sido_sgg_value=""
             var pattern = /\s/g;
             if(this.sido_sgg.match(pattern))
             {
             //특별시가 아님
-            sido_sgg_value = this.sido_sgg
+            this.checkSido_sgg = this.sido_sgg
             }
             else{
             //특별시
-            sido_sgg_value = this.sido_sgg + " " + this.sido_sgg
+            this.checkSido_sgg = this.sido_sgg + " " + this.sido_sgg
             }
 
-            if(this.userStoredCities.includes(sido_sgg_value)){   
-                console.log('갖고있음', sido_sgg_value)
+            if(this.userStoredCities.includes(this.checkSido_sgg)){   
                 this.heart = true
             }
     },
@@ -74,6 +62,7 @@ export default {
     },
     data(){
         return{
+            checkSido_sgg:'',
             heart: false,
             show: false,
             sido_sgg_value:'',
@@ -148,6 +137,10 @@ export default {
             }catch(err){
             console.log(err)
             }
+        },
+        gotoDetailPage () {
+                let routeData = this.$router.resolve({name: 'details', query: {name: this.checkSido_sgg}});
+                window.open(routeData.href, '_blank');
         },
         
     }

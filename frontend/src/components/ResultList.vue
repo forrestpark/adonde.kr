@@ -6,6 +6,7 @@
             :key="i"
             cols="12"
         >   
+        <v-hover v-slot="{ hover }">
           <v-card 
             :id="i"
             :color="'#1F7087'"
@@ -22,23 +23,32 @@
                   v-text="item.sido_sgg"
                   
                 ></v-card-title>
+                <v-expand-transition>
+                <div v-if="hover"
+                    class="d-flex transition-fast-in-fast-out orange v-card--reveal text-h2 white--text"
+                    style="height: 100%;">
+                    <v-card-text>
+                        {{item.description.split('.')[0]}}.
+                    </v-card-text>
+                </div>
+        </v-expand-transition>
             </v-img>
            
-            <v-card-subtitle 
+            <!-- <v-card-subtitle 
                 @click="select($event)"
                 :id="i" 
                 v-text="item.description">
-            </v-card-subtitle>
+            </v-card-subtitle> -->
             <v-card-actions>
             
             <card-component
                 :key="i"
-                :detail="item.description"
                 :num="i"
                 :sido_sgg="item.sido_sgg"
             ></card-component>
            </v-card-actions>  
           </v-card>
+          </v-hover>
         </v-col>
       </v-row>
      
@@ -62,9 +72,9 @@ export default {
    
     data(){
         return{
-            detail:''   ,
             num:'',
             sido_sgg:'',
+        
 
         }
     },
