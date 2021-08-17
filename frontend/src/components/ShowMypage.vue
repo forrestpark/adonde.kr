@@ -18,7 +18,8 @@
                 :id="item.sido_sgg" 
                 :src="item.image_src"
                 class="white--text align-end"
-                height="200px">
+                width="600"
+                height="300">
                 <v-card-title
                   class="text-h5"
                   v-text="item.sido_sgg"
@@ -26,10 +27,10 @@
                 ></v-card-title>
             </v-img>
            
-            <v-card-subtitle 
+            <!-- <v-card-subtitle 
                 :id="item.sido_sgg" 
                 v-text="item.description">
-            </v-card-subtitle>
+            </v-card-subtitle> -->
             <v-card-actions>
 
             <heart-component

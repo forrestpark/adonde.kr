@@ -8,9 +8,7 @@ import store from './store'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 import VueCascaderSelect from 'vue-cascader-select';
-import {VueMasonryPlugin} from 'vue-masonry';
 
-Vue.use(VueMasonryPlugin)
 
 Vue.use(VueCascaderSelect);
 
