@@ -49,15 +49,14 @@
     >
       <v-list-item>
         <v-list-item-avatar>
-          <!-- <div
-            v-if="user.email == undefined">
-            <img src="https://cdn.icon-icons.com/icons2/2506/PNG/512/user_icon_150670.png" />
-          </div>
-          <div
-            v-else>
-            <img :src="`${user.profile_image}`" />
-          </div> -->
-          <img :src="user.profile_image" />
+           <v-icon 
+            v-if="user.email == undefined"
+            >
+            mdi-account
+          </v-icon>
+          <img
+              v-else
+              :src="user.profile_image" />
         </v-list-item-avatar>
 
         <v-list-item-content>
