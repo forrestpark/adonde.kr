@@ -273,9 +273,7 @@
       </v-btn>
         <br>
         
-      <br>
-      <v-divider></v-divider>
-      <br>
+      
       
       <search-result></search-result>
       <!-- 확인해보기 위함 -->

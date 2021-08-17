@@ -32,7 +32,6 @@ import axios from 'axios'
 import {BASE_URL} from '@/api.js'
 export default {
     props:{
-        num:Number,
         sido_sgg:String
      
     },

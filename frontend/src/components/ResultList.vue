@@ -2,19 +2,19 @@
     <v-container>
       <v-row dense>
         <v-col
-            v-for="(item, i) in searchResults"
-            :key="i"
+            v-for="item in searchResults"
+            :key="item.sido_sgg"
             cols="12"
         >   
         <v-hover v-slot="{ hover }">
           <v-card 
-            :id="i"
+            :id="item.sido_sgg"
             :color="'#1F7087'"
             dark
             >
             <v-img 
                 @click="select($event)"
-                :id="i" 
+                :id="item.sido_sgg" 
                 :src="item.image_src"
                 class="white--text align-end"
                 height="200px">
@@ -36,8 +36,7 @@
             <v-card-actions>
             
             <card-component
-                :key="i"
-                :num="i"
+                :key="item.sido_sgg"
                 :sido_sgg="item.sido_sgg"
             ></card-component>
            </v-card-actions>  
@@ -60,16 +59,14 @@ export default {
         ...mapState([
             'searchResults',
             'clickItemNum'  ,
-            'userStoredCities'
+            'userStoredCities',
+            'user'
         ])
     },
    
     data(){
         return{
-            num:'',
-            sido_sgg:'',
-        
-
+            sido_sgg:''
         }
     },
     methods:{
