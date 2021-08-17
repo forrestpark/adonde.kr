@@ -1,34 +1,69 @@
 <template>
     <div>
+        <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        striped
+        color="blue"
+        rounded
+        height="6"
+      ></v-progress-linear>
         <v-row>
             <v-col>
                 <h1>{{cityDetails.sido_sgg}}</h1>
-        <v-img 
-            :src="cityDetails.image_src"
-            class="white--text align-end"
-            width="900"
-            height="500">
-         
-        </v-img>
-        <h2>
-            설명 : 
-            {{cityDetails.description}}
-        </h2>
-        <h3>
-            인구수 : 
-            {{cityDetails.population}}
-            (명)
-        </h3>
-        <a :href="cityDetails.tourism_link"
-            target='_blank'
-            >
-            관광청 링크
-        </a>
+                <v-img 
+                    :src="cityDetails.image_src"
+                    class="white--text align-end"
+                    width="900"
+                    height="500">
+                
+                </v-img>
+                <h2>
+                    설명 : 
+                    {{cityDetails.description}}
+                </h2>
+                <h2>
+                    인구수 : 
+                    {{cityDetails.population}}
+                    (명)
+                </h2>
+                <h2>
+                    <a :href="cityDetails.tourism_link"
+                    target='_blank'
+                    >
+                    관광청 링크
+                </a>
+                </h2>
+                <div v-for="(place, index) in places"
+                    :key="index">
+                    
+                    <v-slide-group
+                        v-if="place.length != 0"
+                        show-arrows
+                        >
+                        {{index}}
+                        <v-slide-item
+                            v-for="item in place"
+                            :key="item.name"
+                            v-slot="{ active, toggle }"
+                        >
+                            <v-btn
+                            :href="item.link"
+                            target="_blank"
+                            class="mx-2"
+                            :input-value="active"
+                            active-class="purple white--text"
+                            depressed
+                            rounded
+                            @click="toggle"
+                            >
+                            {{item.name}}
+                            </v-btn>
+                        </v-slide-item>
+                    </v-slide-group>
+                </div>
             </v-col>
             <v-col>
-                <h1>
-                    위치
-                </h1>
                 <div id="map" style="width:100%;height:700px;"></div>
             </v-col>
         </v-row>
@@ -48,14 +83,22 @@ export default {
     },
     data(){
         return{
+            loading: false,
             sido_sgg : this.$route.query.name,
             cityDetails: '',
             latitude:'',
-            longitude:''
+            longitude:'',
+            model: null,
+            beaches:'',
+            mountains:'',
+            rivers:'',
+            valleys:'',
+            places:''
         }
     },
     methods:{
         async getCityDetail(){
+            this.loading = true
             try{
             const Details = await axios.post(
                 `${BASE_URL}/city/findOne`,
@@ -72,6 +115,7 @@ export default {
             }catch(err){
                 console.log(err)
             }
+            this.loading = false
         },
         async getPlace(){
             try{
@@ -80,7 +124,14 @@ export default {
                 {
                     sido_sgg :this.sido_sgg
                 })
-                console.log("palce ",place)
+                console.log("palces ",place.data)
+                console.log("palces ",Object.keys(place.data))
+                this.places = place.data
+                
+                this.beaches = place.data.beaches
+                this.mountains = place.data.mountains
+                this.rivers = place.data.rivers
+                this.valleys = place.data.valleys
                 
             }catch(err){
                 console.log(err)

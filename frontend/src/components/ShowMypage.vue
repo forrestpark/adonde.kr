@@ -1,53 +1,61 @@
 <template>
-    <v-container>
-      <v-row>
-        <v-col
-            v-for="item in userStoredDetails"
-            :key="item.sido_sgg"
-            cols="12"
-            lg="4"
-            md="3"
-            sm="6"
-        >   
-          <v-card 
-            :id="item.sido_sgg"
-            :color="'#1F7087'"
-            dark
+    <div>
+        <v-slide-group
+        v-model="model"
+        class="pa-4"
+        center-active
+        show-arrows
+        >
+            <v-slide-item
+                v-for="item in userStoredDetails"
+                :key="item.sido_sgg"
+                v-slot="{ active, toggle }"
             >
-            <v-img 
-                :id="item.sido_sgg" 
-                :src="item.image_src"
-                class="white--text align-end"
-                width="600"
-                height="300">
-                <v-card-title
-                  class="text-h5"
-                  v-text="item.sido_sgg"
-                  
-                ></v-card-title>
-            </v-img>
-           
-            <!-- <v-card-subtitle 
-                :id="item.sido_sgg" 
-                v-text="item.description">
-            </v-card-subtitle> -->
-            <v-card-actions>
+                <v-card
+                :color="active ? undefined : 'grey lighten-1'"
+                class="ma-4"
+                height="800"
+                width="350"
+                @click="toggle"
+                >
+                    <v-img 
+                        :id="item.sido_sgg" 
+                        :src="item.image_src"
+                        class="white--text align-end"
+                        width="600"
+                        height="500">
+                        <v-card-title
+                            class="text-h5"
+                            v-text="item.sido_sgg"
+                        ></v-card-title>
+                    </v-img>
+                    <v-card-subtitle 
+                        :id="item.sido_sgg" 
+                        v-text="item.description">
+                    </v-card-subtitle>
 
-            <heart-component
-                :sido_sgg="item.sido_sgg">
-            </heart-component>
-            <v-btn
-            color="orange lighten-2"
-            text
-            @click="gotoDetailPage(item.sido_sgg)"
-            >
-            showDetails
-            </v-btn>
-           </v-card-actions>  
-          </v-card>
-        </v-col>
-      </v-row> 
-    </v-container>
+                    <v-card-actions>
+                        <heart-component
+                            :sido_sgg="item.sido_sgg">
+                        </heart-component>
+                        <v-btn
+                            color="orange"
+                            text
+                            @click="gotoDetailPage(item.sido_sgg)"
+                            >
+                            showDetails
+                        </v-btn>
+                    </v-card-actions>  
+                    <v-row
+                        class="fill-height"
+                        align="center"
+                        justify="center"
+                    >
+                    </v-row>
+                </v-card>
+        </v-slide-item> 
+        </v-slide-group>
+    </div>
 </template>
 
 <script>
@@ -62,8 +70,8 @@ export default {
     data(){
         return{
             heart : true,
-            sido_sgg:''
-            
+            sido_sgg:'',
+            model: null,
         }
     },
     computed:{
@@ -94,8 +102,8 @@ export default {
             }
         },
         gotoDetailPage (sido_sgg) {
-                let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
-                window.open(routeData.href, '_blank');
+            let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
+            window.open(routeData.href, '_blank');
         },
         
     },

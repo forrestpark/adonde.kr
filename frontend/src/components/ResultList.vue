@@ -33,12 +33,6 @@
                 </div>
         </v-expand-transition>
             </v-img>
-           
-            <!-- <v-card-subtitle 
-                @click="select($event)"
-                :id="i" 
-                v-text="item.description">
-            </v-card-subtitle> -->
             <v-card-actions>
             
             <card-component
