@@ -39,7 +39,7 @@
             <v-btn
             color="orange lighten-2"
             text
-            @click="clickParams(item.sido_sgg)"
+            @click="gotoDetailPage(item.sido_sgg)"
             >
             showDetails
             </v-btn>
@@ -93,10 +93,9 @@ export default {
                 console.log(err)
             }
         },
-        clickParams (sido_sgg) {
+        gotoDetailPage (sido_sgg) {
                 let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
                 window.open(routeData.href, '_blank');
-
         },
         
     },
