@@ -32,12 +32,7 @@
         </h2>
         <v-spacer />
        
-         <div class="i18n">
-          <v-select v-model="$i18n.locale"
-                    :items="lang">{{lang}}
-          </v-select>
-        </div> 
-      
+         
     
       </v-app-bar>
       
@@ -98,6 +93,41 @@
       <router-view></router-view>
        
     </v-main>
+    <!-- <v-btn
+          color="orange lighten-2"
+          class="mt-12"
+          @click="overlay = !overlay"
+        >
+          Show Overlay
+        </v-btn> -->
+
+        <v-overlay
+          color="green"
+          :absolute="absolute"
+          :opacity="opacity"
+          :value="overlay"
+        >
+        <div class="i18n">
+          <v-img 
+          alt="Logo"
+          contain
+          :src="require(`./assets/logo.png`)"
+          transition="scale-transition"
+          width="500"
+        />
+          <v-select v-model="$i18n.locale"
+                    :items="lang">{{lang}}
+          </v-select>
+        </div> 
+      
+          <v-btn
+          width="500"
+            color="orange lighten-2"
+            @click="overlay = false"
+          >
+            Start!
+          </v-btn>
+        </v-overlay>
 
      <v-footer 
       prop
@@ -153,6 +183,9 @@ export default {
     }
   },
   data: () => ({
+    absolute: true,
+      opacity: 1,
+      overlay: true,
     lang:['ko','en'],
     drawer: false,
     items: [
