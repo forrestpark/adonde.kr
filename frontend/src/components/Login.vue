@@ -11,10 +11,10 @@
         width="300px"
         />
         
-        <v-btn
+        <!-- <v-btn
             @click="kakaoLogout">
         logout
-        </v-btn>
+        </v-btn> -->
 
         <h2>{{user.nickname}}</h2>
             <img :src="`${user.profile_image}`" alt />
@@ -91,14 +91,14 @@ export default {
                 }
             })
         },
-        kakaoLogout() {
-            window.Kakao.Auth.logout((response) => {
-                console.log(response);
-                this.$store.commit("updateUser", {})
-                alert("로그아웃");
-                this.$router.push({path:'/'})
-            });
-        } ,
+        // kakaoLogout() {
+        //     window.Kakao.Auth.logout((response) => {
+        //         console.log(response);
+        //         this.$store.commit("updateUser", {})
+        //         alert("로그아웃");
+        //         this.$router.push({path:'/'})
+        //     });
+        // } ,
         async findOneById(id){
             try{
             const userDetails = await axios.post(

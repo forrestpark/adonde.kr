@@ -76,6 +76,7 @@
           :key="item.title"
           link
           :to="item.to"
+          @click="isLogin(item.title)"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -123,10 +124,13 @@
           <v-btn
           width="500"
             color="orange lighten-2"
-            @click="overlay = false"
+            @click="clickStart"
           >
             Start!
           </v-btn>
+
+          <Login/>
+
         </v-overlay>
 
      <v-footer 
@@ -166,8 +170,12 @@
 </template>
  
 <script>
+import Login from '@/components/Login.vue'
 export default {
   name: 'App',
+  components:{
+    Login
+  },
   computed:{
     user(){
       return this.$store.state.user
@@ -177,10 +185,19 @@ export default {
     user: function(){
       if(this.user.email != undefined){
         this.items[2].disabled = false
+        this.items[1].title = 'Logout'
       }else{
         this.items[2].disabled = true
+        this.items[1].title = 'Login'
       }
-    }
+    },
+  },
+  mounted(){
+    
+      if(this.$route.query.name != undefined){
+        console.log("라우터",this.$route.query.name)
+        this.overlay = false
+      }
   },
   data: () => ({
     absolute: true,
@@ -198,7 +215,7 @@ export default {
         {
           title: 'Login',
           icon: 'mdi-login',
-          to: '/login',
+          // to: '/login',
           disabled: false
         },
         {
@@ -224,6 +241,28 @@ export default {
         },
       ],
   }), 
+  methods:{
+    isLogin(title){
+      if(title == "Login"){
+        this.overlay = true
+      }else if(title == "Logout"){
+        this.kakaoLogout()
+      }
+    },
+    kakaoLogout() {
+            window.Kakao.Auth.logout((response) => {
+                console.log(response);
+                this.$store.commit("updateUser", {})
+                alert("로그아웃");
+                this.$router.push({path:'/'})
+            });
+    } ,
+    clickStart(){
+      this.overlay = false
+      //this.$router.push({path:'/'})
+     
+    }
+  }
 };
 </script>
 
