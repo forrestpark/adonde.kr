@@ -322,8 +322,11 @@ export default {
                       "전북": "전라북도", "전남": "전라남도", 
                       "제주특별자치도": "제주도", "제주": "제주도"},
         access_unify :{"직통 고속버스": "express_direct",
-        "직통 시외버스": "suburbs_direct",
-        "직통 기차" : "train_direct"
+          "직통 시외버스": "suburbs_direct",
+          "직통 기차" : "train_direct"
+        },
+        theme_unify :{"산":"mountains", "계곡": "valleys", 
+          "바다":"beaches","강":"rivers"
         },
         //filter
         // disabled: true,
@@ -337,6 +340,7 @@ export default {
           step: 10,
         },
         access:'',
+        translateAccess:[],
         //ko.json에서 가져와서 저장
         accessItems : '',
         //refresh_btn
@@ -486,7 +490,7 @@ export default {
 
             //한글인 경우 영어로 바꿔줌
             this.translateAccessKoToEn()
-            this.finalValue['transportation'] = (this.access)
+            this.finalValue['transportation'] = (this.translateAccess)
 
             //출발지도 저장해준다.
             this.$set(this.finalValue, 'origin', this.sido_sgg)
@@ -507,7 +511,7 @@ export default {
       },
       //다시 선택하기 버튼 클릭시 필터가 다시 선택할 수 있도록 바뀐다
       refresh(){
-
+          this.translateAccess = []
           this.updateDisabled(false)
 
           this.updateSearchDisabled(true)
@@ -543,7 +547,7 @@ export default {
       translateAccessKoToEn(){
         for(var i = 0 ; i<this.access.length; i++){
           if(!this.isAlpha(this.access[i])){
-          this.access[i] = this.access_unify[this.access[i]]
+          this.translateAccess[i] = this.access_unify[this.access[i]]
           }
         }
       },

@@ -247,6 +247,6 @@
           ]
       }
   ],
-    "themeItems" :["Mountain", "Valley", "Beach/Ocean"],
+    "themeItems" :["mountains", "valleys", "beaches","rivers"],
     "AccessItems":[{"text":"express direct","value":"express_direct", "customDisabled": false}, {"text":"suburbs_direct","value":"suburbs_direct", "customDisabled": false}, {"text":"train_direct","value":"train_direct","customDisabled": false}]
   }
