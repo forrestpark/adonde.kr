@@ -129,6 +129,32 @@ exports.search = async (req, res) => {
 
         const specialCities = ["서울 서울", "부산 부산", "인천 인천", "대구 대구", "대전 대전", "울산 울산", "광주 광주"]
 
+        // if (theme.length != 0) {
+
+            // const cities_theme = await db.City.findAll({
+            //     where : {
+            //         mountains: theme.includes("mountains"),
+            //         valleys: theme.includes("valleys"),
+            //         rivers: theme.includes("rivers"),
+            //         beaches: theme.includes("beaches"),
+            //     }
+            // })
+
+            // console.log("cities_theme: ", cities_theme)
+
+            // for (var themeIdx = 0; themeIdx < theme.length; themeIdx++) {
+            //     var currTheme = theme[themeIdx]
+            //     var cities = await db.City.findAll({
+            //         where : {
+                        
+            //         }
+            //     })
+            // }
+            // console.log("ready to combine")
+            // const final_city_theme = cities_with_mountains.union(cities_with_valleys)
+            // console.log("final_city_theme: ", final_city_theme)
+        // }
+
         // our transportation filter only supports direct transportation options at the moment
         if (transportation.length != 0) {
 
@@ -151,13 +177,31 @@ exports.search = async (req, res) => {
             cities.splice(origin_index, 1)
         }
 
-        const cities_with_coords_and_images = await completeCityObjects(cities)
+        var cities_with_coords_and_images = await completeCityObjects(cities)
+
+        cities_with_coords_and_images = filterByTheme(cities_with_coords_and_images, theme)
 
         return res.json(cities_with_coords_and_images)
     } catch (err) {
         return res.status(500).json(err)
     }
 
+}
+
+function filterByTheme(cities, themes) {
+    var cities_set = new Set()
+    for (var themeidx in themes) {
+        for (var cityidx in cities) {
+            var theme = themes[themeidx]
+            var city = cities[cityidx]
+            if (city[theme] == false) {
+                continue
+            } else {
+                cities_set.add(city)
+            }
+        }
+    }
+    return Array.from(cities_set)
 }
 
 async function filterSpecialOrigin(transportation, cities, origin) {
