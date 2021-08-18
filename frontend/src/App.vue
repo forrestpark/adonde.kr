@@ -31,8 +31,6 @@
           어디든
         </h2>
         <v-spacer />
-       
-         
     
       </v-app-bar>
       
@@ -41,7 +39,7 @@
       v-model="drawer"
       absolute
       temporary
-    >
+      >
       <v-list-item>
         <v-list-item-avatar>
            <v-icon 
@@ -69,8 +67,7 @@
       <v-divider />
 
       <v-list dense>
-        <v-list-item
-          
+        <!-- <v-list-item
           v-for="item in items" 
           :disabled="item.disabled"
           :key="item.title"
@@ -84,6 +81,34 @@
 
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item> -->
+        <v-list-item
+          link
+          to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              Home
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          @click="clickLoginBtn">
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              v-if="user.email == undefined">
+              Login
+            </v-list-item-title>
+            <v-list-item-title
+              v-else>
+              Loout
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -260,6 +285,15 @@ export default {
       this.overlay = false
       //this.$router.push({path:'/'})
      
+    },
+    clickLoginBtn(){
+      if(this.user.email == undefined){
+        this.overlay = true
+        this.drawer = false
+      }else{
+        this.kakaoLogout()
+        this.drawer = false
+      }
     }
   }
 };
