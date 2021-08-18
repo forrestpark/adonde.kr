@@ -10,6 +10,12 @@
         transition="scale-transition"
         width="300px"
         />
+
+        <v-progress-circular
+            indeterminate
+            v-if="loading"
+            color="amber"
+        ></v-progress-circular>
         
         <!-- <v-btn
             @click="kakaoLogout">
@@ -17,7 +23,9 @@
         </v-btn> -->
 
         <h2>{{user.nickname}}</h2>
-            <img :src="`${user.profile_image}`" alt />
+        <img
+            width="100px" 
+            :src="`${user.profile_image}`" alt />
    
 
         </div>
@@ -33,7 +41,8 @@ import {BASE_URL} from '@/api.js'
 export default {
     data(){
         return{
-            test:''
+            test:'',
+            loading: false
         }
     },
     computed:{
@@ -47,6 +56,7 @@ export default {
             'updateUserStoredCities'
         ]),
         async login(email, nickname, profile_image, dateofbirth) {
+            //this.loading = true
             const res = await axios.post(
                 `${BASE_URL}/user/login`,
                 {
@@ -60,9 +70,12 @@ export default {
             this.updateUser(res.data)
             this.findOneById(res.data.id)
             console.log("res.data: ", res.data)
+
+            this.loading = false
         },
   
         kakaoLogin(){
+            this.loading = true
             var vm = this
             window.Kakao.Auth.login({
                 scope: 'profile_nickname, profile_image, account_email, birthday',

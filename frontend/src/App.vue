@@ -94,46 +94,8 @@
       <router-view></router-view>
        
     </v-main>
-    <!-- <v-btn
-          color="orange lighten-2"
-          class="mt-12"
-          @click="overlay = !overlay"
-        >
-          Show Overlay
-        </v-btn> -->
 
-        <v-overlay
-          color="green"
-          :absolute="absolute"
-          :opacity="opacity"
-          :value="overlay"
-        >
-        <div class="i18n">
-          <v-img 
-          alt="Logo"
-          contain
-          :src="require(`./assets/logo.png`)"
-          transition="scale-transition"
-          width="500"
-        />
-          <v-select v-model="$i18n.locale"
-                    :items="lang">{{lang}}
-          </v-select>
-        </div> 
-      
-          <v-btn
-          width="500"
-            color="orange lighten-2"
-            @click="clickStart"
-          >
-            Start!
-          </v-btn>
-
-          <Login/>
-
-        </v-overlay>
-
-     <v-footer 
+    <v-footer 
       prop
       dark
       padless
@@ -166,6 +128,39 @@
     </v-card>
     </v-footer >
 
+        <v-overlay
+          color="green"
+          :absolute="absolute"
+          :opacity="opacity"
+          :value="overlay"
+        >
+        <div class="i18n">
+          <v-img 
+          alt="Logo"
+          contain
+          :src="require(`./assets/logo.png`)"
+          transition="scale-transition"
+          width="500"
+        />
+          <v-select v-model="$i18n.locale"
+                    :items="lang">{{lang}}
+          </v-select>
+        </div> 
+      
+          <v-btn
+          width="500"
+            color="orange lighten-2"
+            @click="clickStart"
+          >
+            Start!
+          </v-btn>
+          
+          <Login/>
+
+        </v-overlay>
+
+     
+
   </v-app>
 </template>
  
@@ -182,6 +177,7 @@ export default {
     }
   },
   watch:{
+    //로그인시 drawer에 login 이 logout으로 바뀌도록함
     user: function(){
       if(this.user.email != undefined){
         this.items[2].disabled = false
@@ -193,7 +189,7 @@ export default {
     },
   },
   mounted(){
-    
+      //상세페이지로 갔을 경우 overlay가 보이지 않도록 파일이 시작될때 확인해준다
       if(this.$route.query.name != undefined){
         console.log("라우터",this.$route.query.name)
         this.overlay = false
@@ -201,8 +197,8 @@ export default {
   },
   data: () => ({
     absolute: true,
-      opacity: 1,
-      overlay: true,
+    opacity: 1,
+    overlay: true,
     lang:['ko','en'],
     drawer: false,
     items: [
@@ -242,11 +238,14 @@ export default {
       ],
   }), 
   methods:{
+    //drawer에 있는 로그인 관련 버튼을 눌렀을 경우 해당하는 경우에 따라서 다르게 처리해줌
     isLogin(title){
       if(title == "Login"){
         this.overlay = true
+        this.drawer = false
       }else if(title == "Logout"){
         this.kakaoLogout()
+        this.drawer = false
       }
     },
     kakaoLogout() {
@@ -256,7 +255,7 @@ export default {
                 alert("로그아웃");
                 this.$router.push({path:'/'})
             });
-    } ,
+    },
     clickStart(){
       this.overlay = false
       //this.$router.push({path:'/'})
