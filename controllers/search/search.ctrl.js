@@ -189,10 +189,11 @@ exports.search = async (req, res) => {
 }
 
 function filterByTheme(cities, themes) {
+    const theme_translate_ko2en = {"산": "mountains", "바다": "beaches", "계곡": "valleys", "강": "rivers"}
     var cities_set = new Set()
     for (var themeidx in themes) {
         for (var cityidx in cities) {
-            var theme = themes[themeidx]
+            var theme = theme_translate_ko2en[themes[themeidx]]
             var city = cities[cityidx]
             if (city[theme] == false) {
                 continue
