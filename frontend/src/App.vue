@@ -91,7 +91,9 @@
 
    
       
-      <router-view></router-view>
+      <v-main>
+        <router-view></router-view>
+      </v-main>
        
    
 
@@ -134,6 +136,7 @@
           :opacity="opacity"
           :value="overlay"
         >
+        
         <div class="i18n">
           <v-img 
           alt="Logo"

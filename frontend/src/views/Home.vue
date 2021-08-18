@@ -16,7 +16,7 @@
             <v-col
                 class="resultList">
                 <div    
-                    style="height:850px; position:relative; background-color:grey">
+                    style="height:850px; position:relative;">
                     <result-list 
                         style="overflow: auto; width:100px height: 100%"></result-list>
                 </div>
