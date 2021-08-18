@@ -9,6 +9,7 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 import VueCascaderSelect from 'vue-cascader-select';
 
+
 Vue.use(VueCascaderSelect);
 
 Vue.component('VueSlider', VueSlider)

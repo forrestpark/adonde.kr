@@ -1,15 +1,21 @@
 <template>
-   <v-container>
-       <v-layout style="">    
-        <show-map></show-map>
-        <div style="width:400px; height:900px; position: relative; background-color: yellowgreen;">
-            <result-list style="overflow: auto; height: 100%"></result-list>
-        </div>
-        <div style="width:400px; height:900px; position: relative; background-color: grey;">
-            <show-filter style="overflow: auto;height: 100%"></show-filter> 
-        </div>  
-       </v-layout>
-   </v-container>
+   <div>
+       <v-row>
+           <v-col>
+                <div style="width:400px; height:900px; position: relative;">
+                    <show-filter style="overflow: auto;height: 100%"></show-filter> 
+                </div> 
+            </v-col>
+            <v-col>
+                <show-map></show-map>
+            </v-col>   
+            <v-col>
+                <div style="width:400px; height:900px; position: relative;">
+                    <result-list style="overflow: auto; height: 100%"></result-list>
+                </div>
+            </v-col>    
+        </v-row> 
+   </div>
 </template> 
 
 <script>

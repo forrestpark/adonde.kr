@@ -1,78 +1,90 @@
 <template>
-    <v-container>
-      <v-row dense>
-        <v-col
-            v-for="(item, i) in userStoredDetails"
-            :key="i"
-            cols="12"
-        >   
-          <v-card 
-            :id="i"
-            :color="'#1F7087'"
-            dark
+    <div>
+        <v-slide-group
+        v-model="model"
+        class="pa-4"
+        center-active
+        show-arrows
+        >
+            <v-slide-item
+                v-for="item in userStoredDetails"
+                :key="item.sido_sgg"
+                v-slot="{ active, toggle }"
             >
-            <v-img 
-                @click="select($event)"
-                :id="i" 
-                :src="item.image_src"
-                class="white--text align-end"
-                height="200px">
-                <v-card-title
-                  class="text-h5"
-                  v-text="item.sido_sgg"
-                  
-                ></v-card-title>
-            </v-img>
-           
-            <v-card-subtitle 
-                @click="select($event)"
-                :id="i" 
-                v-text="item.description">
-            </v-card-subtitle>
-            <v-card-actions>
-            <v-btn
-            color="orange lighten-2"
-            text
-            @click="clickParams(item.sido_sgg)"
-            >
-            showDetails
-        </v-btn>
-           
-        
-            <!-- <card-component
-                :key="i"
-                :detail="item.description"
-                :num="i"
-                :sido_sgg="item.sido_sgg"
-                ></card-component> -->
-           </v-card-actions>  
-          </v-card>
-        </v-col>
-      </v-row>
-     
-    </v-container>
+                <v-card
+                :color="active ? undefined : 'grey lighten-1'"
+                class="ma-4"
+                height="800"
+                width="350"
+                @click="toggle"
+                >
+                    <v-img 
+                        :id="item.sido_sgg" 
+                        :src="item.image_src"
+                        class="white--text align-end"
+                        width="600"
+                        height="500">
+                        <v-card-title
+                            class="text-h5"
+                            v-text="item.sido_sgg"
+                        ></v-card-title>
+                    </v-img>
+                    <v-card-subtitle 
+                        :id="item.sido_sgg" 
+                        v-text="item.description">
+                    </v-card-subtitle>
+
+                    <v-card-actions>
+                        <heart-component
+                            :sido_sgg="item.sido_sgg">
+                        </heart-component>
+                        <v-btn
+                            color="orange"
+                            text
+                            @click="gotoDetailPage(item.sido_sgg)"
+                            >
+                            showDetails
+                        </v-btn>
+                    </v-card-actions>  
+                    <v-row
+                        class="fill-height"
+                        align="center"
+                        justify="center"
+                    >
+                    </v-row>
+                </v-card>
+        </v-slide-item> 
+        </v-slide-group>
+    </div>
 </template>
 
 <script>
+import HeartComponent from './HeartComponent.vue'
 import {mapState, mapMutations} from 'vuex'
 import axios from 'axios'
 import {BASE_URL} from '@/api.js'
 export default {
+    components:{
+        HeartComponent
+    },
     data(){
         return{
-            userStoredDetails:'',
-            
+            heart : true,
+            sido_sgg:'',
+            model: null,
         }
     },
     computed:{
         ...mapState([
             'user',
-            'userStoredCities'
+            'userStoredCities',
+            'userStoredDetails'
         ])
     },
     methods:{
         ...mapMutations([
-            'updateUserStoredCities'
+            'updateUserStoredCities',
+            'updateUserStoredDetails'
         ]),
         async getStoredCitiesDetail(){
             try{
@@ -81,41 +93,32 @@ export default {
                 {
                     storedCities: this.userStoredCities
                 })
-                this.userStoredDetails = citiesDetails.data
-                console.log(this.userStoredCities)
-                console.log("userstroeddetails:", this.userStoredDetails)
+                this.updateUserStoredDetails(citiesDetails.data)
+                console.log("userStoredCities: ",this.userStoredCities)
+                console.log("userstroeddetails: ", this.userStoredDetails)
                 
             }catch(err){
-            console.log(err)
+                console.log(err)
             }
         },
-        async findOneById(){
-            try{
-            const userDetails = await axios.post(
-                `${BASE_URL}/user/findOneById`,
-                {
-                    id: this.user.id
-                })
-                
-                console.log("userdetails:",userDetails.data.storedCities)
-                this.updateUserStoredCities(userDetails.data.storedCities)
-                this.getStoredCitiesDetail()
-            }catch(err){
-            console.log(err)
-            }
+        gotoDetailPage (sido_sgg) {
+            let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
+            window.open(routeData.href, '_blank');
         },
-        clickParams (sido_sgg) {
-                this.$router.push({name: 'details', query: {name: sido_sgg}})
-            }
+        
     },
     mounted(){
         if(this.user.email == undefined){
             alert('로그인을 해야 사용할 수 있습니다!')
-            this.$router.push({path:'/home'})
+            this.$router.push({path:'/'})
         }else{
-           this.findOneById()
-           //console.log(this.user.id)
+           this.getStoredCitiesDetail()
             
+        }
+    },
+    watch:{
+        userStoredCities :function(){
+            this.getStoredCitiesDetail()
         }
     }
     

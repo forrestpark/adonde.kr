@@ -9,6 +9,7 @@ export default new Vuex.Store({
         //user
         user :'',
         userStoredCities:'',
+        userStoredDetails:'',
 
         //data
         isSubmitValueChange:false,
@@ -231,6 +232,9 @@ export default new Vuex.Store({
     },
     updateUserStoredCities(state, val){
         state.userStoredCities = val
+    },
+    updateUserStoredDetails(state, val){
+        state.userStoredDetails = val
     }
      //데이터를 실질적으로 바꿔줌
     },

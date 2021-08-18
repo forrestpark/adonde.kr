@@ -2,18 +2,18 @@
     <v-container>
       <v-row dense>
         <v-col
-            v-for="(item, i) in searchResults"
-            :key="i"
+            v-for="item in searchResults"
+            :key="item.sido_sgg"
             cols="12"
         >   
+        <v-hover v-slot="{ hover }">
           <v-card 
-            :id="i"
+            :id="item.sido_sgg"
             :color="'#1F7087'"
             dark
             >
             <v-img 
-                @click="select($event)"
-                :id="i" 
+                :id="item.sido_sgg" 
                 :src="item.image_src"
                 class="white--text align-end"
                 height="200px">
@@ -22,23 +22,25 @@
                   v-text="item.sido_sgg"
                   
                 ></v-card-title>
+                <v-expand-transition>
+                <div v-if="hover"
+                    class="d-flex transition-fast-in-fast-out orange v-card--reveal text-h2 white--text"
+                    style="height: 100%;">
+                    <v-card-text>
+                        {{item.description.split('.')[0]}}.
+                    </v-card-text>
+                </div>
+        </v-expand-transition>
             </v-img>
-           
-            <v-card-subtitle 
-                @click="select($event)"
-                :id="i" 
-                v-text="item.description">
-            </v-card-subtitle>
             <v-card-actions>
             
             <card-component
-                :key="i"
-                :detail="item.description"
-                :num="i"
+                :key="item.sido_sgg"
                 :sido_sgg="item.sido_sgg"
-                ></card-component>
+            ></card-component>
            </v-card-actions>  
           </v-card>
+          </v-hover>
         </v-col>
       </v-row>
      
@@ -55,13 +57,14 @@ export default {
     computed:{
         ...mapState([
             'searchResults',
-            'clickItemNum'    
+            'clickItemNum'  ,
+            'userStoredCities',
+            'user'
         ])
     },
+   
     data(){
         return{
-            detail:''   ,
-            num:'',
             sido_sgg:''
         }
     },
@@ -72,9 +75,28 @@ export default {
         changeCenter(){
             alert('changeCenter')
         },
-        select(event){
-            this.updateClickItemNum(event.currentTarget.id)
-            alert(event.currentTarget.id)
+        checkHeart(){
+            // //특별시일 경우 *2 해서 다시 저장
+            var sido_sgg_value=""
+            var pattern = /\s/g;
+            if(this.sido_sgg.match(pattern))
+            {
+            //특별시가 아님
+            sido_sgg_value = this.sido_sgg
+            //this.$set(this.finalValue, 'origin', this.sido_sgg)
+            }
+            else{
+            //특별시
+            sido_sgg_value = this.sido_sgg + " " + this.sido_sgg
+            //this.$set(this.finalValue, 'origin', this.sido_sgg)
+            
+            }
+
+            if(this.userStoredCities.includes(sido_sgg_value)){   
+                console.log('갖고있음', sido_sgg_value)
+                this.heart = true
+            }
+           
         }
     }
   }

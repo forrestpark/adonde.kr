@@ -10,17 +10,26 @@
         transition="scale-transition"
         width="300px"
         />
+
+        <v-progress-circular
+            indeterminate
+            v-if="loading"
+            color="amber"
+        ></v-progress-circular>
         
-        <v-btn
+        <!-- <v-btn
             @click="kakaoLogout">
         logout
-        </v-btn>
+        </v-btn> -->
 
         <h2>{{user.nickname}}</h2>
-            <img :src="`${user.profile_image}`" alt />
+        <img
+            width="100px" 
+            :src="`${user.profile_image}`" alt />
    
 
         </div>
+        
     </section>
 </template>
 
@@ -32,7 +41,8 @@ import {BASE_URL} from '@/api.js'
 export default {
     data(){
         return{
-            test:''
+            test:'',
+            loading: false
         }
     },
     computed:{
@@ -42,9 +52,11 @@ export default {
     },
     methods:{
         ...mapMutations([
-            'updateUser'
+            'updateUser',
+            'updateUserStoredCities'
         ]),
         async login(email, nickname, profile_image, dateofbirth) {
+            //this.loading = true
             const res = await axios.post(
                 `${BASE_URL}/user/login`,
                 {
@@ -56,10 +68,14 @@ export default {
             )
             console.log("res:",res)
             this.updateUser(res.data)
+            this.findOneById(res.data.id)
             console.log("res.data: ", res.data)
+
+            this.loading = false
         },
   
         kakaoLogin(){
+            this.loading = true
             var vm = this
             window.Kakao.Auth.login({
                 scope: 'profile_nickname, profile_image, account_email, birthday',
@@ -79,6 +95,8 @@ export default {
                         kakao_account.profile.profile_image_url,
                         kakao_account.birthday)
 
+                        
+
                         vm.$router.push({path:'/'})
                     }
                 })
@@ -86,14 +104,28 @@ export default {
                 }
             })
         },
-        kakaoLogout() {
-            window.Kakao.Auth.logout((response) => {
-                console.log(response);
-                this.$store.commit("updateUser", {})
-                alert("로그아웃");
-                this.$router.push({path:'/'})
-            });
-        } 
+        // kakaoLogout() {
+        //     window.Kakao.Auth.logout((response) => {
+        //         console.log(response);
+        //         this.$store.commit("updateUser", {})
+        //         alert("로그아웃");
+        //         this.$router.push({path:'/'})
+        //     });
+        // } ,
+        async findOneById(id){
+            try{
+            const userDetails = await axios.post(
+                `${BASE_URL}/user/findOneById`,
+                {
+                    id
+                })
+                
+                console.log("userdetails:",userDetails.data.storedCities)
+                this.updateUserStoredCities(userDetails.data.storedCities)
+            }catch(err){
+            console.log(err)
+            }
+        },
     }
 }
 </script>
