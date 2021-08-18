@@ -248,6 +248,6 @@
         ]
     }
 ],
-  "themeItems" :["산", "계곡", "바다","강"],
+  "themeItems" :["산","계곡", "바다","강"],
   "AccessItems":[{"text":"직통 고속버스","value":"직통 고속버스", "customDisabled": false}, {"text":"직통 시외버스","value":"직통 시외버스", "customDisabled": false}, {"text":"직통 기차","value":"직통 기차","customDisabled": false}]
 }
