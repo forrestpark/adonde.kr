@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="background-color: green">
         <v-slide-group
         v-model="model"
         class="pa-4"

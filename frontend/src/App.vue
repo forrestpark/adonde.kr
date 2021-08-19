@@ -1,14 +1,13 @@
 <template>
   <v-app>
     <v-card
-      color="grey lighten-4"
       flat
     >
       <v-app-bar
         class="app_bar"
-        color="green"
-        dark
+        color="#A2E6AF"
         dense
+        style="border-bottom: 1px solid #d2d2d2 !important;"
       >
         <v-app-bar-nav-icon @click="drawer = !drawer" />
         <v-toolbar-title>
@@ -97,9 +96,8 @@
        
    
 
-    <v-footer 
+    <!-- <v-footer 
       prop
-      dark
       padless
       >
     <v-card
@@ -107,7 +105,7 @@
       flat
       tile
     >
-      <v-card-title class="green">
+      <v-card-title class="white">
         <strong class="subheading">Get connected with us on social networks!</strong>
 
         <v-spacer></v-spacer>
@@ -117,7 +115,6 @@
           :href="icon.link"
           :key="idx"
           class="mx-4"
-          dark
           icon
         >
           <v-icon  
@@ -128,7 +125,7 @@
 
       </v-card-title> 
     </v-card>
-    </v-footer >
+    </v-footer > -->
 
         <v-overlay
           color="green"
@@ -152,6 +149,7 @@
       
           <v-btn
           width="500"
+          height="50"
             color="orange lighten-2"
             @click="clickStart"
           >
