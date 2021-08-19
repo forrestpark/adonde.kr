@@ -14,7 +14,7 @@
       >
         <v-toolbar-title>
             <div class="d-flex align-center">
-        <router-link to="/">
+        
           <v-img 
           alt="Logo"
           contain
@@ -22,7 +22,7 @@
           transition="scale-transition"
           width="40"
         />
-        </router-link>
+        
   
       </div>
       
