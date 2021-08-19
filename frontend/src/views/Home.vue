@@ -5,7 +5,7 @@
            <v-col
                 class="filter">
                 <div   
-                    style="height:600px; position: relative;">
+                    style="height:600px; position: relative; ">
                     <show-filter style="overflow: auto;height: 100%"></show-filter> 
                 </div> 
             </v-col>

@@ -1,16 +1,15 @@
 <template>
   <v-app>
-    <sidebar-menu :menu="menu"/>
     <v-card
       flat
     >
       <v-app-bar
         class="app_bar"
         color="#A2E6AF"
-        dense
-        style="border-bottom: 1px solid #d2d2d2 !important;"
+        elevate-on-scroll
+        scroll-target="#scrolling-techniques-7"
       >
-        <!-- <v-app-bar-nav-icon @click="drawer = !drawer" /> -->
+        <v-app-bar-nav-icon @click="drawer = !drawer" />
         <v-toolbar-title>
             <div class="d-flex align-center">
         <router-link to="/">
@@ -35,64 +34,70 @@
       </v-app-bar>
       
     </v-card>
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       v-model="drawer"
       absolute
       temporary
       >
-      <v-list-item>
-        <v-list-item-avatar>
-           <v-icon 
-            v-if="user.email == undefined"
-            >
-            mdi-account
-          </v-icon>
-          <img
-              v-else
-              :src="user.profile_image" />
-        </v-list-item-avatar>
+    
+    </v-navigation-drawer> -->
 
-        <v-list-item-content>
-          <div
-            v-if="user.email == undefined">
-            로그인 해주세요 :)
-          </div>
-          <div
-            v-else>
-            <v-list-item-title>{{user.nickname}} 님 :)</v-list-item-title>
-          </div>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider />
-
-      <v-list dense>
-        <v-list-item
-          v-for="item in items" 
-          :disabled="item.disabled"
-          :key="item.title"
-          link
-          :to="item.to"
-          @click="isLogin(item.title)"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-       
-        
-        
-      </v-list>
-    </v-navigation-drawer>
-
-   
+  
       
       <v-main>
-        <router-view></router-view>
+          <div> 
+            <div style="float: left;">
+            <v-list-item>
+          <v-list-item-avatar>
+            <v-icon 
+              v-if="user.email == undefined"
+              >
+              mdi-account
+            </v-icon>
+            <img
+                v-else
+                :src="user.profile_image" />
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <div
+              v-if="user.email == undefined">
+              로그인 해주세요 :)
+            </div>
+            <div
+              v-else>
+              <v-list-item-title>{{user.nickname}} 님 :)</v-list-item-title>
+            </div>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider />
+
+        <v-list dense>
+          <v-list-item
+            v-for="item in items" 
+            :disabled="item.disabled"
+            :key="item.title"
+            link
+            :to="item.to"
+            @click="isLogin(item.title)"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+          </div>
+        
+          <div>
+            <router-view></router-view>
+          </div>
+        </div>
+         
       </v-main>
        
    
@@ -151,18 +156,15 @@
         <v-btn
           width="500"
           height="50"
-            color="orange lighten-2"
-            @click="clickStart"
+          color="orange lighten-2"
+          @click="clickStart"
           >
             Start!
         </v-btn>
           
         <Login/>
 
-        </v-overlay>
-
-     
-
+      </v-overlay>
   </v-app>
 </template>
  
@@ -182,11 +184,11 @@ export default {
     //로그인시 drawer에 login 이 logout으로 바뀌도록함
     user: function(){
       if(this.user.email != undefined){
-        this.items[1].disabled = false
-        this.items[2].title = 'Logout'
+        this.items[2].disabled = false
+        this.items[1].title = 'Logout'
       }else{
-        this.items[1].disabled = true
-        this.items[2].title = 'Login'
+        this.items[2].disabled = true
+        this.items[1].title = 'Login'
       }
     },
   },
@@ -198,23 +200,6 @@ export default {
       }
   },
   data: () => ({
-    menu: [
-        {
-          header: true,
-          title: "Main Navigation",
-          hiddenOnCollapse: true
-        },
-        {
-          href: "/",
-          title: "Dashboard",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/charts",
-          title: "Charts",
-          icon: "fa fa-chart-area",
-        }
-          ],
     absolute: true,
     opacity: 1,
     overlay: false,
@@ -228,16 +213,16 @@ export default {
           disabled: false
         },
         {
-          title: 'mypage',
-          icon: 'mdi-account-heart-outline',
-          to: '/mypage',
-          disabled: true
-        },
-        {
           title: 'Login',
           icon: 'mdi-login',
           // to: '/login',
           disabled: false
+        },
+        {
+          title: 'mypage',
+          icon: 'mdi-account-heart-outline',
+          to: '/mypage',
+          disabled: true
         },
         
       ],
