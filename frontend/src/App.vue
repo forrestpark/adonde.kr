@@ -1,13 +1,14 @@
 <template>
   <v-app>
     <v-card
+      color="grey lighten-4"
       flat
     >
       <v-app-bar
         class="app_bar"
-        color="#A2E6AF"
-        elevate-on-scroll
-        scroll-target="#scrolling-techniques-7"
+        color="green"
+        dark
+        dense
       >
         <v-app-bar-nav-icon @click="drawer = !drawer" />
         <v-toolbar-title>
@@ -34,13 +35,11 @@
       </v-app-bar>
       
     </v-card>
-    <!-- <v-navigation-drawer
+    <v-navigation-drawer
       v-model="drawer"
       absolute
       temporary
       >
-    
-    </v-navigation-drawer> -->
       <v-list-item>
         <v-list-item-avatar>
            <v-icon 
@@ -67,68 +66,40 @@
 
       <v-divider />
 
-  
-      
-      <v-main>
-          <div> 
-            <div style="float: left;">
-            <v-list-item>
-          <v-list-item-avatar>
-            <v-icon 
-              v-if="user.email == undefined"
-              >
-              mdi-account
-            </v-icon>
-            <img
-                v-else
-                :src="user.profile_image" />
-          </v-list-item-avatar>
+      <v-list dense>
+        <v-list-item
+          v-for="item in items" 
+          :disabled="item.disabled"
+          :key="item.title"
+          link
+          :to="item.to"
+          @click="isLogin(item.title)"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
           <v-list-item-content>
-            <div
-              v-if="user.email == undefined">
-              로그인 해주세요 :)
-            </div>
-            <div
-              v-else>
-              <v-list-item-title>{{user.nickname}} 님 :)</v-list-item-title>
-            </div>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <v-divider />
-
-        <v-list dense>
-          <v-list-item
-            v-for="item in items" 
-            :disabled="item.disabled"
-            :key="item.title"
-            link
-            :to="item.to"
-            @click="isLogin(item.title)"
-          >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-          </div>
+       
         
-          <div>
-            <router-view></router-view>
-          </div>
-        </div>
-         
+        
+      </v-list>
+    </v-navigation-drawer>
+
+   
+      
+      <v-main>
+        <router-view></router-view>
       </v-main>
        
    
 
-    <!-- <v-footer 
+    <v-footer 
       prop
+      dark
       padless
       >
     <v-card
@@ -136,7 +107,7 @@
       flat
       tile
     >
-      <v-card-title class="white">
+      <v-card-title class="green">
         <strong class="subheading">Get connected with us on social networks!</strong>
 
         <v-spacer></v-spacer>
@@ -146,6 +117,7 @@
           :href="icon.link"
           :key="idx"
           class="mx-4"
+          dark
           icon
         >
           <v-icon  
@@ -156,7 +128,7 @@
 
       </v-card-title> 
     </v-card>
-    </v-footer > -->
+    </v-footer >
 
         <v-overlay
           color="green"
@@ -164,32 +136,34 @@
           :opacity="opacity"
           :value="overlay"
         >
-        <v-img 
+        
+        <div class="i18n">
+          <v-img 
           alt="Logo"
           contain
           :src="require(`./assets/logo.png`)"
           transition="scale-transition"
           width="500"
         />
-        <div class="i18n">
-          <v-select 
-            v-model="$i18n.locale"
-            :items="lang">{{lang}}
+          <v-select v-model="$i18n.locale"
+                    :items="lang">{{lang}}
           </v-select>
         </div> 
       
-        <v-btn
+          <v-btn
           width="500"
-          height="50"
-          color="orange lighten-2"
-          @click="clickStart"
+            color="orange lighten-2"
+            @click="clickStart"
           >
             Start!
-        </v-btn>
+          </v-btn>
           
-        <Login/>
+          <Login/>
 
-      </v-overlay>
+        </v-overlay>
+
+     
+
   </v-app>
 </template>
  
@@ -232,7 +206,6 @@ export default {
       }
       console.log("local store user: ", this.$store.state.user)
     },
-
     sessionUser: function() {
       this.$store.state.user = JSON.parse(sessionStorage.getItem('user'))
     }
@@ -259,7 +232,7 @@ export default {
   data: () => ({
     absolute: true,
     opacity: 1,
-    overlay: false,
+    overlay: true,
     lang:['ko','en'],
     drawer: false,
     items: [
@@ -280,8 +253,7 @@ export default {
           icon: 'mdi-account-heart-outline',
           to: '/mypage',
           disabled: true
-        },
-        
+        }
       ],
     right: null,
     iconItems: [
@@ -331,5 +303,4 @@ export default {
   .to-home.router-link-exact-active{
     display: none;
   }
-
 </style>
