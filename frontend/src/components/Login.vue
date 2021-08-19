@@ -68,6 +68,9 @@ export default {
             )
             console.log("res:",res)
             this.updateUser(res.data)
+            console.log("set item in session storage")
+            sessionStorage.setItem('user', JSON.stringify(res.data))
+            // this.updateSessionUser(res.data)
             this.findOneById(res.data.id)
             console.log("res.data: ", res.data)
 
@@ -80,7 +83,9 @@ export default {
             window.Kakao.Auth.login({
                 scope: 'profile_nickname, profile_image, account_email, birthday',
                 success: function(authObj) {
-                    console.log('authobj', authObj)
+                    console.log('authobj', authObj.access_token)
+                    // window.Kakao.Auth.setAccessToken(authObj.access_token)
+                    // fetch user data from Kakao Login API
                     window.Kakao.API.request({
                     url:'/v2/user/me',
                     success: res => {
@@ -95,9 +100,7 @@ export default {
                         kakao_account.profile.profile_image_url,
                         kakao_account.birthday)
 
-                        
-
-                        vm.$router.push({path:'/'})
+                        // vm.$router.push({path:'/'})
                     }
                 })
                 

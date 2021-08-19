@@ -228,7 +228,13 @@ export default new Vuex.Store({
     },
     //user
     updateUser(state, val){
+        console.log("update user val: ", val)
         state.user = val
+        console.log("state.user: ", state.user)
+    },
+    updateSessionUser(state, val) {
+        sessionStorage.setItem('user', JSON.stringify(val))
+        console.log("session user email: ", JSON.parse(sessionStorage.getItem('user')).email)
     },
     updateUserStoredCities(state, val){
         state.userStoredCities = val
