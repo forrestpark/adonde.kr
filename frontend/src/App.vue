@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-card
-      :class="{'bar': invisibleBar }"
       color="grey lighten-4"
       flat
     >
@@ -9,9 +8,9 @@
         class="app_bar"
         color="green"
         dark
-        elevate-on-scroll
-        scroll-target="#scrolling-techniques-7"
+        dense
       >
+        <v-app-bar-nav-icon @click="drawer = !drawer" />
         <v-toolbar-title>
             <div class="d-flex align-center">
         <router-link to="/">
@@ -23,7 +22,8 @@
           width="40"
         />
         </router-link>
-  
+
+        
       </div>
       
         </v-toolbar-title>
@@ -35,13 +35,12 @@
       </v-app-bar>
       
     </v-card>
-      
-      <v-main>
-        <div>
-          <div 
-            :class="{'sideBar' : invisibleSideBar}"
-            style="float: left; top: 20px">
-            <v-list-item>
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+      >
+      <v-list-item>
         <v-list-item-avatar>
            <v-icon 
             v-if="user == undefined"
@@ -67,7 +66,7 @@
 
       <v-divider />
 
-      <v-list >
+      <v-list dense>
         <v-list-item
           v-for="item in items" 
           :disabled="item.disabled"
@@ -84,14 +83,41 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-divider />     
-        <div style="position: fixed; bottom: 0;">
-          <v-list-item
+       
+        
+        
+      </v-list>
+    </v-navigation-drawer>
+
+   
+      
+      <v-main>
+        <router-view></router-view>
+      </v-main>
+       
+   
+
+    <v-footer 
+      prop
+      dark
+      padless
+      >
+    <v-card
+      class="flex"
+      flat
+      tile
+    >
+      <v-card-title class="green">
+        <strong class="subheading">Get connected with us on social networks!</strong>
+
+        <v-spacer></v-spacer>
+
+        <v-btn
           v-for="(icon, idx) in iconItems"
-          :key="idx">
-       <v-btn
           :href="icon.link"
+          :key="idx"
           class="mx-4"
+          dark
           icon
         >
           <v-icon  
@@ -99,21 +125,13 @@
             {{ icon.icon }}
           </v-icon>
         </v-btn>
-        </v-list-item>
-        </div>
-        
-        
-      </v-list>
-          </div>
-          <div>
-            <router-view></router-view>
-          </div>
-        </div>
-        
-      </v-main>
-      
+
+      </v-card-title> 
+    </v-card>
+    </v-footer >
+
         <v-overlay
-          color="green"
+          color="#44AD5E"
           :absolute="absolute"
           :opacity="opacity"
           :value="overlay"
@@ -152,10 +170,10 @@
 <script>
 import Login from '@/components/Login.vue'
 export default {
+  name: 'App',
   components:{
     Login
   },
-  name: 'App',
   computed:{
     user(){
       // console.log("computed session user: ", JSON.parse(sessionStorage.getItem('user')))
@@ -169,7 +187,9 @@ export default {
       console.log("session user:", JSON.parse(sessionStorage.getItem('user')))
       return JSON.parse(sessionStorage.getItem('user'))
     }
- 
+    // sessionUser() {
+    //   return sessionStorage
+    // }
   },
   watch:{
     //로그인시 drawer에 login 이 logout으로 바뀌도록함
@@ -186,24 +206,18 @@ export default {
       }
       console.log("local store user: ", this.$store.state.user)
     },
+
     sessionUser: function() {
       this.$store.state.user = JSON.parse(sessionStorage.getItem('user'))
     }
   },
   mounted(){
-      //상세페이지로 갔을 경우 overlay가 보이지 않도록 파일이 시작될때 확인해주고, sidebar 숨김
-      if (this.$route.name == 'details'){
+      //상세페이지로 갔을 경우 overlay가 보이지 않도록 파일이 시작될때 확인해준다
+      if (this.$route.query.name != undefined){
         console.log("라우터",this.$route.query.name)
         this.overlay = false
-        this.invisibleSideBar = true
       }
-      if(this.$route.name == 'intro'){
-        this.invisibleSideBar = true
-        this.invisibleBar = true
-      }
-
-
-      if(JSON.parse(sessionStorage.getItem('user')) != null) {
+      if (JSON.parse(sessionStorage.getItem('user')) != null) {
         console.log("session user is not null in mounted")
         console.log("store user in mounted: ", this.$store.state.user)
         if (this.$store.state.user == '') {
@@ -217,13 +231,11 @@ export default {
       }
   },
   data: () => ({
-    invisibleSideBar:false,
-    invisibleBar:false,
     absolute: true,
     opacity: 1,
     overlay: true,
     lang:['ko','en'],
-    // drawer: false,
+    drawer: false,
     items: [
         {
           title: 'Home',
@@ -265,11 +277,10 @@ export default {
     isLogin(title){
       if(title == "Login"){
         this.overlay = true
-        // this.drawer = false
-        this.$router.push({path:'/intro'})
+        this.drawer = false
       }else if(title == "Logout"){
         this.kakaoLogout()
-        //this.drawer = false
+        this.drawer = false
       }
     },
     kakaoLogout() {
@@ -289,14 +300,9 @@ export default {
 };
 </script>
 
-<style scoped>
-.bar{
-  display: none;
-}
-.sideBar{
-  display: none;
-}
-.to-home.router-link-exact-active{
+<style lang="scss">
+  .to-home.router-link-exact-active{
     display: none;
   }
+
 </style>
