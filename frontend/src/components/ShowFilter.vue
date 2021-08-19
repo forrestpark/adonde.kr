@@ -272,11 +272,9 @@
         </v-icon>
       </v-btn>
         <br>
-        
-      
-      
+    
       <search-result></search-result>
-      <!-- 확인해보기 위함 -->
+      <!-- 확인해보기 위함
       <br>
     제출한 결과값
     <br>
@@ -284,7 +282,7 @@
     <br>
     현재 선택값 실시간확인
     <br> 
-    {{value}}{{theme}}{{population}}{{distance}}{{access}}
+    {{value}}{{theme}}{{population}}{{distance}}{{access}} -->
     </div>
   </v-container>
 </template>
