@@ -131,7 +131,7 @@
     </v-footer >
 
         <v-overlay
-          color="green"
+          color="#44AD5E"
           :absolute="absolute"
           :opacity="opacity"
           :value="overlay"
