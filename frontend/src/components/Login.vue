@@ -36,8 +36,6 @@
         <img
             width="100px" 
             :src="`${user.profile_image}`" alt />
-   
-
         </div>
         
     </section>
