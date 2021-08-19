@@ -266,7 +266,7 @@ export default {
       if(title == "Login"){
         this.overlay = true
         // this.drawer = false
-        this.$router.push({path:'/intro'})
+        //this.$router.push({path:'/intro'})
       }else if(title == "Logout"){
         this.kakaoLogout()
         //this.drawer = false
