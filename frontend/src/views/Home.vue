@@ -9,13 +9,13 @@
                     <show-filter style="overflow: auto;height: 100%"></show-filter> 
                 </div> 
             </v-col>
-            <v-col
+            <v-col 
                 class="map">
                 <show-map></show-map>
             </v-col>      
         </v-row> 
         <v-row>
-            <v-col>
+            <v-col style="padding: 0px">
                 <result-list ></result-list>
             </v-col>
         </v-row>
