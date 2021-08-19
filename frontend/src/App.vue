@@ -181,11 +181,11 @@ export default {
     //로그인시 drawer에 login 이 logout으로 바뀌도록함
     user: function(){
       if(this.user.email != undefined){
-        this.items[2].disabled = false
-        this.items[1].title = 'Logout'
+        this.items[1].disabled = false
+        this.items[2].title = 'Logout'
       }else{
-        this.items[2].disabled = true
-        this.items[1].title = 'Login'
+        this.items[1].disabled = true
+        this.items[2].title = 'Login'
       }
     },
   },
@@ -210,17 +210,18 @@ export default {
           disabled: false
         },
         {
+          title: 'mypage',
+          icon: 'mdi-account-heart-outline',
+          to: '/mypage',
+          disabled: true
+        },
+        {
           title: 'Login',
           icon: 'mdi-login',
           // to: '/login',
           disabled: false
         },
-        {
-          title: 'mypage',
-          icon: 'mdi-account-heart-outline',
-          to: '/mypage',
-          disabled: true
-        }
+        
       ],
     right: null,
     iconItems: [
