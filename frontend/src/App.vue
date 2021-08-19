@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <sidebar-menu :menu="menu"/>
     <v-card
       flat
     >
@@ -9,7 +10,7 @@
         dense
         style="border-bottom: 1px solid #d2d2d2 !important;"
       >
-        <v-app-bar-nav-icon @click="drawer = !drawer" />
+        <!-- <v-app-bar-nav-icon @click="drawer = !drawer" /> -->
         <v-toolbar-title>
             <div class="d-flex align-center">
         <router-link to="/">
@@ -133,30 +134,30 @@
           :opacity="opacity"
           :value="overlay"
         >
-        
-        <div class="i18n">
-          <v-img 
+        <v-img 
           alt="Logo"
           contain
           :src="require(`./assets/logo.png`)"
           transition="scale-transition"
           width="500"
         />
-          <v-select v-model="$i18n.locale"
-                    :items="lang">{{lang}}
+        <div class="i18n">
+          <v-select 
+            v-model="$i18n.locale"
+            :items="lang">{{lang}}
           </v-select>
         </div> 
       
-          <v-btn
+        <v-btn
           width="500"
           height="50"
             color="orange lighten-2"
             @click="clickStart"
           >
             Start!
-          </v-btn>
+        </v-btn>
           
-          <Login/>
+        <Login/>
 
         </v-overlay>
 
@@ -197,9 +198,26 @@ export default {
       }
   },
   data: () => ({
+    menu: [
+        {
+          header: true,
+          title: "Main Navigation",
+          hiddenOnCollapse: true
+        },
+        {
+          href: "/",
+          title: "Dashboard",
+          icon: "fa fa-user"
+        },
+        {
+          href: "/charts",
+          title: "Charts",
+          icon: "fa fa-chart-area",
+        }
+          ],
     absolute: true,
     opacity: 1,
-    overlay: true,
+    overlay: false,
     lang:['ko','en'],
     drawer: false,
     items: [
