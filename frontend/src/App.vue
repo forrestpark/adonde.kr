@@ -41,6 +41,31 @@
       >
     
     </v-navigation-drawer> -->
+      <v-list-item>
+        <v-list-item-avatar>
+           <v-icon 
+            v-if="user == undefined"
+            >
+            mdi-account
+          </v-icon>
+          <img
+              v-else
+              :src="user.profile_image" />
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <div
+            v-if="user == undefined">
+            로그인 해주세요 :)
+          </div>
+          <div
+            v-else>
+            <v-list-item-title>{{user.nickname}} 님 :)</v-list-item-title>
+          </div>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider />
 
   
       
@@ -177,26 +202,58 @@ export default {
   },
   computed:{
     user(){
-      return this.$store.state.user
+      // console.log("computed session user: ", JSON.parse(sessionStorage.getItem('user')))
+      // console.log("computed store user: ", this.$store.state.user)
+      return this.$store.state.user || JSON.parse(sessionStorage.getItem('user'))
+    },
+    sessionUser() {
+      if (JSON.parse(sessionStorage.getItem('user')) != null) {
+        console.log("session user email: ", JSON.parse(sessionStorage.getItem('user')).email)
+      }
+      console.log("session user:", JSON.parse(sessionStorage.getItem('user')))
+      return JSON.parse(sessionStorage.getItem('user'))
     }
+    // sessionUser() {
+    //   return sessionStorage
+    // }
   },
   watch:{
     //로그인시 drawer에 login 이 logout으로 바뀌도록함
     user: function(){
-      if(this.user.email != undefined){
+      // console.log("watch session email: ", JSON.parse(sessionStorage.getItem('user')).email )
+      // if there exists user info in session storage, then we update user info in store with that
+      if (JSON.parse(sessionStorage.getItem('user')) != undefined) {
+        console.log("mypage disabled false")
         this.items[2].disabled = false
         this.items[1].title = 'Logout'
-      }else{
+      } else {
         this.items[2].disabled = true
         this.items[1].title = 'Login'
       }
+      console.log("local store user: ", this.$store.state.user)
     },
+
+    sessionUser: function() {
+      this.$store.state.user = JSON.parse(sessionStorage.getItem('user'))
+    }
   },
   mounted(){
       //상세페이지로 갔을 경우 overlay가 보이지 않도록 파일이 시작될때 확인해준다
-      if(this.$route.query.name != undefined){
+      if (this.$route.query.name != undefined){
         console.log("라우터",this.$route.query.name)
         this.overlay = false
+      }
+      if (JSON.parse(sessionStorage.getItem('user')) != null) {
+        console.log("session user is not null in mounted")
+        console.log("store user in mounted: ", this.$store.state.user)
+        if (this.$store.state.user == '') {
+          console.log("update store user with session user in mounted")
+          this.$store.commit("updateUser", JSON.parse(sessionStorage.getItem('user')))
+          this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
+        }
+        console.log("mypage disabled false")
+        this.items[2].disabled = false
+        this.items[1].title = 'Logout'
       }
   },
   data: () => ({

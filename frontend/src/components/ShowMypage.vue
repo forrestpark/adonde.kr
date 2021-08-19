@@ -108,7 +108,7 @@ export default {
         
     },
     mounted(){
-        if(this.user.email == undefined){
+        if(JSON.parse(sessionStorage.getItem('user')).email == undefined){
             alert('로그인을 해야 사용할 수 있습니다!')
             this.$router.push({path:'/'})
         }else{
