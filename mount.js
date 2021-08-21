@@ -62,16 +62,11 @@ async function mount_specialcity_data() {
             express_destination_list.add(express_res.data[j]['sido_sgg'])
             // console.log(express_res.data[j])
         }
-        // console.log("express list add")
 
         const express_specialcity = await db.specialexpress.create({
             sido_sgg : origin,
             destinations : Array.from(express_destination_list)
         })
-
-        // console.log("express create")
-
-        // console.log("pre suburb res")
 
         var suburbs_res = await axios.post("https://adonde-kr.herokuapp.com/search/mount", {
             theme: [],
