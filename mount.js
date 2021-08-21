@@ -29,11 +29,8 @@ const Op = db.Sequelize.Op;
 })()
 
 async function test() {
-    await db.User.create({
-        email: "abc@abc.com",
-        password: "nothing",
-        storedCities: ["서울 서울", "전라남도 여수"]
-    })   
+    // if you need to test anything on mount.js, write your code here
+    // and uncomment the calling of test in main
 }
 
 async function mount_specialcity_data() {
