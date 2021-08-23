@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <v-main style="background-color: #44AD5E">
+        <div>
         <div class="i18n">
           <v-img 
           alt="Logo"
@@ -23,6 +24,7 @@
           
           <Login/>
     </div>
+    </v-main>
 </template>
 
 <script>

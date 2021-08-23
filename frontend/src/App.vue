@@ -1,8 +1,7 @@
 <template>
   <v-app>
-    <v-card
+    <div
       :class="{'bar': invisibleBar }"
-      color="grey lighten-4"
       flat
     >
       <v-app-bar
@@ -10,7 +9,7 @@
         color="green"
         dark
         elevate-on-scroll
-        scroll-target="#scrolling-techniques-7"
+
       >
         <v-toolbar-title>
             <div class="d-flex align-center">
@@ -20,7 +19,7 @@
           contain
           :src="require(`./assets/logo.png`)"
           transition="scale-transition"
-          width="40"
+          width="50"
         />
         
   
@@ -34,7 +33,7 @@
     
       </v-app-bar>
       
-    </v-card>
+    </div>
       
       <v-main>
         <div>
