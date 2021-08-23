@@ -165,6 +165,9 @@ export default {
       }
       console.log("session user:", JSON.parse(sessionStorage.getItem('user')))
       return JSON.parse(sessionStorage.getItem('user'))
+    },
+    routerName(){
+      return this.$route.name
     }
  
   },
@@ -185,29 +188,41 @@ export default {
     },
     sessionUser: function() {
       this.$store.state.user = JSON.parse(sessionStorage.getItem('user'))
+    },
+    routerName(){
+      //intro페이지에서 home으로 갈때 sidebar에서 
+      if(this.$route.name == 'home'){
+        this.invisibleSideBar = false
+        this.invisibleBar = false
+      }
     }
   },
   mounted(){
       //상세페이지로 갔을 경우 overlay가 보이지 않도록 파일이 시작될때 확인해주고, sidebar 숨김
       if (this.$route.name == 'details'){
-        console.log("라우터",this.$route.query.name)
-        this.overlay = false
+        // this.overlay = false
         this.invisibleSideBar = true
       }
-      // if(this.$route.name == 'intro'){
-      //   this.invisibleSideBar = true
-      //   this.invisibleBar = true
-      // }
+      if(this.$route.name == 'intro'){
+        this.invisibleSideBar = true
+        this.invisibleBar = true
+      }
+      if(this.$route.name == 'home'){
+        this.invisibleSideBar = false
+        this.invisibleBar = false
+      }
+
+      console.log("라우터",this.routerName)
 
 
       if(JSON.parse(sessionStorage.getItem('user')) != null) {
         console.log("session user is not null in mounted")
         console.log("store user in mounted: ", this.$store.state.user)
-        if (this.$store.state.user == '') {
-          console.log("update store user with session user in mounted")
-          this.$store.commit("updateUser", JSON.parse(sessionStorage.getItem('user')))
-          this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
-        }
+        // if (this.$store.state.user == '') {
+        //   console.log("update store user with session user in mounted")
+        //   this.$store.commit("updateUser", JSON.parse(sessionStorage.getItem('user')))
+        //   this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
+        // }
         console.log("mypage disabled false")
         this.items[2].disabled = false
         this.items[1].title = 'Logout'
