@@ -110,7 +110,7 @@
         
       </v-main>
       
-        <v-overlay
+        <!-- <v-overlay
           color="green"
           :absolute="absolute"
           :opacity="opacity"
@@ -139,7 +139,7 @@
           
           <Login/>
 
-        </v-overlay>
+        </v-overlay> -->
 
      
 
@@ -147,11 +147,11 @@
 </template>
  
 <script>
-import Login from '@/components/Login.vue'
+//import Login from '@/components/Login.vue'
 export default {
-  components:{
-    Login
-  },
+  // components:{
+  //   Login
+  // },
   name: 'App',
   computed:{
     user(){
@@ -236,9 +236,9 @@ export default {
   data: () => ({
     invisibleSideBar:false,
     invisibleBar:false,
-    absolute: true,
-    opacity: 1,
-    overlay: false,
+    // absolute: true,
+    // opacity: 1,
+    // overlay: false,
     lang:['ko','en'],
     // drawer: false,
     items: [
@@ -297,11 +297,11 @@ export default {
                 this.$router.push({path:'/'})
             });
     },
-    clickStart(){
-      this.overlay = false
-      //this.$router.push({path:'/'})
+    // clickStart(){
+    //   this.overlay = false
+    //   //this.$router.push({path:'/'})
      
-    }
+    // }
   }
 };
 </script>
