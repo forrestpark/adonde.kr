@@ -131,8 +131,8 @@ function completeBody(transportation, origin) {
 }
 
 async function sync_db() {
-    await db.sequelize.sync({force: true});
-    // await db.sequelize.authenticate();
+    // await db.sequelize.sync({force: true});
+    await db.sequelize.authenticate();
 }
 
 async function read_train_csv(filePath) {
