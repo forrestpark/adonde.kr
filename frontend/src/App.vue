@@ -223,11 +223,11 @@ export default {
       if(JSON.parse(sessionStorage.getItem('user')) != null) {
         console.log("session user is not null in mounted")
         console.log("store user in mounted: ", this.$store.state.user)
-        // if (this.$store.state.user == '') {
-        //   console.log("update store user with session user in mounted")
-        //   this.$store.commit("updateUser", JSON.parse(sessionStorage.getItem('user')))
-        //   this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
-        // }
+        if (this.$store.state.user == '') {
+          console.log("update store user with session user in mounted")
+          this.$store.commit("updateUser", JSON.parse(sessionStorage.getItem('user')))
+          this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
+        }
         console.log("mypage disabled false")
         this.items[2].disabled = false
         this.items[1].title = 'Logout'
