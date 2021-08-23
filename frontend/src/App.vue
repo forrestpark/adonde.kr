@@ -177,11 +177,11 @@ export default {
       // if there exists user info in session storage, then we update user info in store with that
       if (JSON.parse(sessionStorage.getItem('user')) != undefined) {
         console.log("mypage disabled false")
-        this.items[2].disabled = false
-        this.items[1].title = 'Logout'
+        this.items[1].disabled = false
+        this.items[2].title = 'Logout'
       } else {
-        this.items[2].disabled = true
-        this.items[1].title = 'Login'
+        this.items[1].disabled = true
+        this.items[2].title = 'Login'
       }
       console.log("local store user: ", this.$store.state.user)
     },
@@ -228,8 +228,8 @@ export default {
           this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
         }
         console.log("mypage disabled false")
-        this.items[2].disabled = false
-        this.items[1].title = 'Logout'
+        this.items[1].disabled = false
+        this.items[2].title = 'Logout'
       }
   },
   data: () => ({
@@ -248,17 +248,18 @@ export default {
           disabled: false
         },
         {
+          title: 'mypage',
+          icon: 'mdi-account-heart-outline',
+          to: '/mypage',
+          disabled: true
+        },
+        {
           title: 'Login',
           icon: 'mdi-login',
           // to: '/login',
           disabled: false
         },
-        {
-          title: 'mypage',
-          icon: 'mdi-account-heart-outline',
-          to: '/mypage',
-          disabled: true
-        }
+        
       ],
     right: null,
     iconItems: [
