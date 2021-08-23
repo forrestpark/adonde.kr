@@ -108,49 +108,11 @@
         </div>
         
       </v-main>
-      
-        <!-- <v-overlay
-          color="green"
-          :absolute="absolute"
-          :opacity="opacity"
-          :value="overlay"
-        >
-        <div class="i18n">
-          <v-img 
-          alt="Logo"
-          contain
-          :src="require(`./assets/logo.png`)"
-          transition="scale-transition"
-          width="500"
-        />
-          <v-select v-model="$i18n.locale"
-                    :items="lang">{{lang}}
-          </v-select>
-        </div> 
-      
-          <v-btn
-          width="500"
-            color="orange lighten-2"
-            @click="clickStart"
-          >
-            Start!
-          </v-btn>
-          
-          <Login/>
-
-        </v-overlay> -->
-
-     
-
   </v-app>
 </template>
  
 <script>
-//import Login from '@/components/Login.vue'
 export default {
-  // components:{
-  //   Login
-  // },
   name: 'App',
   computed:{
     user(){
@@ -235,9 +197,6 @@ export default {
   data: () => ({
     invisibleSideBar:false,
     invisibleBar:false,
-    // absolute: true,
-    // opacity: 1,
-    // overlay: false,
     lang:['ko','en'],
     // drawer: false,
     items: [
