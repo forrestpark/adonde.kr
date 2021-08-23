@@ -100,9 +100,7 @@
           </v-icon>
         </v-btn>
         </v-list-item>
-        </div>
-        
-        
+        </div>    
       </v-list>
           </div>
           <div>
@@ -118,7 +116,6 @@
           :opacity="opacity"
           :value="overlay"
         >
-        
         <div class="i18n">
           <v-img 
           alt="Logo"
@@ -197,10 +194,10 @@ export default {
         this.overlay = false
         this.invisibleSideBar = true
       }
-      if(this.$route.name == 'intro'){
-        this.invisibleSideBar = true
-        this.invisibleBar = true
-      }
+      // if(this.$route.name == 'intro'){
+      //   this.invisibleSideBar = true
+      //   this.invisibleBar = true
+      // }
 
 
       if(JSON.parse(sessionStorage.getItem('user')) != null) {
@@ -221,7 +218,7 @@ export default {
     invisibleBar:false,
     absolute: true,
     opacity: 1,
-    overlay: true,
+    overlay: false,
     lang:['ko','en'],
     // drawer: false,
     items: [
