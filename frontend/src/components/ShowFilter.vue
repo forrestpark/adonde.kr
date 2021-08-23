@@ -302,7 +302,8 @@ export default {
             'checkCurrentDisabled',
             'disabled',
             'submitValue',
-            'originEntoKo_unify'
+            'originEntoKo_unify',
+            'loading'
         ]),  
         setAccItem(){
           return this.$t('AccessItems')
@@ -310,7 +311,7 @@ export default {
     },
     data () {
       return {
-        loading: false,
+        //loading: false,
         //출발지 select
         sido_sgg: '',
         label: '',
@@ -355,6 +356,7 @@ export default {
           'updateDisabled',
           'updateSearchDisabled',
           'updateSearchResults',
+          'updateLoading'
           
       ]),
       async changeAccItemStatus(){ 
@@ -371,7 +373,8 @@ export default {
         //초기화
         await this.resetAccItemDisabled()
         //로딩시작
-        this.loading = true
+        // this.loading = true
+        this.updateLoading(true)
 
         //다시선택하기 버튼 안보임
         this.refreshDisabled = true
@@ -404,7 +407,8 @@ export default {
           this.refreshDisabled = false
 
           //loading 끝
-          this.loading = false
+          // this.loading = false
+          this.updateLoading(false)
 
         }catch(err){
           console.log(err)
