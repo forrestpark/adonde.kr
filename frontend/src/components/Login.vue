@@ -12,6 +12,7 @@
         width="400px"
         />
         <v-img
+            style="margin: auto"
             v-else
             @click="kakaoLogin"
             alt="user"
