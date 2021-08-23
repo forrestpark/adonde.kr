@@ -1,6 +1,7 @@
 <template>
    <v-app>
        <v-progress-linear
+        v-if="loading"
         :active="loading"
         :indeterminate="loading"
         striped
@@ -41,15 +42,13 @@ export default {
         ShowFilter,
         ResultList
     },
-    data(){
-        return{
-            loading:false
+    computed:{
+        loading(){
+            return this.$store.state.loading
         }
-    },
-
-    mounted(){
-        this.loading = true
     }
+
+   
 }
 </script>
 

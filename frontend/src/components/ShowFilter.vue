@@ -20,14 +20,14 @@
     
       <br>
       <!-- 출발지 설정 후 accessitem status 기다리기 -->
-      <v-progress-linear
+      <!-- <v-progress-linear
         :active="loading"
         :indeterminate="loading"
         striped
         color="yellow"
         rounded
         height="6"
-      ></v-progress-linear>
+      ></v-progress-linear> -->
 
       <br>
       <!-- 버튼 -->
@@ -137,7 +137,7 @@
 
               <v-expansion-panel-content>
                 <v-flex>
-            
+             
                   <vue-slider
                   :disabled="disabled"
                   v-model="population"

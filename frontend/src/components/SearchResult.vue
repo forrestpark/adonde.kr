@@ -1,13 +1,13 @@
 <template>
     <div>
-        <v-progress-linear
+        <!-- <v-progress-linear
         :active="loading"
         :indeterminate="loading"
         striped
         color="yellow"
         rounded
         height="6"
-    ></v-progress-linear>
+    ></v-progress-linear> -->
     <br>
         <div>
         <v-btn 
