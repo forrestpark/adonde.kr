@@ -195,6 +195,11 @@ export default {
         this.invisibleSideBar = false
         this.invisibleBar = false
       }
+      //home에서 다시 intro로 가서 로그인을 해야되는 경우
+      if(this.$route.name == 'intro'){
+        this.invisibleSideBar = true
+        this.invisibleBar = true
+      }
     }
   },
   mounted(){
@@ -276,9 +281,9 @@ export default {
     //drawer에 있는 로그인 관련 버튼을 눌렀을 경우 해당하는 경우에 따라서 다르게 처리해줌
     isLogin(title){
       if(title == "Login"){
-        this.overlay = true
+        //this.overlay = true
         // this.drawer = false
-        //this.$router.push({path:'/intro'})
+        this.$router.push({path:'/intro'})
       }else if(title == "Logout"){
         this.kakaoLogout()
         //this.drawer = false
