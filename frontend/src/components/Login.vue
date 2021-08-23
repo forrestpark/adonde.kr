@@ -1,8 +1,8 @@
 <template>
-    <section class="Intro">
+    <section class="Intro" >
         <div class="intro">
-
         <v-img 
+        style="margin: auto"
         v-if="$i18n.locale == 'ko'"
         @click="kakaoLogin"
         alt="user"
@@ -12,6 +12,7 @@
         width="400px"
         />
         <v-img
+            style="margin: auto"
             v-else
             @click="kakaoLogin"
             alt="user"
@@ -27,15 +28,16 @@
             color="amber"
         ></v-progress-circular>
         
-        <!-- <v-btn
-            @click="kakaoLogout">
-        logout
-        </v-btn> -->
+        <v-img
+            style="margin: auto"
+            v-if="user != ''"
+            :src="require(`@/assets/welcome.png`)">
+        </v-img>
 
-        <h2>{{user.nickname}}</h2>
+        <!-- <h2>{{user.nickname}}</h2>
         <img
             width="100px" 
-            :src="`${user.profile_image}`" alt />
+            :src="`${user.profile_image}`" alt /> -->
         </div>
         
     </section>

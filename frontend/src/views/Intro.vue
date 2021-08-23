@@ -1,29 +1,36 @@
 <template>
     <v-app style="background-color: #44AD5E;">
-        <div>
-        <div class="i18n">
+        <v-flex 
+            xs1 sm4 md4 lg4 xl4
+            class="i18n"
+            style="margin: auto;">
           <v-img 
           alt="Logo"
           contain
           :src="require(`../assets/logo.png`)"
           transition="scale-transition"
           width="500"
+          style="margin: auto;"
         />
-          <v-select v-model="$i18n.locale"
-                    :items="lang">{{lang}}
-          </v-select>
-        </div> 
-      
-          <v-btn
-          width="500"
+        <v-select 
+            style="margin: auto;"
+            v-model="$i18n.locale"
+                :items="lang">{{lang}}
+        </v-select>
+        <div>
+            <v-btn
+            style="margin: auto;"
+            width="100%"
             color="orange lighten-2"
             @click="clickStart"
-          >
+            >
             Start!
-          </v-btn>
-          
+            </v-btn>
+        </div>
+ 
+          <br>
           <Login/>
-    </div>
+        </v-flex>       
     </v-app>
 </template>
 
@@ -103,9 +110,3 @@ export default {
     
 }
 </script>
-
-<style scoped>
-.v-main {
-    background-color: #44AD5E;
-}
-</style>

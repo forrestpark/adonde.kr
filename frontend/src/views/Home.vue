@@ -25,7 +25,7 @@
         </v-row> 
         <v-row>
             <v-col style="padding: 0px">
-                <result-list style="position: fixed; bottom: 0;z-index: 1;"></result-list>
+                <result-list></result-list>
             </v-col>
         </v-row>
    </v-app>

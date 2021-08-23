@@ -4,34 +4,33 @@
       :class="{'bar': invisibleBar }"
       flat
     >
-      <v-app-bar
+    <v-app-bar
         class="app_bar"
         color="green"
         dark
         elevate-on-scroll
 
       >
+      <router-link 
+        to="/intro">
         <v-toolbar-title>
-            <div class="d-flex align-center">
-        
-          <v-img 
-          alt="Logo"
-          contain
-          :src="require(`./assets/logo.png`)"
-          transition="scale-transition"
-          width="50"
-        />
-        
-  
-      </div>
-      
+          <div class="d-flex align-center">
+            <v-img 
+            alt="Logo"
+            contain
+            :src="require(`./assets/logo.png`)"
+            transition="scale-transition"
+            width="50"
+            /> 
+          </div>
         </v-toolbar-title>
+      </router-link>
         <h2>
           어디든
         </h2>
-        <v-spacer />
-    
-      </v-app-bar>
+        
+      <v-spacer />
+    </v-app-bar>
       
     </div>
       
@@ -108,49 +107,11 @@
         </div>
         
       </v-main>
-      
-        <!-- <v-overlay
-          color="green"
-          :absolute="absolute"
-          :opacity="opacity"
-          :value="overlay"
-        >
-        <div class="i18n">
-          <v-img 
-          alt="Logo"
-          contain
-          :src="require(`./assets/logo.png`)"
-          transition="scale-transition"
-          width="500"
-        />
-          <v-select v-model="$i18n.locale"
-                    :items="lang">{{lang}}
-          </v-select>
-        </div> 
-      
-          <v-btn
-          width="500"
-            color="orange lighten-2"
-            @click="clickStart"
-          >
-            Start!
-          </v-btn>
-          
-          <Login/>
-
-        </v-overlay> -->
-
-     
-
   </v-app>
 </template>
  
 <script>
-//import Login from '@/components/Login.vue'
 export default {
-  // components:{
-  //   Login
-  // },
   name: 'App',
   computed:{
     user(){
@@ -177,11 +138,11 @@ export default {
       // if there exists user info in session storage, then we update user info in store with that
       if (JSON.parse(sessionStorage.getItem('user')) != undefined) {
         console.log("mypage disabled false")
-        this.items[2].disabled = false
-        this.items[1].title = 'Logout'
+        this.items[1].disabled = false
+        this.items[2].title = 'Logout'
       } else {
-        this.items[2].disabled = true
-        this.items[1].title = 'Login'
+        this.items[1].disabled = true
+        this.items[2].title = 'Login'
       }
       console.log("local store user: ", this.$store.state.user)
     },
@@ -228,16 +189,13 @@ export default {
           this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
         }
         console.log("mypage disabled false")
-        this.items[2].disabled = false
-        this.items[1].title = 'Logout'
+        this.items[1].disabled = false
+        this.items[2].title = 'Logout'
       }
   },
   data: () => ({
     invisibleSideBar:false,
     invisibleBar:false,
-    // absolute: true,
-    // opacity: 1,
-    // overlay: false,
     lang:['ko','en'],
     // drawer: false,
     items: [
@@ -248,17 +206,18 @@ export default {
           disabled: false
         },
         {
+          title: 'mypage',
+          icon: 'mdi-account-heart-outline',
+          to: '/mypage',
+          disabled: true
+        },
+        {
           title: 'Login',
           icon: 'mdi-login',
           // to: '/login',
           disabled: false
         },
-        {
-          title: 'mypage',
-          icon: 'mdi-account-heart-outline',
-          to: '/mypage',
-          disabled: true
-        }
+        
       ],
     right: null,
     iconItems: [
