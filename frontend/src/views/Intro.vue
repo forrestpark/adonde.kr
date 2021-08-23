@@ -31,6 +31,7 @@
           <br>
           <Login/>
           <Translator/>
+          
         </v-flex>       
     </v-app>
 </template>
