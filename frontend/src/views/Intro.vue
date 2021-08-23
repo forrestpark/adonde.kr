@@ -1,5 +1,5 @@
 <template>
-    <v-main style="background-color: #44AD5E">
+    <v-app style="background-color: #44AD5E;">
         <div>
         <div class="i18n">
           <v-img 
@@ -24,7 +24,7 @@
           
           <Login/>
     </div>
-    </v-main>
+    </v-app>
 </template>
 
 <script>
@@ -103,3 +103,9 @@ export default {
     
 }
 </script>
+
+<style scoped>
+.v-main {
+    background-color: #44AD5E;
+}
+</style>
