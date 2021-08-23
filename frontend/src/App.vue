@@ -4,34 +4,33 @@
       :class="{'bar': invisibleBar }"
       flat
     >
-      <v-app-bar
+    <v-app-bar
         class="app_bar"
         color="green"
         dark
         elevate-on-scroll
 
       >
+      <router-link 
+        to="/intro">
         <v-toolbar-title>
-            <div class="d-flex align-center">
-        
-          <v-img 
-          alt="Logo"
-          contain
-          :src="require(`./assets/logo.png`)"
-          transition="scale-transition"
-          width="50"
-        />
-        
-  
-      </div>
-      
+          <div class="d-flex align-center">
+            <v-img 
+            alt="Logo"
+            contain
+            :src="require(`./assets/logo.png`)"
+            transition="scale-transition"
+            width="50"
+            /> 
+          </div>
         </v-toolbar-title>
+      </router-link>
         <h2>
           어디든
         </h2>
-        <v-spacer />
-    
-      </v-app-bar>
+        
+      <v-spacer />
+    </v-app-bar>
       
     </div>
       
