@@ -1,28 +1,25 @@
 <template>
-   <div>
+   <v-app>
        <v-row
             class="homeItem">
            <v-col
                 class="filter">
                 <div   
-                    style="height:850px; position: relative;">
+                    style="height:700px; position: relative; ">
                     <show-filter style="overflow: auto;height: 100%"></show-filter> 
                 </div> 
             </v-col>
-            <v-col
+            <v-col 
                 class="map">
                 <show-map></show-map>
-            </v-col>   
-            <v-col
-                class="resultList">
-                <div    
-                    style="height:850px; position:relative;">
-                    <result-list 
-                        style="overflow: auto; width:100px height: 100%"></result-list>
-                </div>
-            </v-col>    
+            </v-col>      
         </v-row> 
-   </div>
+        <v-row>
+            <v-col style="padding: 0px">
+                <result-list ></result-list>
+            </v-col>
+        </v-row>
+   </v-app>
 </template> 
 
 <script>
@@ -41,7 +38,7 @@ export default {
 
 <style scoped>
 .homeItem .filter{flex-grow: 1;}
-.homeItem .map{flex-grow: 2;}
-.homeItem .resultList{flex-grow: 1;}
+.homeItem .map{flex-grow: 1.5;}
+
 </style>
 

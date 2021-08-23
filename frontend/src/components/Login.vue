@@ -3,13 +3,23 @@
         <div class="intro">
 
         <v-img 
+        v-if="$i18n.locale == 'ko'"
         @click="kakaoLogin"
         alt="user"
         contain
-        :src="require(`@/assets/kakao_Login.png`)"
+        :src="require(`@/assets/ko_large.png`)"
         transition="scale-transition"
-        width="300px"
+        width="400px"
         />
+        <v-img
+            v-else
+            @click="kakaoLogin"
+            alt="user"
+            contain
+            :src="require(`@/assets/en_large.png`)"
+            transition="scale-transition"
+            width="400px"
+            />
 
         <v-progress-circular
             indeterminate
@@ -26,8 +36,6 @@
         <img
             width="100px" 
             :src="`${user.profile_image}`" alt />
-   
-
         </div>
         
     </section>

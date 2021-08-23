@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home.vue'
-//import Login from '@/views/Login.vue'
 import Mypage from '@/views/Mypage.vue'
-// import Intro from '@/views/Intro.vue'
+//import Intro from '@/views/Intro.vue'
 import Details from '@/views/Details.vue'
 
 Vue.use(Router)
@@ -11,7 +10,7 @@ Vue.use(Router)
 const routes = [
     // {
     //   name: 'intro',
-    //   path:'/',
+    //   path:'/intro',
     //   component:Intro
 
     // },
@@ -20,11 +19,6 @@ const routes = [
        path: '/',
        component: Home
     },
-    // {
-    //   name: 'login',
-    //   path: '/login',
-    //   component: Login
-    // },
     {
       name: 'mypage',
       path: '/mypage',

@@ -1,5 +1,7 @@
 <template>
-    <div>
+    <div 
+        height="900px"
+        style="background-color: #08844E">
         <v-progress-linear
         :active="loading"
         :indeterminate="loading"
@@ -10,32 +12,45 @@
       ></v-progress-linear>
         <v-row>
             <v-col>
-                <h1>{{cityDetails.sido_sgg}}</h1>
+                <h1 class="name">{{cityDetails.sido_sgg}}</h1>
                 <v-img 
+                    style="border-radius: 10px; left: 30px"
                     :src="cityDetails.image_src"
                     class="white--text align-end"
                     width="900"
                     height="500">
                 
                 </v-img>
-                <h2>
+                <h2 class="description">
                     {{cityDetails.description}}
                 </h2>
-                <h2>
+                <h2 class="population">
                     
                     {{`인구수: ${cityDetails.population} (명)`}}
                     
                 </h2>
-                <h2>
+
+                <h2 class="link">
+                    
                     <a :href="cityDetails.tourism_link"
                         target='_blank'
-                        >
-                </a>
+                    >
+                    {{cityDetails.tourism_link}}
+                    </a>
                 </h2>
-                <div v-for="(place, index) in places"
+
+                <div
+                    style="background-color: white;
+                    border-radius: 10px;"
+                    >
+                    <h2 style="text-align: center; ">
+                        Places
+                    </h2>
+                    <div  
+                    v-for="(place, index) in places"
                     :key="index">
-                    
                     <v-slide-group
+                    class="places"
                         v-if="place.length != 0"
                         show-arrows
                         multiple
@@ -60,10 +75,11 @@
                             </v-btn>
                         </v-slide-item>
                     </v-slide-group>
+                </div> 
                 </div>
             </v-col>
             <v-col>
-                <div id="map" style="width:100%;height:700px;"></div>
+                <div id="map" style="width:100%;height:1000px;" ></div>
             </v-col>
         </v-row>
 
@@ -156,3 +172,28 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.name {
+    color: white;
+    text-align: center; 
+}
+.description {
+    color: wheat;
+    text-align: center; 
+}
+.population {
+    color: white;
+    text-align: center; 
+}
+.link{
+    background-color: palegoldenrod;
+    border-radius: 10px;
+    text-align: center; 
+}
+.places {
+    left: 20px;
+
+}
+
+</style>

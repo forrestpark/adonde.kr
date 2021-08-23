@@ -113,7 +113,6 @@ export default {
             this.$router.push({path:'/'})
         }else{
            this.getStoredCitiesDetail()
-            
         }
     },
     watch:{

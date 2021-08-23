@@ -1,4 +1,5 @@
 {
+  "login_img": "`@/assets/kakao_Login.png`",
   "message": "안녕 i18n !!",
   "originlabel":"(*필수)출발지",
   "themeLabel": "여행지 테마",

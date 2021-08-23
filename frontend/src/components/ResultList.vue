@@ -1,50 +1,62 @@
 <template>
-    <v-container>
-      <v-row dense>
-        <v-col
-            v-for="item in searchResults"
-            :key="item.sido_sgg"
-            cols="12"
-        >   
-        <v-hover v-slot="{ hover }">
-          <v-card 
-            :id="item.sido_sgg"
-            :color="'#1F7087'"
-            dark
-            >
-            <v-img 
-                :id="item.sido_sgg" 
-                :src="item.image_src"
-                class="white--text align-end"
-                height="200px">
-                <v-card-title
-                  class="text-h5"
-                  v-text="item.sido_sgg"
-                  
-                ></v-card-title>
-                <v-expand-transition>
-                <div v-if="hover"
-                    class="d-flex transition-fast-in-fast-out orange v-card--reveal text-h2 white--text"
-                    style="height: 100%;">
-                    <v-card-text>
-                        {{item.description.split('.')[0]}}.
-                    </v-card-text>
-                </div>
-        </v-expand-transition>
-            </v-img>
-            <v-card-actions>
-            
-            <card-component
+    <div>
+        <v-slide-group
+        v-model="model"
+        center-active
+        show-arrows
+        >
+            <v-slide-item
+                height="200px"
+                v-for="item in searchResults"
                 :key="item.sido_sgg"
-                :sido_sgg="item.sido_sgg"
-            ></card-component>
-           </v-card-actions>  
-          </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
-     
-    </v-container>
+                v-slot="{ active, toggle }"
+            >
+             <v-hover v-slot="{ hover }">
+                <v-card
+                :color="active ? undefined : 'grey lighten-1'"
+                class="ma-4"
+                height="250"
+                width="350"
+                @click="toggle"
+                >
+                    <v-img 
+                        :id="item.sido_sgg" 
+                        :src="item.image_src"
+                        class="white--text align-end"
+                        height="200px">
+                        <v-card-title
+                            class="text-h5"
+                            v-text="item.sido_sgg"
+                        ></v-card-title>
+                        <v-expand-transition>
+                            <div v-if="hover"
+                                class="d-flex transition-fast-in-fast-out orange v-card--reveal text-h2 white--text"
+                                style="height: 100%;">
+                                <v-card-text>
+                                    {{item.description.split('.')[0]}}.
+                                </v-card-text>
+                            </div>
+                        </v-expand-transition>
+                    </v-img>
+                    
+
+                    <v-card-actions>
+                        <card-component
+                            :key="item.sido_sgg"
+                            :sido_sgg="item.sido_sgg"
+                        ></card-component>
+                    </v-card-actions>   
+                    <v-row
+                        class="fill-height"
+                        align="center"
+                        justify="center"
+                    >
+                    </v-row>
+                </v-card>
+            </v-hover>
+        </v-slide-item> 
+        </v-slide-group>
+    </div>
 </template>
 
 <script>
@@ -65,7 +77,8 @@ export default {
    
     data(){
         return{
-            sido_sgg:''
+            sido_sgg:'',
+            model: null
         }
     },
     methods:{
