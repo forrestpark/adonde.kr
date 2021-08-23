@@ -12,6 +12,7 @@ export default new Vuex.Store({
         userStoredDetails:'',
 
         //data
+        loading:false,
         isSubmitValueChange:false,
         searchDisabled:true,
         disabled:true,
@@ -218,6 +219,9 @@ export default new Vuex.Store({
     },
     updateisSubmitValueChange(state, val){
         state.isSubmitValueChange = val
+    },
+    updateLoading(state, val){
+        state.loading = val
     },
     //map
     updateMap(state,val){

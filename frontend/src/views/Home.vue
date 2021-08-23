@@ -1,5 +1,14 @@
 <template>
    <v-app>
+       <v-progress-linear
+        v-if="loading"
+        :active="loading"
+        :indeterminate="loading"
+        striped
+        color="yellow"
+        rounded
+        height="6"
+      ></v-progress-linear>
        <v-row
             class="homeItem">
            <v-col
@@ -16,7 +25,7 @@
         </v-row> 
         <v-row>
             <v-col style="padding: 0px">
-                <result-list ></result-list>
+                <result-list style="position: fixed; bottom: 0;z-index: 1;"></result-list>
             </v-col>
         </v-row>
    </v-app>
@@ -32,7 +41,14 @@ export default {
         ShowMap,
         ShowFilter,
         ResultList
+    },
+    computed:{
+        loading(){
+            return this.$store.state.loading
+        }
     }
+
+   
 }
 </script>
 

@@ -1,8 +1,7 @@
 <template>
   <v-app>
-    <v-card
+    <div
       :class="{'bar': invisibleBar }"
-      color="grey lighten-4"
       flat
     >
       <v-app-bar
@@ -10,7 +9,7 @@
         color="green"
         dark
         elevate-on-scroll
-        scroll-target="#scrolling-techniques-7"
+
       >
         <v-toolbar-title>
             <div class="d-flex align-center">
@@ -20,7 +19,7 @@
           contain
           :src="require(`./assets/logo.png`)"
           transition="scale-transition"
-          width="40"
+          width="50"
         />
         
   
@@ -34,7 +33,7 @@
     
       </v-app-bar>
       
-    </v-card>
+    </div>
       
       <v-main>
         <div>
@@ -100,9 +99,7 @@
           </v-icon>
         </v-btn>
         </v-list-item>
-        </div>
-        
-        
+        </div>    
       </v-list>
           </div>
           <div>
@@ -118,7 +115,6 @@
           :opacity="opacity"
           :value="overlay"
         >
-        
         <div class="i18n">
           <v-img 
           alt="Logo"
@@ -142,7 +138,7 @@
           
           <Login/>
 
-        </v-overlay>
+        </v-overlay> -->
 
      
 
@@ -150,11 +146,11 @@
 </template>
  
 <script>
-import Login from '@/components/Login.vue'
+//import Login from '@/components/Login.vue'
 export default {
-  components:{
-    Login
-  },
+  // components:{
+  //   Login
+  // },
   name: 'App',
   computed:{
     user(){
@@ -168,6 +164,9 @@ export default {
       }
       console.log("session user:", JSON.parse(sessionStorage.getItem('user')))
       return JSON.parse(sessionStorage.getItem('user'))
+    },
+    routerName(){
+      return this.$route.name
     }
  
   },
@@ -188,19 +187,36 @@ export default {
     },
     sessionUser: function() {
       this.$store.state.user = JSON.parse(sessionStorage.getItem('user'))
+    },
+    routerName(){
+      //intro페이지에서 home으로 갈때 sidebar에서 
+      if(this.$route.name == 'home'){
+        this.invisibleSideBar = false
+        this.invisibleBar = false
+      }
+      //home에서 다시 intro로 가서 로그인을 해야되는 경우
+      if(this.$route.name == 'intro'){
+        this.invisibleSideBar = true
+        this.invisibleBar = true
+      }
     }
   },
   mounted(){
       //상세페이지로 갔을 경우 overlay가 보이지 않도록 파일이 시작될때 확인해주고, sidebar 숨김
       if (this.$route.name == 'details'){
-        console.log("라우터",this.$route.query.name)
-        this.overlay = false
+        // this.overlay = false
         this.invisibleSideBar = true
       }
       if(this.$route.name == 'intro'){
         this.invisibleSideBar = true
         this.invisibleBar = true
       }
+      if(this.$route.name == 'home'){
+        this.invisibleSideBar = false
+        this.invisibleBar = false
+      }
+
+      console.log("라우터",this.routerName)
 
 
       if(JSON.parse(sessionStorage.getItem('user')) != null) {
@@ -219,9 +235,9 @@ export default {
   data: () => ({
     invisibleSideBar:false,
     invisibleBar:false,
-    absolute: true,
-    opacity: 1,
-    overlay: true,
+    // absolute: true,
+    // opacity: 1,
+    // overlay: false,
     lang:['ko','en'],
     // drawer: false,
     items: [
@@ -264,9 +280,9 @@ export default {
     //drawer에 있는 로그인 관련 버튼을 눌렀을 경우 해당하는 경우에 따라서 다르게 처리해줌
     isLogin(title){
       if(title == "Login"){
-        this.overlay = true
+        //this.overlay = true
         // this.drawer = false
-        //this.$router.push({path:'/intro'})
+        this.$router.push({path:'/intro'})
       }else if(title == "Logout"){
         this.kakaoLogout()
         //this.drawer = false
@@ -280,11 +296,11 @@ export default {
                 this.$router.push({path:'/'})
             });
     },
-    clickStart(){
-      this.overlay = false
-      //this.$router.push({path:'/'})
+    // clickStart(){
+    //   this.overlay = false
+    //   //this.$router.push({path:'/'})
      
-    }
+    // }
   }
 };
 </script>
