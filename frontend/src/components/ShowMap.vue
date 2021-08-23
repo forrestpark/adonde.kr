@@ -40,7 +40,8 @@ export default {
             'updateClickItemNum',
             'updateCheckCurrentDisabled',
             'updateMap',
-            'updateIsSetMarker'
+            'updateIsSetMarker',
+            
         ]),
         initMap() { 
             document.cookie = "crossCookie=bar; SameSite=None; Secure";
@@ -70,9 +71,9 @@ export default {
                 // this.currentLng = lng
                 
                 var locPosition = new kakao.maps.LatLng(lat, lng) // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-                vm.currentLocation = locPosition
+                vm.currentLocation = locPosition 
                 //현재주소를 가져옴
-                vm.getAddr(lat,lng).then(function(res) {                    
+                vm.getAddr(lat,lng).then(function(res) {                  
                     vm.updateCurrentAdd(res)
                     vm.updateCheckCurrentDisabled(false)
 
@@ -81,7 +82,7 @@ export default {
                     // 마커와 인포윈도우를 표시합니다
                     vm.displayMarker(locPosition, message, map)
                 })
-                  
+                
               });
     
             } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
