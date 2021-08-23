@@ -189,6 +189,10 @@ exports.search = async (req, res) => {
 }
 
 function filterByTheme(cities, themes) {
+    if (themes.length == 0) {
+        return cities
+    }
+    
     const isAlpha = str => /^[a-zA-Z]*$/.test(str);
     const theme_translate_ko2en = {"산": "mountains", "바다": "beaches", "계곡": "valleys", "강": "rivers"}
     var cities_set = new Set()
