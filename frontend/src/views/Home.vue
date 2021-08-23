@@ -1,5 +1,13 @@
 <template>
    <v-app>
+       <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        striped
+        color="yellow"
+        rounded
+        height="6"
+      ></v-progress-linear>
        <v-row
             class="homeItem">
            <v-col
@@ -32,6 +40,15 @@ export default {
         ShowMap,
         ShowFilter,
         ResultList
+    },
+    data(){
+        return{
+            loading:false
+        }
+    },
+
+    mounted(){
+        this.loading = true
     }
 }
 </script>
