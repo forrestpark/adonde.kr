@@ -112,3 +112,34 @@ export default {
     
 }
 </script>
+
+<style scoped>
+.vg-body{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+        background: lightgrey;
+    }
+
+    .vg-container{
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+
+
+    }
+    .vg-text{
+        color: black;
+        padding-left:10px
+    }
+
+    .vg-items{
+        display:flex;
+        align-items:center;
+
+    }
+
+    .vg-flag{
+        height:40px;
+    }
+</style>
