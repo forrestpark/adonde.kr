@@ -30,16 +30,18 @@
  
           <br>
           <Login/>
+          <Translator/>
         </v-flex>       
     </v-app>
 </template>
 
 <script>
+import { Translator } from 'vue-google-translate';
 import Login from '@/components/Login.vue'
 export default {
-    
     components:{
-    Login
+    Login,
+    Translator
   },
   data(){
       return{
