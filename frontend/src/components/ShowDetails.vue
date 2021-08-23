@@ -83,14 +83,18 @@
             </v-col>
         </v-row>
 
-        
+        <!-- <Translator /> -->
     </div>
 </template>
 
 <script>
+// import { Translator } from 'vue-google-translate';
 import axios from 'axios'
 import {BASE_URL} from '@/api.js'
 export default {
+    //  components: {
+    //     Translator
+    // },
     mounted(){
         this.getCityDetail()
         this.getPlace()
