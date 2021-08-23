@@ -35,7 +35,7 @@ import {BASE_URL} from '@/api.js'
 export default {
     data(){
         return{
-            loading: false,
+            //loading: false,
             filteredResult: '',
             sido_unify : { "경기": "경기도", "강원": "강원도", "충북": "충청북도", 
                       "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
@@ -50,7 +50,8 @@ export default {
             'checkCurrentDisabled',
             'disabled',
             'searchDisabled',
-            'isSubmitValueChange'
+            'isSubmitValueChange',
+            'loading'
         ])
     },
     methods:{
@@ -58,10 +59,12 @@ export default {
             'updateSearchResults',
             'updateSearchDisabled',
             'updateisSubmitValueChange',
-            'updateIsSetMarker'
+            'updateIsSetMarker',
+            'updateLoading'
         ]),
         async getFilteredResult() {
-            this.loading= true
+            // this.loading= true
+            this.updateLoading(true)
             const res = await axios.post(
                 `${BASE_URL}/search/`,
                 {
@@ -89,7 +92,8 @@ export default {
             
             console.log("filterResult: ",this.filteredResult)
 
-            this.loading = false
+            // this.loading = false
+            this.updateLoading(false)
             
             //search를 실행해준 다음 다시 isSubmitValuechnage를 false로 초기화해준다
             this.updateisSubmitValueChange(false)
