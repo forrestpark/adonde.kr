@@ -157,8 +157,13 @@ exports.deleteStoredCity = async (req, res) => {
     }
 }
 
+function http2http2(profile_image) {
+    return profile_image.replace('http://', 'https://')
+}
+
 exports.login = async (req, res) => {
     const {email, nickname, profile_image, dateofbirth} = req.body
+    const secure_profile_image = http2https(profile_image)
     try {
         // see if the user already has an account
         const user = await User.findOne({
@@ -173,7 +178,7 @@ exports.login = async (req, res) => {
             const newUser = await User.create({
                 email : email,
                 nickname : nickname,
-                profile_image: profile_image,
+                profile_image: secure_profile_image,
                 dateofbirth: dateofbirth,
                 storedCities: []
             })
