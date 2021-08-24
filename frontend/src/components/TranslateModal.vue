@@ -23,8 +23,7 @@
 
           <div class="modal-footer">
             <slot name="footer">
-             
-              
+        
             </slot>
           </div>
         </div>
