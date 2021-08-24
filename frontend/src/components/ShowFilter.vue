@@ -613,6 +613,9 @@ export default {
 </script>
 
 <style>
+.filter{
+  font-family: "GmarketSansLight";
+}
 .vcs__picker input,
 .vcs__select-menu {
   background: #282b34;

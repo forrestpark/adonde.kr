@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="MenuBar">
     <div
       :class="{'bar': invisibleBar }"
       flat
@@ -41,7 +41,7 @@
     </div>
       
       <v-main>
-        <div style=" background-color : #B1E2B5">
+        <div style=" background-color : #a0dcb0">
           <div 
             :class="{'sideBar' : invisibleSideBar}"
             style="float: left; top: 20px;">
@@ -71,7 +71,7 @@
 
       <v-divider />
 
-      <v-list style=" background-color : #B1E2B5">
+      <v-list style=" background-color : #a0dcb0">
         <v-list-item
         
           v-for="item in items" 
