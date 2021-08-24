@@ -1,25 +1,26 @@
 <template>
-    <div 
-        height="900px"
+    <v-app
         style="background-color: #08844E">
-        <v-progress-linear
-        :active="loading"
-        :indeterminate="loading"
-        striped
-        color="blue"
-        rounded
-        height="6"
-      ></v-progress-linear>
+        <v-container>
+            <v-flex
+            xs12 sm12 md12 lg12 xl12>
+             <v-progress-linear
+                :active="loading"
+                :indeterminate="loading"
+                striped
+                color="blue"
+                rounded
+                height="6"
+            ></v-progress-linear>
         <v-row>
             <v-col>
                 <h1 class="name">{{cityDetails.sido_sgg}}</h1>
                 <v-img 
-                    style="border-radius: 10px; left: 30px"
+                    style="border-radius: 10px;"
                     :src="cityDetails.image_src"
                     class="white--text align-end"
                     width="900"
                     height="500">
-                
                 </v-img>
                 <h2 class="description">
                     {{cityDetails.description}}
@@ -79,14 +80,14 @@
                 </div>
             </v-col>
             <v-col>
-                <div id="map" style="width:100%;height:1000px;" ></div>
+                <div id="map" style="border-radius: 10px;height:1000px;" ></div>
             </v-col>
         </v-row>
-
-        <div>
-    
-  </div>
+    <div>
     </div>
+        </v-flex>
+        </v-container>
+    </v-app>
 </template>
 
 <script>

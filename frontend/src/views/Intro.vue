@@ -2,7 +2,6 @@
     <v-app style="background-color: #44AD5E;">
         <v-flex 
             xs4 sm4 md4 lg4 xl4
-            class="i18n"
             style="margin: auto;">
           <v-img 
           alt="Logo"
