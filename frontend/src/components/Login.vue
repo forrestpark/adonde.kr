@@ -11,7 +11,7 @@
         transition="scale-transition"
         width="400px"
         />
-        <v-img
+        <!-- <v-img
             style="margin: auto"
             v-else
             @click="kakaoLogin"
@@ -20,7 +20,7 @@
             :src="require(`@/assets/en_large.png`)"
             transition="scale-transition"
             width="400px"
-            />
+            /> -->
 
         <v-progress-circular
             indeterminate

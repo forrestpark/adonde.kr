@@ -1,92 +1,96 @@
 <template>
     <v-app
         style="background-color: #08844E">
-        <v-container>
+        <v-progress-linear
+            :active="loading"
+            :indeterminate="loading"
+            striped
+            color="blue"
+            rounded
+            height="6"
+        ></v-progress-linear>
+        
+        <div style="padding: 50px">
             <v-flex
             xs12 sm12 md12 lg12 xl12>
-             <v-progress-linear
-                :active="loading"
-                :indeterminate="loading"
-                striped
-                color="blue"
-                rounded
-                height="6"
-            ></v-progress-linear>
-        <v-row>
-            <v-col>
-                <h1 class="name">{{cityDetails.sido_sgg}}</h1>
-                <v-img 
-                    style="border-radius: 10px;"
-                    :src="cityDetails.image_src"
-                    class="white--text align-end"
-                    width="900"
-                    height="500">
-                </v-img>
-                <h2 class="description">
-                    {{cityDetails.description}}
-                </h2>
-                <h2 class="population">
-                    
-                    {{`인구수: ${cityDetails.population} (명)`}}
-                    
-                </h2>
-
-                <h2 class="link">
-                    
-                    <a :href="cityDetails.tourism_link"
-                        target='_blank'
-                    >
-                    {{cityDetails.tourism_link}}
-                    </a>
-                </h2>
-
-                <div
-                    style="background-color: white;
-                    border-radius: 10px;"
-                    >
-                    <h2 style="text-align: center; ">
-                        Places
+            <v-row>
+                <v-col>
+                    <div 
+                        class="details"
+                        style="{ width: 200px; height: 900px; background-image : url(http://www.backhug.co.kr/shopimages/showroom1/0130040002232.jpg?1610512014)}">
+                        <h1 class="name">{{cityDetails.sido_sgg}}</h1>
+                    <v-img 
+                        style="border-radius: 10px;"
+                        :src="cityDetails.image_src"
+                        class="white--text align-end"
+                        height="500">
+                    </v-img>
+                    <h2 class="description">
+                        {{cityDetails.description}}
                     </h2>
-                    <div  
-                    v-for="(place, index) in places"
-                    :key="index">
-                    <v-slide-group
-                    class="places"
-                        v-if="place.length != 0"
-                        show-arrows
-                        multiple
+                    <h2 class="population">
+                        {{`인구수: ${cityDetails.population} (명)`}}   
+                    </h2>
+
+                    <h2 class="link">
+                        <a :href="cityDetails.tourism_link"
+                            target='_blank'
                         >
-                        {{index}}
-                        <v-slide-item
-                            v-for="item in place"
-                            :key="item.name"
-                            v-slot="{ active, toggle }"
+                        {{cityDetails.tourism_link}}
+                        </a>
+                    </h2>
+
+                    <div
+                        style="background-color: white;
+                        border-radius: 10px;"
                         >
-                            <v-btn
-                            :href="item.link"
-                            target="_blank"
-                            class="mx-2"
-                            :input-value="active"
-                            active-class="purple white--text"
-                            depressed
-                            rounded
-                            @click="toggle"
-                            >
-                            {{item.name}}
-                            </v-btn>
-                        </v-slide-item>
-                    </v-slide-group>
-                </div> 
+                        <h2 style="text-align: center; ">
+                            Places
+                        </h2>
+                        <div  
+                            v-for="(place, index) in places"
+                            :key="index">
+                            <v-hover>
+                            <v-slide-group
+                                class="places"
+                                v-if="place.length != 0"
+                                show-arrows
+                                multiple
+                                >
+                                {{index}}
+                                <v-slide-item
+                                    v-for="item in place"
+                                    :key="item.name"
+                                    v-slot="{ active, toggle }"
+                                >
+                                    <v-btn
+                                    :href="item.link"
+                                    target="_blank"
+                                    class="mx-2"
+                                    :input-value="active"
+                                    active-class="purple white--text"
+                                    depressed
+                                    rounded
+                                    @click="toggle"
+                                    >
+                                    {{item.name}}
+                                    </v-btn>
+                                </v-slide-item>
+                            </v-slide-group>
+                            </v-hover>
+                        </div> 
+                    </div>
                 </div>
-            </v-col>
-            <v-col>
-                <div id="map" style="border-radius: 10px;height:1000px;" ></div>
-            </v-col>
-        </v-row>
-    <div>
-    </div>
+                </v-col>
+           
+                <v-col>
+                    <div class="map" id="map" style="border-radius: 10px; height:1000px;" ></div>
+          
+                </v-col>
+            </v-row>
         </v-flex>
-        </v-container>
+        </div>
+       
     </v-app>
 </template>
 
@@ -178,6 +182,7 @@ export default {
 </script>
 
 <style scoped>
+
 .name {
     color: white;
     text-align: center; 
@@ -195,9 +200,6 @@ export default {
     border-radius: 10px;
     text-align: center; 
 }
-.places {
-    left: 20px;
 
-}
 
 </style>
