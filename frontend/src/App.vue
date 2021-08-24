@@ -30,6 +30,7 @@
         </h2>
         
       <v-spacer />
+      
     </v-app-bar>
       
     </div>
@@ -105,7 +106,6 @@
             <router-view></router-view>
           </div>
         </div>
-        
       </v-main>
   </v-app>
 </template>

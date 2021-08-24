@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b3e12f49e69284bc5e44c27065a9f7b&libraries=services"></script>  
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
       function googleTranslateElementInit() {
         new google.translate.TranslateElement(
-          { pageLanguage: 'en', autoDisplay: false },
+          { pageLanguage: 'ko', autoDisplay: true },
           'app'
         );
       }
@@ -61,7 +61,7 @@
         )
       );
       /* ]]> */
-    </script> -->
+    </script>
   </head>
   <body>
     <noscript>
@@ -71,3 +71,14 @@
     <!-- built files will be auto injected -->
   </body>
 </html>
+
+<style>
+  /* gets rid of the banner at the top of the page */
+body {
+  top: 0 !important;
+}
+/* get rids of the banner at the bottom of the web page */
+.skiptranslate {
+  display: none !important;
+}
+</style>

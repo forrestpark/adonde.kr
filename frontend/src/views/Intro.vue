@@ -12,11 +12,25 @@
           width="500"
           style="margin: auto;"
         />
-        <v-select 
+
+        <!-- <v-select 
             style="margin: auto;"
             v-model="$i18n.locale"
                 :items="lang">{{lang}}
-        </v-select>
+        </v-select> -->
+        
+        <div>
+            <v-btn @click="modal = true">Translate</v-btn>
+            <translate-modal
+            @close="modal = false" v-if="modal">
+            <h3 slot="header">
+                언어를 고르세요
+                <i class="has ha-times closeModalBtn"
+                @click="modal = false"></i>
+            </h3>
+            </translate-modal>
+        </div>
+
         <div>
             <v-btn
             style="margin: auto;"
@@ -30,20 +44,26 @@
  
           <br>
           <Login/>
+            
+
+          
         </v-flex>       
     </v-app>
 </template>
 
 <script>
+import TranslateModal from '@/components/TranslateModal.vue'
 import Login from '@/components/Login.vue'
 export default {
-    
     components:{
-    Login
+    Login,
+    TranslateModal
   },
   data(){
       return{
-          lang:['ko','en']
+          modal: false,
+          lang:['ko','en'],
+    
       }
   },
   mounted(){
@@ -110,3 +130,34 @@ export default {
     
 }
 </script>
+
+<style scoped>
+.vg-body{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+        background: lightgrey;
+    }
+
+    .vg-container{
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+
+
+    }
+    .vg-text{
+        color: black;
+        padding-left:10px
+    }
+
+    .vg-items{
+        display:flex;
+        align-items:center;
+
+    }
+
+    .vg-flag{
+        height:40px;
+    }
+</style>
