@@ -157,7 +157,7 @@ exports.deleteStoredCity = async (req, res) => {
     }
 }
 
-function http2http2(profile_image) {
+function http2https(profile_image) {
     return profile_image.replace('http://', 'https://')
 }
 
