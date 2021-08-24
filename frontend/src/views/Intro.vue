@@ -2,7 +2,6 @@
     <v-app style="background-color: #44AD5E;">
         <v-flex 
             xs4 sm4 md4 lg4 xl4
-            class="i18n"
             style="margin: auto;">
           <v-img 
           alt="Logo"
@@ -13,14 +12,24 @@
           style="margin: auto;"
         />
 
+        <br>
+
         <!-- <v-select 
             style="margin: auto;"
             v-model="$i18n.locale"
                 :items="lang">{{lang}}
         </v-select> -->
         
+        
         <div>
-            <v-btn @click="modal = true">Translate</v-btn>
+            <v-btn 
+                style="margin: auto; "
+                width=100%
+                @click="modal = true">
+                <v-icon>mdi-translate</v-icon>
+                Language Setting
+            </v-btn>
+
             <translate-modal
             @close="modal = false" v-if="modal">
             <h3 slot="header">
@@ -30,7 +39,9 @@
             </h3>
             </translate-modal>
         </div>
-
+        
+        <br>
+        
         <div>
             <v-btn
             style="margin: auto;"

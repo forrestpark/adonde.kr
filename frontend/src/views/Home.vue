@@ -1,5 +1,5 @@
 <template>
-   <v-app>
+   <v-app style="background-color: #D7F0D9">
        <v-progress-linear
         v-if="loading"
         :active="loading"

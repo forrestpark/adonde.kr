@@ -15,7 +15,12 @@
           </div>
 
           <div class="modal-body">
-            <Translator :countries="countries" @on-country-click="[$emit('close')]"/>
+            <v-card
+              elevation="3">
+              <v-card-text>
+                <Translator :countries="countries" @on-country-click="[$emit('close')]"/>
+              </v-card-text>
+            </v-card>
             <slot name="body">
               
             </slot>
