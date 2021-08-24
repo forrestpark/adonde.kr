@@ -12,11 +12,12 @@
           width="500"
           style="margin: auto;"
         />
-        <v-select 
+
+        <!-- <v-select 
             style="margin: auto;"
             v-model="$i18n.locale"
                 :items="lang">{{lang}}
-        </v-select>
+        </v-select> -->
         <div>
             <v-btn
             style="margin: auto;"
@@ -30,7 +31,11 @@
  
           <br>
           <Login/>
-          <Translator/>
+       
+          <Translator   
+          @on-country-click="customEvent"   
+          :countries="arrayOfCountries" />
+           
           
         </v-flex>       
     </v-app>
@@ -46,7 +51,171 @@ export default {
   },
   data(){
       return{
-          lang:['ko','en']
+          lang:['ko','en'],
+          arrayOfCountries: [
+  {
+    code: 'ko|af',
+    title: 'Afrikaans',
+  },
+  {
+    code: 'ko|sq',
+    title: 'Albanian',
+  },
+  {
+    code: 'ko|ar',
+    title: 'Arabic',
+  },
+  {
+    code: 'ko|hy',
+    title: 'Armenian',
+  },
+  {
+    code: 'ko|az',
+    title: 'Azerbaijani',
+  },
+  {
+    code: 'ko|eu',
+    title: 'Basque',
+  },
+  {
+    code: 'ko|be',
+    title: 'Belarusian',
+  },
+  {
+    code: 'ko|bg',
+    title: 'Bulgarian',
+  },
+  {
+    code: 'ko|ca',
+    title: 'Catalan',
+  },
+  {
+    code: 'ko|zh-CN',
+    title: 'Chinese (Simplified)',
+  },
+  {
+    code: 'ko|zh-TW',
+    title: 'Chinese (Traditional)',
+  },
+  {
+    code: 'ko|hr',
+    title: 'Croatian',
+  },
+  {
+    code: 'ko|cs',
+    title: 'Czech',
+  },
+
+  {
+    code: 'ko|da',
+    title: 'Danish',
+  },
+  {
+    code: 'ko|nl',
+    title: 'Dutch',
+  },
+  {
+    code: 'ko|en',
+    title: 'English',
+  },
+  {
+    code: 'ko|et',
+    title: 'Estonian',
+  },
+  {
+    code: 'ko|tl',
+    title: 'Filipino',
+  },
+  {
+    code: 'ko|fi',
+    title: 'Finnish',
+  },
+  {
+    code: 'ko|fr',
+    title: 'French',
+  },
+
+  {
+    code: 'ko|de',
+    title: 'German',
+  },
+  {
+    code: 'ko|el',
+    title: 'Greek',
+  },
+  {
+    code: 'ko|hu',
+    title: 'Hungarian',
+  },
+  {
+    code: 'ko|id',
+    title: 'Indonesian',
+  },
+  {
+    code: 'ko|ga',
+    title: 'Irish',
+  },
+  {
+    code: 'ko|it',
+    title: 'Italian',
+  },
+  {
+    code: 'ko|ja',
+    title: 'Japanese',
+  },
+  {
+    code: 'ko|ko',
+    title: 'Korean',
+  },
+  {
+    code: 'ko|lt',
+    title: 'Lithuanian',
+  },
+  {
+    code: 'ko|ms',
+    title: 'Malay',
+  },
+  {
+    code: 'ko|no',
+    title: 'Norwegian',
+  },
+  {
+    code: 'ko|pl',
+    title: 'Polish',
+  },
+  {
+    code: 'ko|pt',
+    title: 'Portuguese',
+  },
+  {
+    code: 'ko|ro',
+    title: 'Romanian',
+  },
+  {
+    code: 'ko|ru',
+    title: 'Russian',
+  },
+  {
+    code: 'ko|es',
+    title: 'Spanish',
+  },
+  {
+    code: 'ko|sv',
+    title: 'Swedish',
+  },
+  {
+    code: 'ko|th',
+    title: 'Thai',
+  },
+  {
+    code: 'ko|tr',
+    title: 'Turkish',
+  },
+  {
+    code: 'ko|uk',
+    title: 'Ukrainian',
+  }
+]
       }
   },
   mounted(){
