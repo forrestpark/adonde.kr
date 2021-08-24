@@ -8,10 +8,15 @@ import store from './store'
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 import VueCascaderSelect from 'vue-cascader-select';
-import VGoogleTranslate from "v-google-translate";
 
+import VGoogleTranslate from "v-google-translate";
 Vue.config.productionTip = false;
 Vue.use(VGoogleTranslate)
+
+Vue.component('modal', {
+  template: '#modal-template'
+})
+
 
 Vue.use(VueCascaderSelect);
 
@@ -26,6 +31,9 @@ window.Kakao.init(apiKey)
 Vue.use(VueKakaoSdk, { apiKey })
 
 new Vue({
+  data: {
+    showModal: false
+  },
   VueCascaderSelect,
   store,
   vuetify,
