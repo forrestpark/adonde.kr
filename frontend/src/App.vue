@@ -22,12 +22,17 @@
             transition="scale-transition"
             width="50"
             /> 
+            <v-img 
+            alt="maru"
+            contain
+            :src="require(`./assets/003.png`)"
+            transition="scale-transition"
+            width="150"
+            /> 
           </div>
         </v-toolbar-title>
       </router-link>
-        <h2>
-          어디든
-        </h2>
+        
         
       <v-spacer />
       
@@ -36,10 +41,10 @@
     </div>
       
       <v-main>
-        <div>
+        <div style=" background-color : #B1E2B5">
           <div 
             :class="{'sideBar' : invisibleSideBar}"
-            style="float: left; top: 20px">
+            style="float: left; top: 20px;">
             <v-list-item>
         <v-list-item-avatar>
            <v-icon 
@@ -66,8 +71,9 @@
 
       <v-divider />
 
-      <v-list >
+      <v-list style=" background-color : #B1E2B5">
         <v-list-item
+        
           v-for="item in items" 
           :disabled="item.disabled"
           :key="item.title"
@@ -101,10 +107,12 @@
         </v-list-item>
         </div>    
       </v-list>
-          </div>
+      </div>
+
           <div>
             <router-view></router-view>
           </div>
+
         </div>
       </v-main>
   </v-app>
@@ -264,7 +272,22 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+@font-face {
+  font-family: "GmarketSansBold";
+  src: local("GmarketSansBold"),
+   url(./fonts/GmarketSansOTF/GmarketSansBold.otf) format("opentype");
+}
+@font-face {
+  font-family: "GmarketSansLight";
+  src: local("GmarketSansLight"),
+   url(./fonts/GmarketSansOTF/GmarketSansLight.otf) format("opentype");
+}
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: local("GmarketSansMedium"),
+   url(./fonts/GmarketSansOTF/GmarketSansMedium.otf) format("opentype");
+}
 .bar{
   display: none;
 }

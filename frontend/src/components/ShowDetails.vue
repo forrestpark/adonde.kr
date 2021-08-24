@@ -10,77 +10,105 @@
             height="6"
         ></v-progress-linear>
         
-        <div style="padding: 50px">
+        <div 
+            style="padding: 50px">
             <v-flex
             xs12 sm12 md12 lg12 xl12>
             <v-row>
                 <v-col>
-                    <div 
-                        class="details"
-                        style="{ width: 200px; height: 900px; background-image : url(http://www.backhug.co.kr/shopimages/showroom1/0130040002232.jpg?1610512014)}">
-                        <h1 class="name">{{cityDetails.sido_sgg}}</h1>
-                    <v-img 
-                        style="border-radius: 10px;"
-                        :src="cityDetails.image_src"
-                        class="white--text align-end"
-                        height="500">
-                    </v-img>
-                    <h2 class="description">
-                        {{cityDetails.description}}
-                    </h2>
-                    <h2 class="population">
-                        {{`인구수: ${cityDetails.population} (명)`}}   
-                    </h2>
-
-                    <h2 class="link">
-                        <a :href="cityDetails.tourism_link"
-                            target='_blank'
-                        >
-                        {{cityDetails.tourism_link}}
-                        </a>
-                    </h2>
-
-                    <div
-                        style="background-color: white;
-                        border-radius: 10px;"
-                        >
-                        <h2 style="text-align: center; ">
-                            Places
+                    <v-card>
+                    <v-card-text>
+                        <v-row>
+                        
+                            <v-card-title>
+                                <h1 class="name">{{cityDetails.sido_sgg}}</h1>
+                            </v-card-title>
+                        <v-card-text>
+                            <v-img 
+                            style="border-radius: 10px;"
+                            :src="cityDetails.image_src"
+                            class="white--text align-end"
+                            height="500">
+                        </v-img>
+                        </v-card-text>
+                        <v-card-text>
+                            <h2 class="description">
+                            {{cityDetails.description}}
                         </h2>
+                        </v-card-text>
+                        <v-divider class="mx-4"></v-divider>
+                        
+
+                        <v-card-title>
+                            <h2 class="population">
+                            {{`인구수: ${cityDetails.population} (명)`}}   
+                        </h2>
+
+                        
+                        </v-card-title>
+
+                        <v-card-text>
+                            <h2 class="link">
+                            <a :href="cityDetails.tourism_link"
+                                target='_blank'
+                            >
+                            {{cityDetails.tourism_link}}
+                            </a>
+                        </h2>
+                        </v-card-text>
+                            
+                        
+                        
+                        
+                        
+                    </v-row> 
+                    
+                    <v-row
+                        class="places">
                         <div  
-                            v-for="(place, index) in places"
-                            :key="index">
-                            <v-hover>
-                            <v-slide-group
-                                class="places"
+                        v-for="(place, index) in places"
+                        :key="index">
+
+                        <v-sheet
+                            v-if="place.length != 0"
+                            elevation="10"
+                            rounded="xl"
+                        >
+                            <v-sheet
+                            v-if="place.length != 0"
+                            class="pa-3 orange text-center"
+                            dark
+                            rounded="t-xl"
+                            >
+                            {{index}}
+                            </v-sheet>
+
+                            <div class="pa-4">
+                                <v-chip-group
+                                active-class="primary--text"
+                                column
                                 v-if="place.length != 0"
                                 show-arrows
                                 multiple
                                 >
-                                {{index}}
-                                <v-slide-item
+                                
+                                <v-chip
                                     v-for="item in place"
                                     :key="item.name"
-                                    v-slot="{ active, toggle }"
-                                >
-                                    <v-btn
                                     :href="item.link"
                                     target="_blank"
-                                    class="mx-2"
-                                    :input-value="active"
-                                    active-class="purple white--text"
-                                    depressed
-                                    rounded
-                                    @click="toggle"
-                                    >
+                                >
                                     {{item.name}}
-                                    </v-btn>
-                                </v-slide-item>
-                            </v-slide-group>
-                            </v-hover>
-                        </div> 
-                    </div>
-                </div>
+                                </v-chip>
+                            </v-chip-group>
+                            </div>
+                        </v-sheet>       
+                        </div>  
+                    </v-row> 
+                    </v-card-text>
+
+                    </v-card>
+                    
                 </v-col>
            
                 <v-col>
@@ -184,21 +212,22 @@ export default {
 <style scoped>
 
 .name {
-    color: white;
+    font-family: "GmarketSansLight";
     text-align: center; 
 }
 .description {
-    color: wheat;
-    text-align: center; 
+    font-family: "GmarketSansMedium";
 }
 .population {
-    color: white;
     text-align: center; 
 }
 .link{
-    background-color: palegoldenrod;
     border-radius: 10px;
+    background-color: palegoldenrod;
     text-align: center; 
+}
+.places{
+    font-family: "GmarketSansBold";
 }
 
 
