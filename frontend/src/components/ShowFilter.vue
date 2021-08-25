@@ -552,6 +552,8 @@ export default {
           this.updateSearchDisabled(true)
           //search 목록초기화
           this.updateSearchResults([])
+          
+          window.scrollTo(0, 0)
       },
       
       //현위치를 출발지로 설정

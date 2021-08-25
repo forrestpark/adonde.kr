@@ -110,11 +110,18 @@ export default {
             this.updateSearchResults(this.filteredResult)
             this.updateIsSetMarker(true)
 
+            this.$nextTick(() => {
+                window.scrollTo(0, document.body.scrollHeight)
+            })
         },
         showRandom(){
             const randNum = Math.floor(Math.random() * this.filteredResult.length);
             this.updateSearchResults([this.filteredResult[randNum]])
             this.updateIsSetMarker(true)
+
+            this.$nextTick(() => {
+                window.scrollTo(0, document.body.scrollHeight)
+            })
         },
         checkIsSpecialCity(cities){
             //결과값중 특별시가 있는경우는 서울 서울 -> 서울 로 바꿔줌

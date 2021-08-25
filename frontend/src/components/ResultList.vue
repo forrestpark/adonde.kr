@@ -76,7 +76,6 @@ export default {
             'user'
         ])
     },
-   
     data(){
         return{
             sido_sgg:'',
