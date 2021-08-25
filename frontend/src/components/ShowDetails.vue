@@ -59,13 +59,14 @@
                         class="places">
                         <div  
                         v-for="(place, index) in places"
-                        :key="index">
+                        :key="index"
+                        style="padding:8px;">
 
                         <v-sheet
                             v-if="place.length != 0"
                             elevation="10"
                             rounded="xl"
-                        >
+                            >
                             <v-sheet
                             v-if="place.length != 0"
                             class="pa-3 orange text-center"
