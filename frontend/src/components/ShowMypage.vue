@@ -17,6 +17,7 @@
             show-arrows
             >
                 <v-slide-item
+                    
                     class="mypageItem"
                     v-for="item in userStoredDetails"
                     :key="item.sido_sgg"
@@ -40,7 +41,7 @@
                             v-text="checkIsSpecialCity(item.sido_sgg)"
                         ></v-card-title>
                     </v-img>
-                    <v-card-subtitle 
+                    <v-card-subtitle
                         :id="item.sido_sgg" 
                         v-text="item.description">
                     </v-card-subtitle>
@@ -55,16 +56,17 @@
                             <div style="float: left">
                                 <v-btn
                                 class="mypageItemBtn"
-                                color="orange"
+                                color="#FCCE67"
                                 text
                                 @click="gotoDetailPage(item.sido_sgg)"
                                 >
-                                showDetails
+                                Details
                             </v-btn>
                             </div>
                         </div>
                     </v-card-actions>  
-                    <v-row
+
+                    <v-row 
                         class="fill-height"
                         align="center"
                         justify="center"
@@ -95,8 +97,7 @@ export default {
                       "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
                       "전북": "전라북도", "전남": "전라남도", 
                       "제주특별자치도": "제주도", "제주": "제주도"},
-
-        }
+                      }
     },
     computed:{
         ...mapState([

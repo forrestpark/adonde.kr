@@ -14,7 +14,7 @@
            <v-col
                 class="filter">
                 <div   
-                    style="height:700px; position: relative; ">
+                    style="height:650px; position: relative; ">
                     <show-filter style="overflow: auto;height: 100%"></show-filter> 
                 </div> 
             </v-col>

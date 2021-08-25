@@ -9,7 +9,6 @@
         color="#44AD5E"
         dark
         elevate-on-scroll
-
       >
       <router-link 
         to="/intro">
@@ -27,7 +26,7 @@
             contain
             :src="require(`./assets/003.png`)"
             transition="scale-transition"
-            width="150"
+            width="100"
             /> 
           </div>
         </v-toolbar-title>

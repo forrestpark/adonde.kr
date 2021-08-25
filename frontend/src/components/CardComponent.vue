@@ -1,28 +1,22 @@
 <template>
-    <div>
+    <div>          
         <div>
-                 
-        <v-btn
-            icon
-            @click="[changeHeart(),storedMypage()]"  
-            >
-            <v-icon>{{ heart ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
-            </v-btn>
-        <!-- <v-btn
-            icon
-            @click="show = !show"
-            >
-            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        </v-btn> -->
             <v-btn
-            color="orange lighten-2"
+                icon
+                @click="[changeHeart(),storedMypage()]"  
+                >
+                <v-icon>{{ heart ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
+                </v-btn>
+            <v-btn
+            style="font-family: GmarketSansBold; "
+            color="#FCCE67"
             @click="gotoDetailPage()"
             text
             >
-            showDetails
-            </v-btn>  
-        
+            Details
+            </v-btn> 
         </div>
+        
     </div>
 </template>
 

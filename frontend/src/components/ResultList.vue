@@ -7,7 +7,7 @@
         show-arrows
         >
             <v-slide-item
-                height="200px"
+                height="250px"
                 v-for="item in searchResults"
                 :key="item.sido_sgg"
                 v-slot="{ active, toggle }"
@@ -17,7 +17,7 @@
                 :color="active ? undefined : 'grey lighten-1'"
                 class="ma-4"
                 height="250"
-                width="350"
+                width="250"
                 @click="toggle"
                 >
                     <v-img 
@@ -42,7 +42,7 @@
                     </v-img>
                     
 
-                    <v-card-actions>
+                    <v-card-actions style="background-color: #C1C1B0">
                         <card-component
                             :key="item.sido_sgg"
                             :sido_sgg="item.sido_sgg"

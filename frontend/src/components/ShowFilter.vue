@@ -11,18 +11,20 @@
         @select="(selected) => value = selected.value"
         :value="value"   
         />   
+
         <v-icon>mdi-map-marker</v-icon>  
         현위치 : {{currentAdd}}
+
         <v-btn  
           rounded
-          dark
           color="warning"
           @click="setCurrentAsOrigin"
           :disabled="checkCurrentDisabled"
         >
          현위치를 출발지로
          <v-icon>mdi-select-marker</v-icon>
-        </v-btn>  
+        </v-btn> 
+         
       </v-flex>
       <br>
       <!-- 버튼 -->
