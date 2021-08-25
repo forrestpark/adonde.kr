@@ -23,6 +23,8 @@
         
         <div class="language">
             <v-btn 
+                dark
+                outlined
                 style="margin: auto; "
                 width=100%
                 @click="modal = true">
@@ -91,54 +93,15 @@ export default {
           this.$store.commit("updateUser", JSON.parse(sessionStorage.getItem('user')))
           this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
         }
-        // console.log("mypage disabled false")
-        // this.items[2].disabled = false
-        // this.items[1].title = 'Logout'
       }
   },
-//   computed:{
-//     user(){
-//       // console.log("computed session user: ", JSON.parse(sessionStorage.getItem('user')))
-//       // console.log("computed store user: ", this.$store.state.user)
-//       return this.$store.state.user || JSON.parse(sessionStorage.getItem('user'))
-//     },
-//     sessionUser() {
-//       if (JSON.parse(sessionStorage.getItem('user')) != null) {
-//         console.log("session user email: ", JSON.parse(sessionStorage.getItem('user')).email)
-//       }
-//       console.log("session user:", JSON.parse(sessionStorage.getItem('user')))
-//       return JSON.parse(sessionStorage.getItem('user'))
-//     }
-//     // sessionUser() {
-//     //   return sessionStorage
-//     // }
-//   },
-//   watch:{
-//     //로그인시 drawer에 login 이 logout으로 바뀌도록함
-//     user: function(){
-//       console.log("watch session email: ", JSON.parse(sessionStorage.getItem('user')).email )
-//     //   if there exists user info in session storage, then we update user info in store with that
-//       if (JSON.parse(sessionStorage.getItem('user')) != undefined) {
-//         console.log("mypage disabled false")
-//         this.items[2].disabled = false
-//         this.items[1].title = 'Logout'
-//       } else {
-//         this.items[2].disabled = true
-//         this.items[1].title = 'Login'
-//       }
-//      console.log("local store user: ", this.$store.state.user)
-//     },
-//     sessionUser: function() {
-//       this.$store.state.user = JSON.parse(sessionStorage.getItem('user'))
-//     },
-//   },
+
   methods:{
       clickStart(){
       this.$router.push({path:'/'})
      
     }
-  }
-    
+  }    
 }
 </script>
 

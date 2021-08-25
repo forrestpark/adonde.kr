@@ -316,7 +316,7 @@ export default {
   display: none;
 }
 .MenuBar{
-  font-family: "GmarketSansLight";
+  font-family: "GmarketSansMedium";
 }
 .sideBar{
   display: none;
