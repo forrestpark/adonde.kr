@@ -1,5 +1,5 @@
 <template>
-  <v-app class="MenuBar">
+  <v-app >
     <div
       :class="{'bar': invisibleBar }"
       flat
@@ -41,7 +41,7 @@
     </div>
       
       <v-main>
-        <div style=" background-color : #a0dcb0">
+        <div class="MenuBar" style=" background-color : #a0dcb0">
           <div 
             :class="{'sideBar' : invisibleSideBar}"
             style="float: left; top: 20px;">
@@ -290,6 +290,9 @@ export default {
 }
 .bar{
   display: none;
+}
+.MenuBar{
+  font-family: "GmarketSansLight";
 }
 .sideBar{
   display: none;
