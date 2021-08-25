@@ -1,8 +1,8 @@
 <template>
     <v-app style="background-color: #44AD5E;">
         <v-flex 
-            xs4 sm4 md4 lg4 xl4
-            style="margin: auto;">
+            xs4 sm4 md4 lg4 xl2
+            style="position: relative; margin: auto;">
           <v-img 
           alt="Logo"
           contain
@@ -20,11 +20,47 @@
                 :items="lang">{{lang}}
         </v-select> -->
         
-        
-        <div>
+        <!-- <v-img
+            style="margin: auto"
+            v-else
+            @click="kakaoLogin"
+            alt="user"
+            contain
+            :src="require(`@/assets/en_large.png`)"
+            transition="scale-transition"
+            width="400px"
+            /> -->
+                    
+            <v-img
+                width=400
+                :src="require(`@/assets/start_orange2.png`)"    
+                style="margin: auto;"
+                @click="clickStart"
+            />
+   
+            <div class="language">
+                <v-img
+                    width=370
+                    :src="require(`@/assets/lang_blue.png`)"
+                    style="margin: auto;"
+                    @click="modal = true"
+                />
+                <translate-modal
+                @close="modal = false" v-if="modal">
+                <h3 slot="header">
+                    언어를 고르세요
+                    <i class="has ha-times closeModalBtn"
+                    @click="modal = false"></i>
+                </h3>
+                </translate-modal>
+            </div>
+
+        <!-- <div 
+            class="language">
             <v-btn 
-                style="margin: auto; "
-                width=100%
+                dark    
+                outlined
+                width=400
                 @click="modal = true">
                 <v-icon>mdi-translate</v-icon>
                 Language Setting
@@ -38,24 +74,10 @@
                 @click="modal = false"></i>
             </h3>
             </translate-modal>
-        </div>
-        
-        <br>
-        
-        <div>
-            <v-btn
-            style="margin: auto;"
-            width="100%"
-            color="orange lighten-2"
-            @click="clickStart"
-            >
-            Start!
-            </v-btn>
-        </div>
- 
-          <br>
+        </div> -->
+         
           <Login/>
-            
+        
 
           
         </v-flex>       
@@ -91,54 +113,15 @@ export default {
           this.$store.commit("updateUser", JSON.parse(sessionStorage.getItem('user')))
           this.$store.commit("updateUserStoredCities", JSON.parse(sessionStorage.getItem('user')).storedCities)
         }
-        // console.log("mypage disabled false")
-        // this.items[2].disabled = false
-        // this.items[1].title = 'Logout'
       }
   },
-//   computed:{
-//     user(){
-//       // console.log("computed session user: ", JSON.parse(sessionStorage.getItem('user')))
-//       // console.log("computed store user: ", this.$store.state.user)
-//       return this.$store.state.user || JSON.parse(sessionStorage.getItem('user'))
-//     },
-//     sessionUser() {
-//       if (JSON.parse(sessionStorage.getItem('user')) != null) {
-//         console.log("session user email: ", JSON.parse(sessionStorage.getItem('user')).email)
-//       }
-//       console.log("session user:", JSON.parse(sessionStorage.getItem('user')))
-//       return JSON.parse(sessionStorage.getItem('user'))
-//     }
-//     // sessionUser() {
-//     //   return sessionStorage
-//     // }
-//   },
-//   watch:{
-//     //로그인시 drawer에 login 이 logout으로 바뀌도록함
-//     user: function(){
-//       console.log("watch session email: ", JSON.parse(sessionStorage.getItem('user')).email )
-//     //   if there exists user info in session storage, then we update user info in store with that
-//       if (JSON.parse(sessionStorage.getItem('user')) != undefined) {
-//         console.log("mypage disabled false")
-//         this.items[2].disabled = false
-//         this.items[1].title = 'Logout'
-//       } else {
-//         this.items[2].disabled = true
-//         this.items[1].title = 'Login'
-//       }
-//      console.log("local store user: ", this.$store.state.user)
-//     },
-//     sessionUser: function() {
-//       this.$store.state.user = JSON.parse(sessionStorage.getItem('user'))
-//     },
-//   },
+
   methods:{
       clickStart(){
       this.$router.push({path:'/'})
      
     }
-  }
-    
+  }    
 }
 </script>
 

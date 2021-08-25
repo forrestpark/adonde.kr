@@ -1,12 +1,13 @@
 <template>
     <div>
         <v-slide-group
+        class="resultListTitle"
         v-model="model"
         center-active
         show-arrows
         >
             <v-slide-item
-                height="200px"
+                height="250px"
                 v-for="item in searchResults"
                 :key="item.sido_sgg"
                 v-slot="{ active, toggle }"
@@ -16,7 +17,7 @@
                 :color="active ? undefined : 'grey lighten-1'"
                 class="ma-4"
                 height="250"
-                width="350"
+                width="250"
                 @click="toggle"
                 >
                     <v-img 
@@ -25,14 +26,15 @@
                         class="white--text align-end"
                         height="200px">
                         <v-card-title
-                            class="text-h5"
+                            class="resultListTitle"
                             v-text="item.sido_sgg"
                         ></v-card-title>
                         <v-expand-transition>
                             <div v-if="hover"
                                 class="d-flex transition-fast-in-fast-out orange v-card--reveal text-h2 white--text"
                                 style="height: 100%;">
-                                <v-card-text>
+                                <v-card-text
+                                    class="resultListDescription">
                                     {{item.description.split('.')[0]}}.
                                 </v-card-text>
                             </div>
@@ -40,7 +42,7 @@
                     </v-img>
                     
 
-                    <v-card-actions>
+                    <v-card-actions style="background-color: #C1C1B0">
                         <card-component
                             :key="item.sido_sgg"
                             :sido_sgg="item.sido_sgg"
@@ -74,7 +76,6 @@ export default {
             'user'
         ])
     },
-   
     data(){
         return{
             sido_sgg:'',
@@ -114,3 +115,12 @@ export default {
     }
   }
 </script>
+
+<style scoped>
+.resultListTitle{
+    font-family: "GmarketSansMedium";
+}
+.resultListDescription{
+    font-family: "GmarketSansMedium";
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app style="background-color: #D7F0D9">
         <v-progress-linear
                 v-if="loading"
                 :active="loading"
@@ -17,6 +17,8 @@
             show-arrows
             >
                 <v-slide-item
+                    
+                    class="mypageItem"
                     v-for="item in userStoredDetails"
                     :key="item.sido_sgg"
                     v-slot="{ active, toggle }"
@@ -24,7 +26,7 @@
                     <v-card
                     :color="active ? undefined : 'grey lighten-1'"
                     class="ma-4"
-                    height="800"
+                    height="600"
                     width="350"
                     @click="toggle"
                     >
@@ -32,31 +34,38 @@
                         :id="item.sido_sgg" 
                         :src="item.image_src"
                         class="white--text align-end"
-                        width="600"
-                        height="500">
+                        height="300">
                         <v-card-title
-                            class="text-h5"
-                            v-text="item.sido_sgg"
+                            class="mypageItemTitle"
+                            v-text="checkIsSpecialCity(item.sido_sgg)"
                         ></v-card-title>
                     </v-img>
-                    <v-card-subtitle 
+                    <v-card-subtitle
                         :id="item.sido_sgg" 
                         v-text="item.description">
                     </v-card-subtitle>
 
                     <v-card-actions>
-                        <heart-component
-                            :sido_sgg="item.sido_sgg">
-                        </heart-component>
-                        <v-btn
-                            color="orange"
-                            text
-                            @click="gotoDetailPage(item.sido_sgg)"
-                            >
-                            showDetails
-                        </v-btn>
+                        <div style="position: fixed; bottom: 30px;" >
+                            <div style="float: left">
+                                <heart-component
+                                :sido_sgg="item.sido_sgg">
+                                </heart-component>
+                            </div>
+                            <div style="float: left; ">
+                                <v-btn
+                                class="mypageItemBtn"
+                                color="#FCCE67"
+                                text
+                                @click="gotoDetailPage(item.sido_sgg)"
+                                >
+                                Details
+                            </v-btn>
+                            </div>
+                        </div>
                     </v-card-actions>  
-                    <v-row
+
+                    <v-row 
                         class="fill-height"
                         align="center"
                         justify="center"
@@ -83,7 +92,11 @@ export default {
             heart : true,
             sido_sgg:'',
             model: null,
-        }
+            sido_unify : { "경기": "경기도", "강원": "강원도", "충북": "충청북도", 
+                      "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
+                      "전북": "전라북도", "전남": "전라남도", 
+                      "제주특별자치도": "제주도", "제주": "제주도"},
+                      }
     },
     computed:{
         ...mapState([
@@ -118,6 +131,30 @@ export default {
             let routeData = this.$router.resolve({name: 'details', query: {name: sido_sgg}});
             window.open(routeData.href, '_blank');
         },
+        checkIsSpecialCity(sido_sgg){
+            //결과값중 특별시가 있는경우는 서울 서울 -> 서울 로 바꿔줌
+
+            var sido = this.split_sido_sgg(sido_sgg)['sido']
+
+            if (this.checkSpecialCity(sido)) {
+                // not special city
+                return sido_sgg
+            } else {
+                //특별시
+                return sido
+            }   
+        },
+        split_sido_sgg(sido_sgg) {
+            var sido_sgg_split = sido_sgg.split(' ')
+            return {"sido": sido_sgg_split[0], "sgg":sido_sgg_split[1]}
+        },
+        checkSpecialCity(sido) {
+            if (Object.values(this.sido_unify).includes(sido)) {
+                return true
+            } else {
+                return false
+            }
+        }
         
     },
     mounted(){
@@ -138,4 +175,14 @@ export default {
 }
 </script>
 
-
+<style scoped>
+.mypageItem{
+    font-family: "GmarketSansLight";
+}
+.mypageItemTitle{
+    font-family: "GmarketSansMedium";
+}
+.mypageItemBtn{
+    font-family: "GmarketSansBold";
+}
+</style>

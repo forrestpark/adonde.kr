@@ -1,5 +1,5 @@
 <template>
-  <v-app class="MenuBar">
+  <v-app >
     <div
       :class="{'bar': invisibleBar }"
       flat
@@ -9,7 +9,6 @@
         color="#44AD5E"
         dark
         elevate-on-scroll
-
       >
       <router-link 
         to="/intro">
@@ -27,7 +26,7 @@
             contain
             :src="require(`./assets/003.png`)"
             transition="scale-transition"
-            width="150"
+            width="100"
             /> 
           </div>
         </v-toolbar-title>
@@ -35,52 +34,64 @@
         
         
       <v-spacer />
+
+      <div class="languageBtn">
+            <v-btn 
+                outlined
+                width=100%
+                @click="modal = true">
+                <v-icon>mdi-translate</v-icon>
+                Language Setting
+            </v-btn>
+        </div>
       
     </v-app-bar>
       
     </div>
       
-      <v-main>
-        <div style=" background-color : #a0dcb0">
-          <div 
-            :class="{'sideBar' : invisibleSideBar}"
-            style="float: left; top: 20px;">
+    <v-main>
+      <div class="MenuBar" style="position: relative; background-color : #a0dcb0">
+        <div 
+          :class="{'sideBar' : invisibleSideBar}"
+          style="float: left; top: 20px;">
             <v-list-item>
-        <v-list-item-avatar>
-           <v-icon 
-            v-if="user == undefined"
-            >
-            mdi-account
-          </v-icon>
-          <img
-              v-else
-              :src="user.profile_image" />
-        </v-list-item-avatar>
+              <v-list-item-avatar>
+                <v-icon 
+                  v-if="user == undefined"
+                  >
+                  mdi-account
+                </v-icon>
+                <img
+                  v-else
+                  :src="user.profile_image" />
+              </v-list-item-avatar>
+            
+              <v-list-item-content>
+                <div
+                  v-if="user == undefined">
+                  로그인 해주세요 :)
+                </div>
+                <div
+                  v-else>
+                  <v-list-item-title>
+                    {{user.nickname}} 님 :)
+                  </v-list-item-title>
+                </div>
+              </v-list-item-content>
 
-        <v-list-item-content>
-          <div
-            v-if="user == undefined">
-            로그인 해주세요 :)
-          </div>
-          <div
-            v-else>
-            <v-list-item-title>{{user.nickname}} 님 :)</v-list-item-title>
-          </div>
-        </v-list-item-content>
-      </v-list-item>
+            </v-list-item>
 
       <v-divider />
 
       <v-list style=" background-color : #a0dcb0">
         <v-list-item
-        
           v-for="item in items" 
           :disabled="item.disabled"
           :key="item.title"
           link
           :to="item.to"
           @click="isLogin(item.title)"
-        >
+          >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -89,38 +100,53 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-divider />     
-        <div style="position: fixed; bottom: 0;">
+        
+        <v-divider />      
+        </v-list>
+   
+        <div style="position: absolute; bottom: 0">
           <v-list-item
-          v-for="(icon, idx) in iconItems"
-          :key="idx">
-       <v-btn
-          :href="icon.link"
-          class="mx-4"
-          icon
-        >
-          <v-icon  
-            size="24px">
-            {{ icon.icon }}
-          </v-icon>
-        </v-btn>
-        </v-list-item>
-        </div>    
-      </v-list>
+            v-for="(icon, idx) in iconItems"
+            :key="idx">
+            <v-btn
+                :href="icon.link"
+                class="mx-4"
+                icon
+              >
+              <v-icon  
+                size="24px">
+                {{ icon.icon }}
+              </v-icon>
+            </v-btn>
+          </v-list-item>
+        </div>  
       </div>
 
-          <div>
-            <router-view></router-view>
-          </div>
+      <translate-modal
+            @close="modal = false" v-if="modal">
+            <h3 slot="header">
+                언어를 고르세요
+                <i class="has ha-times closeModalBtn"
+                @click="modal = false"></i>
+            </h3>
+      </translate-modal>
 
-        </div>
-      </v-main>
+      <div>
+        <router-view></router-view>
+      </div>
+
+      </div>
+    </v-main>
   </v-app>
 </template>
  
 <script>
+import TranslateModal from '@/components/TranslateModal.vue'
 export default {
   name: 'App',
+  components:{
+    TranslateModal
+  },
   computed:{
     user(){
       // console.log("computed session user: ", JSON.parse(sessionStorage.getItem('user')))
@@ -205,6 +231,7 @@ export default {
     invisibleSideBar:false,
     invisibleBar:false,
     lang:['ko','en'],
+    modal: false,
     // drawer: false,
     items: [
         {
@@ -290,6 +317,9 @@ export default {
 }
 .bar{
   display: none;
+}
+.MenuBar{
+  font-family: "GmarketSansMedium";
 }
 .sideBar{
   display: none;

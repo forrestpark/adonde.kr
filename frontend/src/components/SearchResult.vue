@@ -9,21 +9,27 @@
         height="6"
     ></v-progress-linear> -->
     <br>
-        <div>
+        <div style="text-align: center; ">
         <v-btn 
-        :disabled="searchDisabled"
-          color="primary"
-          @click="showRandom"
-          >
-        <span>random</span>
-      </v-btn>
+            class="mx-2"
+            x-large
+            :disabled="searchDisabled"
+            color="primary"
+            @click="showRandom"
+            >
+            <v-icon>mdi-dice-5</v-icon>
+            random
+        </v-btn>
         <v-btn 
-        :disabled="searchDisabled"
-        color="primary"
-        @click="showAll"
-        > 
-        ShowAll
-    </v-btn>
+            class="mx-2"
+            x-large
+            :disabled="searchDisabled"
+            color="primary"
+            @click="showAll"
+            > 
+            <v-icon>mdi-map-search</v-icon>
+            ShowAll
+        </v-btn>
         </div>
     </div>
 </template>
@@ -104,11 +110,18 @@ export default {
             this.updateSearchResults(this.filteredResult)
             this.updateIsSetMarker(true)
 
+            this.$nextTick(() => {
+                window.scrollTo(0, document.body.scrollHeight)
+            })
         },
         showRandom(){
             const randNum = Math.floor(Math.random() * this.filteredResult.length);
             this.updateSearchResults([this.filteredResult[randNum]])
             this.updateIsSetMarker(true)
+
+            this.$nextTick(() => {
+                window.scrollTo(0, document.body.scrollHeight)
+            })
         },
         checkIsSpecialCity(cities){
             //결과값중 특별시가 있는경우는 서울 서울 -> 서울 로 바꿔줌

@@ -7,9 +7,9 @@
         @click="kakaoLogin"
         alt="user"
         contain
-        :src="require(`@/assets/ko_large.png`)"
+        :src="require(`@/assets/en_large.png`)"
         transition="scale-transition"
-        width="400px"
+        width="380"
         />
         <!-- <v-img
             style="margin: auto"
