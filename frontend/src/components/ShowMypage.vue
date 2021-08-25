@@ -17,6 +17,7 @@
             show-arrows
             >
                 <v-slide-item
+                    class="mypageItem"
                     v-for="item in userStoredDetails"
                     :key="item.sido_sgg"
                     v-slot="{ active, toggle }"
@@ -35,7 +36,7 @@
                         width="600"
                         height="500">
                         <v-card-title
-                            class="text-h5"
+                            class="mypageItemTitle"
                             v-text="item.sido_sgg"
                         ></v-card-title>
                     </v-img>
@@ -49,7 +50,8 @@
                             :sido_sgg="item.sido_sgg">
                         </heart-component>
                         <v-btn
-                            color="orange"
+                            class="mypageItemBtn"
+                            color="white"
                             text
                             @click="gotoDetailPage(item.sido_sgg)"
                             >
@@ -138,4 +140,14 @@ export default {
 }
 </script>
 
-
+<style scoped>
+.mypageItem{
+    font-family: "GmarketSansLight";
+}
+.mypageItemTitle{
+    font-family: "GmarketSansMedium";
+}
+.mypageItemBtn{
+    font-family: "GmarketSansMedium";
+}
+</style>

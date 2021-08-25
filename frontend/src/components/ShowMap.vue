@@ -77,7 +77,7 @@ export default {
                     vm.updateCurrentAdd(res)
                     vm.updateCheckCurrentDisabled(false)
 
-                    var message = '<span class="title" style="width:max-content;">현재위치</span>'+'<div tyle="width:max-content;">'+ res + '</div>' // 인포윈도우에 표시될 내용입니다
+                    var message = '<span style="width:max-content;">현재위치</span>'+'<div class="nowCurrent" style="width:max-content;">'+ res + '</div>' // 인포윈도우에 표시될 내용입니다
 
                     // 마커와 인포윈도우를 표시합니다
                     vm.displayMarker(locPosition, message, map)
@@ -281,5 +281,3 @@ export default {
     
 }
 </script>
-
-
