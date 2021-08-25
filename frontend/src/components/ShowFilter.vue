@@ -2,6 +2,7 @@
   <v-container class="filter">
     <div class="filter">
       <!-- 출발지 선택 -->
+      
       {{$t('originlabel')}}
       <v-flex>       
         <vue-cascader-select style="z-index:2; width:300px"
@@ -9,42 +10,42 @@
         @clear="(val) => value = ''"
         @select="(selected) => value = selected.value"
         :value="value"   
-        />     
-        {{currentAdd}}
-        <v-btn  @click="setCurrentAsOrigin"
-                :disabled="checkCurrentDisabled"
+        />   
+        <v-icon>mdi-map-marker</v-icon>  
+        현위치 : {{currentAdd}}
+        <v-btn  
+          rounded
+          dark
+          color="warning"
+          @click="setCurrentAsOrigin"
+          :disabled="checkCurrentDisabled"
         >
-        현위치를 출발지로
+         현위치를 출발지로
+         <v-icon>mdi-select-marker</v-icon>
         </v-btn>  
       </v-flex>
-    
-      <br>
-      <!-- 출발지 설정 후 accessitem status 기다리기 -->
-      <!-- <v-progress-linear
-        :active="loading"
-        :indeterminate="loading"
-        striped
-        color="yellow"
-        rounded
-        height="6"
-      ></v-progress-linear> -->
-
       <br>
       <!-- 버튼 -->
       
-      <div class="text-center d-flex pb-4">
-        <v-btn @click="all"
-        :disabled="disabled">
-          모두 펼치기
-        </v-btn>
-        <v-btn @click="none"
-        :disabled="disabled">
-          모두 접기
-        </v-btn>
-        
-        <v-btn @click="filterReset"
+      <v-card>
+        <v-card-text>
+          <div class="text-center d-flex pb-4" style="float: right;">
+        <v-btn 
+        class="mx-1"
+        rounded
+        @click="filterReset"
         :disabled="disabled">
           필터 초기화
+        </v-btn>
+        <v-btn 
+          fab
+          small
+          outlined
+          color="teal"
+          class="mx-1"
+          @click="filterOpen"
+          :disabled="disabled">
+          <v-icon>{{ isfilterOpen ? 'mdi-arrow-expand-down' : 'mdi-arrow-expand-up' }}</v-icon>
         </v-btn>
       </div>
 
@@ -61,6 +62,7 @@
               <template v-slot:default="{ open }">
                 <v-row no-gutters>
                   <v-col cols="4">
+                    <v-icon>mdi-map</v-icon>
                     {{ $t('themeLabel') }}
                   </v-col>
                   <v-col
@@ -105,6 +107,7 @@
                 <template v-slot:default="{ open }">
                   <v-row no-gutters>
                     <v-col cols="4">
+                      <v-icon>mdi-human-greeting</v-icon>
                       {{ $t('popuLabel') }}
                     </v-col>
                     <v-col
@@ -147,8 +150,17 @@
                   ></vue-slider>
 
                 </v-flex>
-                <v-btn @click="popuTozero">선택안해</v-btn>
-                {{population}}
+                <div>
+                  {{population[0]}} ~ {{population[1]}}
+                  <v-btn 
+                  :disabled="disabled"
+                  fab
+                  small
+                  style="float: right;"
+                  @click="popuTozero">
+                  <v-icon>mdi-pencil-remove-outline</v-icon>
+                </v-btn>
+                </div>
               </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -158,7 +170,8 @@
               <template v-slot:default="{ open }">
                 <v-row no-gutters>
                   <v-col cols="4">
-                  {{ $t('distanceLabel') }}
+                    <v-icon>mdi-map-marker-distance</v-icon>
+                    {{ $t('distanceLabel') }}
                   </v-col>
                   <v-col
                     cols="8"
@@ -197,9 +210,18 @@
                     thumb-label
                     ticks
                   ></v-slider>
-                <v-btn @click="distanceTozero">선택안해</v-btn>
-                {{distance}}
               </v-flex>
+              <div>
+                  {{distance}} km
+                  <v-btn 
+                  fab
+                  small
+                  :disabled="disabled"
+                  @click="distanceTozero"
+                  style="float: right;">
+                  <v-icon>mdi-pencil-remove-outline</v-icon>
+                </v-btn>
+              </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -209,6 +231,7 @@
               <template v-slot:default="{ open }">
                 <v-row no-gutters>
                   <v-col cols="4">
+                    <v-icon>mdi-train</v-icon>
                     {{ $t('accessLabel') }}
                   </v-col>
                   <v-col
@@ -249,30 +272,35 @@
 
         </v-expansion-panels>
       </v-flex>
-
-      <!-- 버튼모음 -->
-      <v-btn
-        :disabled="disabled"
-        @click="initData"
-        color="pink"
-      >
-      <span>submit</span>
-      <v-icon>
-          mdi-send
-      </v-icon>
-      </v-btn>
-
-      <v-btn 
-        :disabled="refreshDisabled"
-        @click="refresh"
+      <br>
+          <!-- 버튼모음 -->
+      <div style="text-align: center; ">
+        <v-btn
+          class="mx-1"
+          :disabled="disabled"
+          @click="initData"
+          color="pink"
         >
-        다시 선택하기
         <v-icon>
-            mdi-sync
+            mdi-send
         </v-icon>
-      </v-btn>
-        <br>
-    
+        submit
+        </v-btn>
+
+        <v-btn 
+          class="mx-1"
+          :disabled="refreshDisabled"
+          @click="refresh"
+          >
+          <v-icon>
+              mdi-refresh
+          </v-icon>
+          다시 선택하기
+        </v-btn>
+        </div>
+      </v-card-text>
+      </v-card>
+          
       <search-result></search-result>
       <!-- 확인해보기 위함
       <br>
@@ -329,6 +357,7 @@ export default {
         },
         //filter
         // disabled: true,
+        isfilterOpen:true,
         panel: [],
 
         theme:'',
@@ -447,12 +476,14 @@ export default {
       
       // Create an array the length of our items
       // with all values as true
-      all () {
-        this.panel = [0,1,2,3,4]
-        
-      },
-      none(){
-        this.panel = []
+      filterOpen(){
+        if(this.isfilterOpen == true){
+          this.isfilterOpen= false
+          this.panel = [0,1,2,3,4]
+        }else{
+          this.isfilterOpen= true
+          this.panel = []
+        }
       },
       //Reset the panel
       filterReset() {
@@ -614,17 +645,17 @@ export default {
 
 <style>
 .filter{
-  font-family: "GmarketSansLight";
+  font-family: "GmarketSansMedium";
 }
 .vcs__picker input,
 .vcs__select-menu {
   background: #282b34;
   color:black;
-  border-color: #282b34;
+  border-color: #14151a;
 }
 
 .vcs__picker input::placeholder {
-  color: #bbb;
+  color: rgb(17, 1, 1);
 }
 
 .vcs__option--active {
