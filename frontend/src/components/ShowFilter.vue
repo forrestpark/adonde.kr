@@ -128,7 +128,7 @@
                         key="1"
                       >
                       <div v-if="population != 0">
-                          {{population}}
+                          {{population[0]}} ~ {{population[1]}}
                       </div>
                       <div v-else>
                         {{ popuTozero() }}
@@ -191,7 +191,7 @@
                     key="1"
                   >
                     <div v-if="distance != 0">
-                        {{distance}}
+                        {{distance}} km
                     </div>
                     <div v-else>
                       {{ distanceTozero() }}
@@ -493,7 +493,8 @@ export default {
         this.theme='',
         this.distance='',
         this.population=[0,0],
-        this.access=''
+        this.access='',
+        this.isfilterOpen = true
       },
       //인구수와 거리 slider설정시 버튼을 누르면 초기화 된다
       popuTozero(){

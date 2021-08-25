@@ -38,10 +38,12 @@
                         <v-divider class="mx-4"></v-divider>
                         
 
-                        <v-card-title>
-                            <h2 class="population">
-                            {{`인구수: ${population} (명)`}}   
+                        <v-card-title class="population">
+                            <h2>인구수 : &nbsp; </h2> 
+                            <h2>
+                            {{population}}
                         </h2>
+                        <h2>(명) </h2> 
                         </v-card-title>
 
                         <v-card-text>
@@ -156,13 +158,15 @@ export default {
                     sido_sgg :this.sido_sgg
                 })
                 console.log("cityDetails ",Details)
+                this.population = this.comma(Details.data.population)
                 this.cityDetails = Details.data
                 this.latitude = Details.data.latitude
                 this.longitude = Details.data.longitude
                 
                 this.sido_sgg_title = this.checkIsSpecialCity(this.sido_sgg)
 
-                this.population = this.comma(Details.data.population)
+                
+                console.log('population : ', this.population)
                 
                 //지도 표시해주기
                 window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
@@ -255,6 +259,7 @@ export default {
 .link{
     border-radius: 10px;
     background-color: palegoldenrod;
+    font-family: "GmarketSansLight";
     text-align: center; 
 }
 .places{
