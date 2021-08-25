@@ -20,7 +20,7 @@
                     <v-card-text>
                         <v-row>
                             <v-card-title>
-                                <h1 class="name">{{checkIsSpecialCity(cityDetails.sido_sgg)}}</h1>
+                                <h1 class="name">{{sido_sgg_title}}</h1>
                             </v-card-title>
                         <v-card-text>
                             <v-img 
@@ -54,12 +54,7 @@
                             {{cityDetails.tourism_link}}
                             </a>
                         </h2>
-                        </v-card-text>
-                            
-                        
-                        
-                        
-                        
+                        </v-card-text>     
                     </v-row> 
                     
                     <v-row
@@ -112,7 +107,6 @@
            
                 <v-col>
                     <div class="map" id="map" style="border-radius: 10px; height:1000px;" ></div>
-          
                 </v-col>
             </v-row>
         </v-flex>
@@ -128,8 +122,8 @@ import {BASE_URL} from '@/api.js'
 export default {
     mounted(){
         this.getCityDetail()
-        this.getPlace()
 
+        this.getPlace()
     },
     data(){
         return{
@@ -148,6 +142,7 @@ export default {
                       "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
                       "전북": "전라북도", "전남": "전라남도", 
                       "제주특별자치도": "제주도", "제주": "제주도"},
+            sido_sgg_title:''
                       
         }
     },
@@ -164,6 +159,9 @@ export default {
                 this.cityDetails = Details.data
                 this.latitude = Details.data.latitude
                 this.longitude = Details.data.longitude
+                
+                this.sido_sgg_title = this.checkIsSpecialCity(this.sido_sgg)
+
                 //지도 표시해주기
                 window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
                 
@@ -192,23 +190,9 @@ export default {
                 console.log(err)
             }
         },
-        async initMap() { 
-            var container = document.getElementById('map'); 
-            var options = { center: new kakao.maps.LatLng(this.latitude, this.longitude), level: 10 };
-            var map = new kakao.maps.Map(container, options); 
-            //마커추가하려면 객체를 아래와 같이 하나 만든다. 
-            var marker = new kakao.maps.Marker({ position: map.getCenter() }); 
-            await marker.setMap(map); 
-        },  
-        addScript() { 
-            const script = document.createElement('script'); 
-            /* global kakao */ 
-            script.onload = () => kakao.maps.load(this.initMap); 
-            script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0b3e12f49e69284bc5e44c27065a9f7b'; 
-            document.head.appendChild(script); 
-        },
-                checkIsSpecialCity(sido_sgg){
+        checkIsSpecialCity(sido_sgg){
             //결과값중 특별시가 있는경우는 서울 서울 -> 서울 로 바꿔줌
+            console.log('split하기전', sido_sgg)
 
             var sido = this.split_sido_sgg(sido_sgg)['sido']
 
@@ -230,7 +214,23 @@ export default {
             } else {
                 return false
             }
-        }
+        },
+        async initMap() { 
+            var container = document.getElementById('map'); 
+            var options = { center: new kakao.maps.LatLng(this.latitude, this.longitude), level: 10 };
+            var map = new kakao.maps.Map(container, options); 
+            //마커추가하려면 객체를 아래와 같이 하나 만든다. 
+            var marker = new kakao.maps.Marker({ position: map.getCenter() }); 
+            await marker.setMap(map); 
+        },  
+        addScript() { 
+            const script = document.createElement('script'); 
+            /* global kakao */ 
+            script.onload = () => kakao.maps.load(this.initMap); 
+            script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0b3e12f49e69284bc5e44c27065a9f7b'; 
+            document.head.appendChild(script); 
+        },
+        
 
 
     }
