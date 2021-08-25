@@ -35,6 +35,16 @@
         
         
       <v-spacer />
+
+      <div class="languageBtn">
+            <v-btn 
+                outlined
+                width=100%
+                @click="modal = true">
+                <v-icon>mdi-translate</v-icon>
+                Language Setting
+            </v-btn>
+        </div>
       
     </v-app-bar>
       
@@ -109,9 +119,18 @@
       </v-list>
       </div>
 
-          <div>
-            <router-view></router-view>
-          </div>
+      <translate-modal
+            @close="modal = false" v-if="modal">
+            <h3 slot="header">
+                언어를 고르세요
+                <i class="has ha-times closeModalBtn"
+                @click="modal = false"></i>
+            </h3>
+      </translate-modal>
+
+      <div>
+        <router-view></router-view>
+      </div>
 
         </div>
       </v-main>
@@ -119,8 +138,12 @@
 </template>
  
 <script>
+import TranslateModal from '@/components/TranslateModal.vue'
 export default {
   name: 'App',
+  components:{
+    TranslateModal
+  },
   computed:{
     user(){
       // console.log("computed session user: ", JSON.parse(sessionStorage.getItem('user')))
@@ -205,6 +228,7 @@ export default {
     invisibleSideBar:false,
     invisibleBar:false,
     lang:['ko','en'],
+    modal: false,
     // drawer: false,
     items: [
         {

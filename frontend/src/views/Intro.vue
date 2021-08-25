@@ -21,7 +21,7 @@
         </v-select> -->
         
         
-        <div>
+        <div class="language">
             <v-btn 
                 style="margin: auto; "
                 width=100%
