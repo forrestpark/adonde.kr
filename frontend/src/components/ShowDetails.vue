@@ -40,10 +40,8 @@
 
                         <v-card-title>
                             <h2 class="population">
-                            {{`인구수: ${cityDetails.population} (명)`}}   
+                            {{`인구수: ${population} (명)`}}   
                         </h2>
-
-                        
                         </v-card-title>
 
                         <v-card-text>
@@ -142,7 +140,8 @@ export default {
                       "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
                       "전북": "전라북도", "전남": "전라남도", 
                       "제주특별자치도": "제주도", "제주": "제주도"},
-            sido_sgg_title:''
+            sido_sgg_title:'',
+            population:''
                       
         }
     },
@@ -162,6 +161,8 @@ export default {
                 
                 this.sido_sgg_title = this.checkIsSpecialCity(this.sido_sgg)
 
+                this.population = this.comma(Details.data.population)
+                
                 //지도 표시해주기
                 window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
                 
@@ -192,8 +193,6 @@ export default {
         },
         checkIsSpecialCity(sido_sgg){
             //결과값중 특별시가 있는경우는 서울 서울 -> 서울 로 바꿔줌
-            console.log('split하기전', sido_sgg)
-
             var sido = this.split_sido_sgg(sido_sgg)['sido']
 
             if (this.checkSpecialCity(sido)) {
@@ -230,9 +229,9 @@ export default {
             script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0b3e12f49e69284bc5e44c27065a9f7b'; 
             document.head.appendChild(script); 
         },
-        
-
-
+        comma(val){
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
     }
 }
 </script>
@@ -248,6 +247,7 @@ export default {
 }
 .population {
     text-align: center; 
+    font-family: "GmarketSansLight";
 }
 .link{
     border-radius: 10px;
