@@ -19,9 +19,8 @@
                     <v-card>
                     <v-card-text>
                         <v-row>
-                        
                             <v-card-title>
-                                <h1 class="name">{{cityDetails.sido_sgg}}</h1>
+                                <h1 class="name">{{checkIsSpecialCity(cityDetails.sido_sgg)}}</h1>
                             </v-card-title>
                         <v-card-text>
                             <v-img 
@@ -144,7 +143,12 @@ export default {
             mountains:'',
             rivers:'',
             valleys:'',
-            places:''
+            places:'',
+            sido_unify : { "경기": "경기도", "강원": "강원도", "충북": "충청북도", 
+                      "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
+                      "전북": "전라북도", "전남": "전라남도", 
+                      "제주특별자치도": "제주도", "제주": "제주도"},
+                      
         }
     },
     methods:{
@@ -202,6 +206,30 @@ export default {
             script.onload = () => kakao.maps.load(this.initMap); 
             script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0b3e12f49e69284bc5e44c27065a9f7b'; 
             document.head.appendChild(script); 
+        },
+                checkIsSpecialCity(sido_sgg){
+            //결과값중 특별시가 있는경우는 서울 서울 -> 서울 로 바꿔줌
+
+            var sido = this.split_sido_sgg(sido_sgg)['sido']
+
+            if (this.checkSpecialCity(sido)) {
+                // not special city
+                return sido_sgg
+            } else {
+                //특별시
+                return sido
+            }   
+        },
+        split_sido_sgg(sido_sgg) {
+            var sido_sgg_split = sido_sgg.split(' ')
+            return {"sido": sido_sgg_split[0], "sgg":sido_sgg_split[1]}
+        },
+        checkSpecialCity(sido) {
+            if (Object.values(this.sido_unify).includes(sido)) {
+                return true
+            } else {
+                return false
+            }
         }
 
 
