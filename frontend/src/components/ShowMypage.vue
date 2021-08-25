@@ -26,7 +26,7 @@
                     <v-card
                     :color="active ? undefined : 'grey lighten-1'"
                     class="ma-4"
-                    height="800"
+                    height="600"
                     width="350"
                     @click="toggle"
                     >
@@ -34,8 +34,7 @@
                         :id="item.sido_sgg" 
                         :src="item.image_src"
                         class="white--text align-end"
-                        width="600"
-                        height="500">
+                        height="300">
                         <v-card-title
                             class="mypageItemTitle"
                             v-text="checkIsSpecialCity(item.sido_sgg)"
@@ -53,7 +52,7 @@
                                 :sido_sgg="item.sido_sgg">
                                 </heart-component>
                             </div>
-                            <div style="float: left">
+                            <div style="float: left; ">
                                 <v-btn
                                 class="mypageItemBtn"
                                 color="#FCCE67"
@@ -184,6 +183,6 @@ export default {
     font-family: "GmarketSansMedium";
 }
 .mypageItemBtn{
-    font-family: "GmarketSansMedium";
+    font-family: "GmarketSansBold";
 }
 </style>

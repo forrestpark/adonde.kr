@@ -7,7 +7,7 @@
         striped
         color="yellow"
         rounded
-        height="6"
+        height="8"
       ></v-progress-linear>
        <v-row
             class="homeItem">
@@ -53,8 +53,15 @@ export default {
 </script>
 
 <style scoped>
-.homeItem .filter{flex-grow: 1;}
-.homeItem .map{flex-grow: 1.5;}
+.homeItem .filter{
+    flex-grow: 1;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+.homeItem .map{
+    flex-grow: 1.5;
+    padding-bottom: 0;
+}
 
 </style>
 

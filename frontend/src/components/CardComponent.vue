@@ -1,22 +1,23 @@
 <template>
-    <div>          
+    <div>               
         <div>
             <v-btn
                 icon
+                style="float: left;"
                 @click="[changeHeart(),storedMypage()]"  
                 >
                 <v-icon>{{ heart ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
-                </v-btn>
+            </v-btn>
+
             <v-btn
-            style="font-family: GmarketSansBold; "
-            color="#FCCE67"
-            @click="gotoDetailPage()"
-            text
-            >
+                style="font-family: GmarketSansBold;"
+                color="#FCCE67"
+                @click="gotoDetailPage()"
+                text
+                >
             Details
             </v-btn> 
         </div>
-        
     </div>
 </template>
 

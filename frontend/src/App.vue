@@ -49,47 +49,49 @@
       
     </div>
       
-      <v-main>
-        <div class="MenuBar" style=" background-color : #a0dcb0">
-          <div 
-            :class="{'sideBar' : invisibleSideBar}"
-            style="float: left; top: 20px;">
+    <v-main>
+      <div class="MenuBar" style="position: relative; background-color : #a0dcb0">
+        <div 
+          :class="{'sideBar' : invisibleSideBar}"
+          style="float: left; top: 20px;">
             <v-list-item>
-        <v-list-item-avatar>
-           <v-icon 
-            v-if="user == undefined"
-            >
-            mdi-account
-          </v-icon>
-          <img
-              v-else
-              :src="user.profile_image" />
-        </v-list-item-avatar>
+              <v-list-item-avatar>
+                <v-icon 
+                  v-if="user == undefined"
+                  >
+                  mdi-account
+                </v-icon>
+                <img
+                  v-else
+                  :src="user.profile_image" />
+              </v-list-item-avatar>
+            
+              <v-list-item-content>
+                <div
+                  v-if="user == undefined">
+                  로그인 해주세요 :)
+                </div>
+                <div
+                  v-else>
+                  <v-list-item-title>
+                    {{user.nickname}} 님 :)
+                  </v-list-item-title>
+                </div>
+              </v-list-item-content>
 
-        <v-list-item-content>
-          <div
-            v-if="user == undefined">
-            로그인 해주세요 :)
-          </div>
-          <div
-            v-else>
-            <v-list-item-title>{{user.nickname}} 님 :)</v-list-item-title>
-          </div>
-        </v-list-item-content>
-      </v-list-item>
+            </v-list-item>
 
       <v-divider />
 
       <v-list style=" background-color : #a0dcb0">
         <v-list-item
-        
           v-for="item in items" 
           :disabled="item.disabled"
           :key="item.title"
           link
           :to="item.to"
           @click="isLogin(item.title)"
-        >
+          >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -98,24 +100,26 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-divider />     
-        <div style="position: fixed; bottom: 0;">
+        
+        <v-divider />      
+        </v-list>
+   
+        <div style="position: absolute; bottom: 0">
           <v-list-item
-          v-for="(icon, idx) in iconItems"
-          :key="idx">
-       <v-btn
-          :href="icon.link"
-          class="mx-4"
-          icon
-        >
-          <v-icon  
-            size="24px">
-            {{ icon.icon }}
-          </v-icon>
-        </v-btn>
-        </v-list-item>
-        </div>    
-      </v-list>
+            v-for="(icon, idx) in iconItems"
+            :key="idx">
+            <v-btn
+                :href="icon.link"
+                class="mx-4"
+                icon
+              >
+              <v-icon  
+                size="24px">
+                {{ icon.icon }}
+              </v-icon>
+            </v-btn>
+          </v-list-item>
+        </div>  
       </div>
 
       <translate-modal
@@ -131,8 +135,8 @@
         <router-view></router-view>
       </div>
 
-        </div>
-      </v-main>
+      </div>
+    </v-main>
   </v-app>
 </template>
  

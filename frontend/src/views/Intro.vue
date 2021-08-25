@@ -1,8 +1,8 @@
 <template>
     <v-app style="background-color: #44AD5E;">
         <v-flex 
-            xs4 sm4 md4 lg4 xl4
-            style="margin: auto;">
+            xs4 sm4 md4 lg4 xl2
+            style="position: relative; margin: auto;">
           <v-img 
           alt="Logo"
           contain
@@ -20,13 +20,47 @@
                 :items="lang">{{lang}}
         </v-select> -->
         
-        
-        <div class="language">
+        <!-- <v-img
+            style="margin: auto"
+            v-else
+            @click="kakaoLogin"
+            alt="user"
+            contain
+            :src="require(`@/assets/en_large.png`)"
+            transition="scale-transition"
+            width="400px"
+            /> -->
+                    
+            <v-img
+                width=400
+                :src="require(`@/assets/start_orange2.png`)"    
+                style="margin: auto;"
+                @click="clickStart"
+            />
+   
+            <div class="language">
+                <v-img
+                    width=370
+                    :src="require(`@/assets/lang_blue.png`)"
+                    style="margin: auto;"
+                    @click="modal = true"
+                />
+                <translate-modal
+                @close="modal = false" v-if="modal">
+                <h3 slot="header">
+                    언어를 고르세요
+                    <i class="has ha-times closeModalBtn"
+                    @click="modal = false"></i>
+                </h3>
+                </translate-modal>
+            </div>
+
+        <!-- <div 
+            class="language">
             <v-btn 
-                dark
+                dark    
                 outlined
-                style="margin: auto; "
-                width=100%
+                width=400
                 @click="modal = true">
                 <v-icon>mdi-translate</v-icon>
                 Language Setting
@@ -40,24 +74,10 @@
                 @click="modal = false"></i>
             </h3>
             </translate-modal>
-        </div>
-        
-        <br>
-        
-        <div>
-            <v-btn
-            style="margin: auto;"
-            width="100%"
-            color="orange lighten-2"
-            @click="clickStart"
-            >
-            Start!
-            </v-btn>
-        </div>
- 
-          <br>
+        </div> -->
+         
           <Login/>
-            
+        
 
           
         </v-flex>       
