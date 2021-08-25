@@ -243,7 +243,9 @@ export default {
     text-align: center; 
 }
 .description {
+    font-size: 15px;
     font-family: "GmarketSansMedium";
+    letter-spacing: 2px;
 }
 .population {
     text-align: center; 
