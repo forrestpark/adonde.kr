@@ -1,7 +1,7 @@
 <template>
     <v-app style="background-color: #44AD5E;">
         <v-flex 
-            xs4 sm4 md4 lg4 xl4
+            xs2 sm2 md2 lg2 xl2
             style="position: relative; margin: auto;">
           <v-img 
           alt="Logo"
