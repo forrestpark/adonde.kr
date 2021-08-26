@@ -84,12 +84,14 @@ class App {
         this.app.use(cors());
         // this.app.options('*', cors());
 
+        console.log("env secret: ", process.env.SESSION_SECRET )
+
         this.app.use(session({
             store: new SequelizeStore({
                 db: db.sequelize,
             }),
             resave: false,
-            secret: process.env.SESSION_SECRET,
+            secret: process.env.SESSION_SECRET || "jangwoopark",
             saveUninitialized: true
         }));
 
