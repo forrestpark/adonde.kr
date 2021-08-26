@@ -50,6 +50,7 @@
                             <h2 class="link">
                             <a :href="cityDetails.tourism_link"
                                 target='_blank'
+                                style="color: #FFBE59; font-size: 15px"
                             >
                             {{cityDetails.tourism_link}}
                             </a>
@@ -258,7 +259,7 @@ export default {
 }
 .link{
     border-radius: 10px;
-    background-color: palegoldenrod;
+    background-color: #42AC5E;
     font-family: "GmarketSansLight";
     text-align: center; 
 }
