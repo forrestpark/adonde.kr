@@ -14,4 +14,6 @@ router.put('/deleteStoredCity', ctrl.deleteStoredCity);
 router.post('/login', ctrl.login);
 router.post('/getStoredCitiesDetail', ctrl.getStoredCitiesDetail);
 
+// router.post('/passport', ctrl.passport_login)
+
 module.exports = router;

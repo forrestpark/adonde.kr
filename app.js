@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 // db 관련
 const db = require('./models');
 const cors = require('cors');
+const session = require('express-session')
+// const passport = require('./auth')
+var passport = require('passport')
+// const LocalStrategy = require('passport-local').Strategy;
 
 class App {
 
@@ -15,7 +19,24 @@ class App {
 
         this.setMiddleWare();
 
+        // this.setPassport();
+        // console.log("passport set")
+
         this.getRouting();
+
+        // this.app.get('/auth2', (req, res) => {
+        //     return res.send("auth2")
+        // })
+
+        this.app.get('/auth/google',
+            passport.authenticate('google', { scope: ['profile'] }));
+
+        this.app.get('/auth/google/callback', 
+            passport.authenticate('google', { failureRedirect: '/login' }),
+            function(req, res) {
+                // Successful authentication, redirect home.
+                res.redirect('/');
+        });
 
     }
 
@@ -35,17 +56,55 @@ class App {
         });
     }
 
-    getRouting (){
+    getRouting() {
         this.app.use(require('./controllers'));
     }
 
-    setMiddleWare (){
+    setMiddleWare() {
         
         // 미들웨어 셋팅
         this.app.use(express.json());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors());
+
+        this.app.use(session({
+            saveUninitialized : true,
+            resave : true,
+            secret: process.env.SESSION_SECRET
+        }));
+
+        this.setPassport();
+
+    }
+
+    setPassport() {
+        // var passport = require('passport')
+        var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
+
+        passport.use(new GoogleStrategy({
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: "http://localhost:3000/auth/google/callback"
+        },
+        function(accessToken, refreshToken, profile, cb) {
+            console.log("profile: ", profile)
+            return cb(null, profile)
+        }
+        ));
+
+        passport.serializeUser(function(user, cb) {
+            cb(null, user)
+        })
+        
+        passport.deserializeUser(function(user, cb) {
+            cb(null, user)
+        })
+
+        console.log("passport set")
 
     }
         
