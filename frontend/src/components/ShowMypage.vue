@@ -177,7 +177,7 @@ export default {
 
 <style scoped>
 .mypageItem{
-    font-family: "GmarketSansLight";
+    font-family: "GmarketSansMedium";
 }
 .mypageItemTitle{
     font-family: "GmarketSansMedium";

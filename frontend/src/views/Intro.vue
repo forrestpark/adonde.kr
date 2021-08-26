@@ -86,17 +86,15 @@
 
         <v-overlay
           color="white"
- 
           :opacity="opacity"
           :value="overlay"
         >
             <div style="position: realative">
-                <v-flex>
                     <div style="position: absolute; position: fixed; top:30px;right:100px">
                     <v-btn
                         fab
                         
-                        color="orange lighten-2"
+                        color="#44AD5E"
                         @click="overlay = false"
                     >
                     <v-icon>mdi-close</v-icon>
@@ -104,8 +102,6 @@
                 </div>
 
                 <Login v-on:close="overlay = false, welcomeImg = true"/>
-          
-                </v-flex>
             </div>
         </v-overlay>
 
@@ -133,7 +129,6 @@ export default {
       return{
         modal: false,
         lang:['ko','en'],
-        absolute: true,
         opacity: 0.9,
         overlay: false,
         welcomeImg: false

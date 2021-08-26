@@ -30,7 +30,7 @@
         ></v-progress-circular>
         
         <v-img
-            width=500
+            width=400
             style="margin: auto"
             v-if="user != ''"
             :src="require(`@/assets/welcome.png`)">
