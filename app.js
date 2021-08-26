@@ -9,8 +9,8 @@ const session = require('express-session')
 // const passport = require('./auth')
 var passport = require('passport')
 const url = require('url')
-const db_url = process.env.DEVELOPMENT_BACKEND_URL
-const client_url = process.env.DEVELOPMENT_FRONTEND_URL
+const db_url = process.env.PRODUCTION_BACKEND_URL
+const client_url = process.env.PRODUCTION_FRONTEND_URL
 // const LocalStrategy = require('passport-local').Strategy;
 
 class App {
