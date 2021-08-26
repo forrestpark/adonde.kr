@@ -82,6 +82,10 @@ class App {
         // this.app.options('*', cors());
 
         this.app.use(session({
+            cookie:{
+                secure: true,
+                maxAge:60000
+                   },
             saveUninitialized : true,
             resave : true,
             secret: process.env.SESSION_SECRET
