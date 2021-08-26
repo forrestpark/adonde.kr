@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({path: './.env'})
 console.log("process.env: ", process.env.GOOGLE_CLIENT_ID)
 const app = require('./app.js');
 const port = process.env.PORT || 3000;
