@@ -14,6 +14,8 @@ const db_url = process.env.PRODUCTION_BACKEND_URL
 const client_url = process.env.PRODUCTION_FRONTEND_URL
 // const LocalStrategy = require('passport-local').Strategy;
 
+const dotenv = require('dotenv').config() 
+
 class App {
 
     constructor () {
