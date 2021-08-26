@@ -1,6 +1,7 @@
 <template>
     <section class="Intro" >
-        <div class="intro">
+        <v-flex>
+            <div class="intro">
         <v-img 
         style="margin: auto"
         v-if="$i18n.locale == 'ko'"
@@ -29,6 +30,7 @@
         ></v-progress-circular>
         
         <v-img
+            width=500
             style="margin: auto"
             v-if="user != ''"
             :src="require(`@/assets/welcome.png`)">
@@ -39,6 +41,7 @@
             width="100px" 
             :src="`${user.profile_image}`" alt /> -->
         </div>
+        </v-flex>
         
     </section>
 </template>
@@ -85,6 +88,9 @@ export default {
             console.log("res.data: ", res.data)
 
             this.loading = false
+
+            //로그인이 모두 끝나게 되면 overlay를 꺼준다
+            this.$emit('close');
         },
   
         kakaoLogin(){
