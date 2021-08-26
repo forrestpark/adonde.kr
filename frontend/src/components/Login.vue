@@ -11,7 +11,7 @@
         transition="scale-transition"
         width="380"
         />
-        <!-- <v-img 
+        <v-img 
         style="margin: auto"
         alt="googleLogin"
         @click="googleLogin"
@@ -19,7 +19,7 @@
         :src="require(`@/assets/google_Login.png`)"
         transition="scale-transition"
         width="380"
-        /> -->
+        />
         <!-- <v-img
             style="margin: auto"
             v-else
