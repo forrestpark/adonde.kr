@@ -39,7 +39,7 @@ class App {
 
 
         this.app.get('/auth/google/callback', 
-            passport.authenticate('google', { failureRedirect: '/login' }),
+            passport.authenticate('google', { failureRedirect: client_url + '/intro' }),
             function(req, res) {
                 var sessionUserID = req.session.passport.user
                 console.log("session user: ", req.session.passport.user)
