@@ -16,7 +16,7 @@
             type="info"
             border="left"
             elevation="2"
-            icon="mdi-comment-alert"
+            icon="mdi-bell-ring-outline"
             >
             저장된 도시가 없습니다. 홈으로 가서 도시를 저장해주세요!
         </v-alert>
