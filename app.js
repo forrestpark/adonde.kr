@@ -5,9 +5,10 @@ const bodyParser = require('body-parser');
 const db = require('./models');
 const axios = require('axios')
 const cors = require('cors');
-const session = require('cookie-session')
+const session = require('express-session')
 // const passport = require('./auth')
 var passport = require('passport')
+var SequelizeStore = require("connect-session-sequelize")(session.Store);
 const url = require('url')
 const db_url = process.env.PRODUCTION_BACKEND_URL
 const client_url = process.env.PRODUCTION_FRONTEND_URL
@@ -82,13 +83,12 @@ class App {
         // this.app.options('*', cors());
 
         this.app.use(session({
-            cookie:{
-                secure: true,
-                maxAge:60000
-                   },
-            saveUninitialized : true,
-            resave : true,
-            secret: process.env.SESSION_SECRET
+            store: new SequelizeStore({
+                db: db.sequelize,
+            }),
+            resave: false,
+            secret: process.env.SESSION_SECRET,
+            saveUninitialized: true
         }));
 
         this.setPassport();

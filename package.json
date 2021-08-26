@@ -19,6 +19,7 @@
   "homepage": "https://github.com/forrestpark/adonde.kr#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "connect-session-sequelize": "^7.1.1",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

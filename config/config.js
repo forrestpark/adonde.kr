@@ -5,7 +5,8 @@ const development = {
     "password": env.POSTGRES_PASSWORD,
     "database": env.POSTGRES_DATABASE,
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "storage": "./session.postgres",
 }
 
 const test = {
@@ -19,6 +20,7 @@ const test = {
 const production = {
   "use_env_variable": "DATABASE_URL",
   "dialect": "postgres",
+  "storage": "./session.postgres",
   "dialectOptions": {
     "ssl": {
       "require": true,
