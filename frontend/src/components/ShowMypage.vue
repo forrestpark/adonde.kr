@@ -14,12 +14,11 @@
             v-if="isStoreEmpty == true"
             dismissible
             type="info"
-            
+            border="left"
             elevation="2"
-            
-            icon="mdi-bell-ring-outline"
+            icon="mdi-comment-alert"
             >
-            저장된 도시가 없습니다! 홈으로 가서 도시를 저장해주세요!
+            저장된 도시가 없습니다. 홈으로 가서 도시를 저장해주세요!
         </v-alert>
         
         <v-slide-group
