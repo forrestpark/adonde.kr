@@ -75,8 +75,41 @@
             </h3>
             </translate-modal>
         </div> -->
-         
-          <Login/>
+        <v-btn
+          color="orange lighten-2"
+          width=100%
+          height=35
+          @click="overlay = !overlay"
+        >
+        login
+        </v-btn>
+
+        <v-overlay
+          color="white"
+          :opacity="opacity"
+          :value="overlay"
+        >
+            <div style="position: realative">
+                    <div style="position: absolute; position: fixed; top:30px;right:100px">
+                    <v-btn
+                        fab
+                        
+                        color="#44AD5E"
+                        @click="overlay = false"
+                    >
+                    <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </div>
+
+                <Login v-on:close="overlay = false, welcomeImg = true"/>
+            </div>
+        </v-overlay>
+
+        <v-img
+            style="margin: auto"
+            v-if="welcomeImg"
+            :src="require(`@/assets/welcome.png`)">
+        </v-img>
         
 
           
@@ -94,8 +127,11 @@ export default {
   },
   data(){
       return{
-          modal: false,
-          lang:['ko','en'],
+        modal: false,
+        lang:['ko','en'],
+        opacity: 0.9,
+        overlay: false,
+        welcomeImg: false
     
       }
   },

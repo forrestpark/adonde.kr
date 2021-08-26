@@ -32,24 +32,24 @@
       <v-card>
         <v-card-text>
           <div class="text-center d-flex pb-4" style="float: right;">
-        <v-btn 
-        class="mx-1"
-        rounded
-        @click="filterReset"
-        :disabled="disabled">
-          필터 초기화
-        </v-btn>
-        <v-btn 
-          fab
-          small
-          outlined
-          color="teal"
-          class="mx-1"
-          @click="filterOpen"
-          :disabled="disabled">
-          <v-icon>{{ isfilterOpen ? 'mdi-arrow-expand-down' : 'mdi-arrow-expand-up' }}</v-icon>
-        </v-btn>
-      </div>
+            <v-btn 
+            class="mx-1"
+            rounded
+            @click="filterReset"
+            :disabled="disabled">
+              필터 초기화
+            </v-btn>
+            <v-btn 
+              fab
+              small
+              outlined
+              color="teal"
+              class="mx-1"
+              @click="filterOpen"
+              :disabled="disabled">
+              <v-icon>{{ isfilterOpen ? 'mdi-arrow-expand-down' : 'mdi-arrow-expand-up' }}</v-icon>
+            </v-btn>
+          </div>
 
       <!--필터 -->
       <v-flex> 
@@ -338,6 +338,11 @@ export default {
         setAccItem(){
           return this.$t('AccessItems')
         },   
+    },
+    mounted(){
+      //필터 검색 후 mypage이동 후 다시 home으로 돌아왔을때 resultlist는 남아있지만,
+      //random과 showall btn은 누를 수 없도록 disabled 되어야 한다
+      this.updateSearchDisabled(true)
     },
     data () {
       return {

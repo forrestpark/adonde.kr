@@ -9,6 +9,17 @@
                 rounded
                 height="6"
         ></v-progress-linear> 
+
+        <v-alert
+            v-if="isStoreEmpty == true"
+            dismissible
+            type="info"
+            border="left"
+            elevation="2"
+            icon="mdi-bell-ring-outline"
+            >
+            저장된 도시가 없습니다. 홈으로 가서 도시를 저장해주세요!
+        </v-alert>
         
         <v-slide-group
             v-model="model"
@@ -46,7 +57,7 @@
                     </v-card-subtitle>
 
                     <v-card-actions>
-                        <div style="position: fixed; bottom: 30px;" >
+                        <div style="position: fixed; bottom: 30px;">
                             <div style="float: left">
                                 <heart-component
                                 :sido_sgg="item.sido_sgg">
@@ -96,7 +107,8 @@ export default {
                       "충남": "충청남도", "경북": "경상북도", "경남": "경상남도", 
                       "전북": "전라북도", "전남": "전라남도", 
                       "제주특별자치도": "제주도", "제주": "제주도"},
-                      }
+            isStoreEmpty : false
+        }
     },
     computed:{
         ...mapState([
@@ -121,6 +133,10 @@ export default {
                 this.updateUserStoredDetails(citiesDetails.data)
                 console.log("userStoredCities: ",this.userStoredCities)
                 console.log("userstroeddetails: ", this.userStoredDetails)
+
+                if(this.userStoredCities.length == 0){
+                    this.isStoreEmpty = true
+                }
                 
             }catch(err){
                 console.log(err)
@@ -177,7 +193,7 @@ export default {
 
 <style scoped>
 .mypageItem{
-    font-family: "GmarketSansLight";
+    font-family: "GmarketSansMedium";
 }
 .mypageItemTitle{
     font-family: "GmarketSansMedium";
