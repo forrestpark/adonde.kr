@@ -4,11 +4,18 @@
             <div class="intro">
         <v-img 
         style="margin: auto"
-        v-if="$i18n.locale == 'ko'"
         @click="kakaoLogin"
-        alt="user"
+        alt="kakaoLogin"
         contain
         :src="require(`@/assets/en_large.png`)"
+        transition="scale-transition"
+        width="380"
+        />
+        <v-img 
+        style="margin: auto"
+        alt="googleLogin"
+        contain
+        :src="require(`@/assets/google_Login.png`)"
         transition="scale-transition"
         width="380"
         />
@@ -35,6 +42,7 @@
             v-if="user != ''"
             :src="require(`@/assets/welcome.png`)">
         </v-img>
+
 
         <!-- <h2>{{user.nickname}}</h2>
         <img
