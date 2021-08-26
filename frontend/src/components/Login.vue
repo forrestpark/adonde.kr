@@ -103,7 +103,7 @@ export default {
         },
 
         async googleLogin() {
-            window.location.href = "http://localhost:3000/auth/google"
+            window.location.href = "https://adonde-kr.herokuapp.com/auth/google"
             // console.log("login.vue session user: ", )
             // console.log("google login profile: ", profile)
         },
