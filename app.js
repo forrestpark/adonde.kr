@@ -22,6 +22,8 @@ class App {
 
     constructor () {
 
+        console.log("clientID: ", process.env.GOOGLE_CLIENT_ID)
+
         this.app = express();
 
         this.dbConnection();
