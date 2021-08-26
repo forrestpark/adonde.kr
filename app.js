@@ -1,3 +1,5 @@
+const dotenv = require('dotenv').config()
+
 const express = require('express');
 const bodyParser = require('body-parser');
 // const { sequelize } = require('./models')
@@ -10,7 +12,6 @@ const session = require('express-session')
 var passport = require('passport')
 var SequelizeStore = require("connect-session-sequelize")(session.Store);
 const url = require('url')
-const dotenv = require('dotenv').config() 
 const db_url = process.env.PRODUCTION_BACKEND_URL
 const client_url = process.env.PRODUCTION_FRONTEND_URL
 // const LocalStrategy = require('passport-local').Strategy;
