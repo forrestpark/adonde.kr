@@ -1,58 +1,18 @@
 <template>
-  <v-app >
-    <div
+  <v-app>
+    <!-- <div
       :class="{'bar': invisibleBar }"
       flat
+    > -->
+    <v-navigation-drawer
+      width=170
+      v-if="showNavDrawer"
+      style=" background-color : #a0dcb0; font-family: GmarketSansMedium;"
+      v-model="drawer"
+      clipped
+      app
     >
-    <v-app-bar
-        class="app_bar"
-        color="#44AD5E"
-        dark
-        elevate-on-scroll
-      >
-      <router-link 
-        to="/intro">
-        <v-toolbar-title>
-          <div class="d-flex align-center">
-            <v-img 
-            alt="Logo"
-            contain
-            :src="require(`./assets/logo.png`)"
-            transition="scale-transition"
-            width="50"
-            /> 
-            <v-img 
-            alt="maru"
-            contain
-            :src="require(`./assets/003.png`)"
-            transition="scale-transition"
-            width="100"
-            /> 
-          </div>
-        </v-toolbar-title>
-      </router-link>
-        
-        
-      <v-spacer />
-
-      <div class="languageBtn">
-            <v-btn 
-                outlined
-                width=100%
-                @click="modal = true">
-                <v-icon>mdi-translate</v-icon>
-                Language Setting
-            </v-btn>
-        </div>
-      
-    </v-app-bar>
-      
-    </div>
-      
-    <v-main>
-      <div class="MenuBar" style="position: relative; background-color : #a0dcb0">
         <div 
-          :class="{'sideBar' : invisibleSideBar}"
           style="float: left; top: 20px;">
             <v-list-item>
               <v-list-item-avatar>
@@ -121,6 +81,132 @@
           </v-list-item>
         </div>  
       </div>
+        
+    </v-navigation-drawer>
+
+    <v-app-bar
+        app
+        class="app_bar"
+        color="#44AD5E"
+        dark
+        elevate-on-scroll
+        clipped-left
+        v-if="showAppBar"
+      >
+      <v-app-bar-nav-icon v-if="!drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <router-link 
+        to="/intro">
+        <v-toolbar-title>
+          <div class="d-flex align-center">
+            <v-img 
+            alt="Logo"
+            contain
+            :src="require(`./assets/logo.png`)"
+            transition="scale-transition"
+            width="50"
+            /> 
+            <v-img 
+            alt="maru"
+            contain
+            :src="require(`./assets/003.png`)"
+            transition="scale-transition"
+            width="100"
+            /> 
+          </div>
+        </v-toolbar-title>
+      </router-link>
+        
+        
+      <v-spacer />
+
+      <div class="languageBtn">
+            <v-btn 
+                outlined
+                width=100%
+                @click="modal = true">
+                <v-icon>mdi-translate</v-icon>
+                Language Setting
+            </v-btn>
+        </div>
+    
+    </v-app-bar>
+    
+    
+
+    <!-- </div> -->
+      
+    <v-main>
+      <div class="MenuBar" style="position: relative; background-color : #a0dcb0">
+        <!-- <div 
+          :class="{'sideBar' : invisibleSideBar}"
+          style="float: left; top: 20px;">
+            <v-list-item>
+              <v-list-item-avatar>
+                <v-icon 
+                  v-if="user == undefined"
+                  >
+                  mdi-account
+                </v-icon>
+                <img
+                  v-else
+                  :src="user.profile_image" />
+              </v-list-item-avatar>
+            
+              <v-list-item-content>
+                <div
+                  v-if="user == undefined">
+                  로그인 해주세요 :)
+                </div>
+                <div
+                  v-else>
+                  <v-list-item-title>
+                    {{user.nickname}} 님 :)
+                  </v-list-item-title>
+                </div>
+              </v-list-item-content>
+
+            </v-list-item>
+
+      <v-divider />
+
+      <v-list style=" background-color : #a0dcb0">
+        <v-list-item
+          v-for="item in items" 
+          :disabled="item.disabled"
+          :key="item.title"
+          link
+          :to="item.to"
+          @click="isLogin(item.title)"
+          >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        
+        <v-divider />      
+        </v-list>
+   
+        <div style="position: absolute; bottom: 0">
+          <v-list-item
+            v-for="(icon, idx) in iconItems"
+            :key="idx">
+            <v-btn
+                :href="icon.link"
+                class="mx-4"
+                icon
+              >
+              <v-icon  
+                size="24px">
+                {{ icon.icon }}
+              </v-icon>
+            </v-btn>
+          </v-list-item>
+        </div>  
+      </div> -->
 
       <translate-modal
             @close="modal = false" v-if="modal">
@@ -186,13 +272,22 @@ export default {
     routerName(){
       //intro페이지에서 home으로 갈때 sidebar에서 
       if(this.$route.name == 'home'){
-        this.invisibleSideBar = false
-        this.invisibleBar = false
+        // this.invisibleSideBar = false
+        // this.invisibleBar = false
+
+        //새로넣어줌
+        this.showAppBar = true
+        this.showNavDrawer= true
       }
       //home에서 다시 intro로 가서 로그인을 해야되는 경우
       if(this.$route.name == 'intro'){
-        this.invisibleSideBar = true
-        this.invisibleBar = true
+        // this.invisibleSideBar = true
+        // this.invisibleBar = true
+
+        //새로넣어줌
+        this.showAppBar = false
+        this.showNavDrawer=false
+
       }
     }
   },
@@ -200,15 +295,29 @@ export default {
       //상세페이지로 갔을 경우 overlay가 보이지 않도록 파일이 시작될때 확인해주고, sidebar 숨김
       if (this.$route.name == 'details'){
         // this.overlay = false
-        this.invisibleSideBar = true
+        // this.invisibleSideBar = true
+
+        //새로넣어줌
+        this.showNavDrawer = false
+        this.drawer = true
+        
       }
-      if(this.$route.name == 'intro'){
-        this.invisibleSideBar = true
-        this.invisibleBar = true
+      if(this.$route.name == 'intro'){ 
+        // this.invisibleSideBar = true
+        // this.invisibleBar = true
+
+        //새로넣어줌
+        this.showAppBar = false
+        this.showNavDrawer=false
+
       }
       if(this.$route.name == 'home'){
-        this.invisibleSideBar = false
-        this.invisibleBar = false
+        // this.invisibleSideBar = false
+        // this.invisibleBar = false
+
+        //새로넣어줌
+        this.showAppBar = true
+        this.showNavDrawer= true
       }
 
       console.log("라우터",this.routerName)
@@ -228,6 +337,11 @@ export default {
       }
   },
   data: () => ({
+    drawer:null,
+    showAppBar:true,
+    showNavDrawer:true,
+
+
     invisibleSideBar:false,
     invisibleBar:false,
     lang:['ko','en'],
