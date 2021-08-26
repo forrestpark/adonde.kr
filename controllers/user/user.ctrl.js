@@ -162,6 +162,7 @@ function http2https(profile_image) {
 }
 
 exports.login = async (req, res) => {
+    console.log("entered login")
     const {email, nickname, profile_image, dateofbirth} = req.body
     const secure_profile_image = http2https(profile_image)
     try {
@@ -171,6 +172,8 @@ exports.login = async (req, res) => {
                 email : email
             }
         })
+
+        console.log("found user: ", user)
 
         // if not, create account and login
         if (user == null) {

@@ -3,10 +3,14 @@ const bodyParser = require('body-parser');
 // const { sequelize } = require('./models')
 // db 관련
 const db = require('./models');
+const axios = require('axios')
 const cors = require('cors');
 const session = require('express-session')
 // const passport = require('./auth')
 var passport = require('passport')
+const url = require('url')
+const db_url = process.env.DEVELOPMENT_BACKEND_URL
+const client_url = process.env.DEVELOPMENT_FRONTEND_URL
 // const LocalStrategy = require('passport-local').Strategy;
 
 class App {
@@ -24,18 +28,26 @@ class App {
 
         this.getRouting();
 
-        // this.app.get('/auth2', (req, res) => {
-        //     return res.send("auth2")
-        // })
-
         this.app.get('/auth/google',
-            passport.authenticate('google', { scope: ['profile'] }));
+            passport.authenticate('google', { scope: ['profile', 'email'] })
+        )
+
 
         this.app.get('/auth/google/callback', 
             passport.authenticate('google', { failureRedirect: '/login' }),
             function(req, res) {
-                // Successful authentication, redirect home.
-                res.redirect('/');
+                var sessionUserID = req.session.passport.user
+                console.log("session user: ", req.session.passport.user)
+                // res.send(sessionUserID)
+                // window.sessionStorage.setItem('id', sessionUserID)
+                
+                res.redirect(url.format({
+                    pathname: client_url + '/intro',
+                    query: {
+                        "userId": sessionUserID
+                    }
+                }))
+                
         });
 
     }
@@ -67,6 +79,7 @@ class App {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors());
+        // this.app.options('*', cors());
 
         this.app.use(session({
             saveUninitialized : true,
@@ -88,20 +101,45 @@ class App {
         passport.use(new GoogleStrategy({
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: "http://localhost:3000/auth/google/callback"
+            callbackURL: db_url + "/auth/google/callback",
+            passReqToCallback: true,
+            session: true
         },
-        function(accessToken, refreshToken, profile, cb) {
+        async function(req, accessToken, refreshToken, profile, email, done) {
             console.log("profile: ", profile)
-            return cb(null, profile)
+            console.log("email: ", email)
+            console.log("firstname: ", email.name.givenName)
+            console.log("email: ", email.emails[0].value)
+            console.log("photo: ", email.photos[0].value)
+        
+            try {
+                const user = await axios.post(db_url + '/user/login', {
+                    email : email.emails[0].value,
+                    nickname: email.name.givenName,
+                    profile_image: email.photos[0].value,
+                    dateofbirth: ""
+                })
+                console.log("app.js user: ", user.data)
+                return done(null, user)
+            } catch (err) {
+                return done(err)
+            }
         }
         ));
 
-        passport.serializeUser(function(user, cb) {
-            cb(null, user)
+        passport.serializeUser(function(user, done) {
+            console.log("serialize user")
+            done(null, user.data.id)
         })
         
-        passport.deserializeUser(function(user, cb) {
-            cb(null, user)
+        passport.deserializeUser(async function(id, done) {
+            console.log("deserialize user")
+            try {
+                var user = await db.User.findByPk(id)
+                done(null, user)
+            } catch (err) {
+                done(err)
+            }
         })
 
         console.log("passport set")

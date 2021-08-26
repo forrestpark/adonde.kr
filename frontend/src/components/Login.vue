@@ -14,6 +14,7 @@
         <v-img 
         style="margin: auto"
         alt="googleLogin"
+        @click="googleLogin"
         contain
         :src="require(`@/assets/google_Login.png`)"
         transition="scale-transition"
@@ -99,6 +100,11 @@ export default {
 
             //로그인이 모두 끝나게 되면 overlay를 꺼준다
             this.$emit('close');
+        },
+
+        async googleLogin() {
+            window.location.href = "http://localhost:3000/auth/google"
+            // console.log("google login profile: ", profile)
         },
   
         kakaoLogin(){

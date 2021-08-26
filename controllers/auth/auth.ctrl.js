@@ -1,6 +1,6 @@
 const {models} = require('../../models')
 // const passport = require('../../auth')
-const passport = require('passport')
+// var passport = require('passport')
 
 
 exports.google_login = (req, res, next) => {
