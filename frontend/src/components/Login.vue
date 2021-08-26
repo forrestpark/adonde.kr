@@ -104,6 +104,7 @@ export default {
 
         async googleLogin() {
             window.location.href = "http://localhost:3000/auth/google"
+            // console.log("login.vue session user: ", )
             // console.log("google login profile: ", profile)
         },
   

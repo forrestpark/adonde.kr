@@ -42,7 +42,7 @@ class App {
                 // window.sessionStorage.setItem('id', sessionUserID)
                 
                 res.redirect(url.format({
-                    pathname: client_url + '/intro',
+                    pathname: client_url + '/loading',
                     query: {
                         "userId": sessionUserID
                     }
@@ -106,11 +106,14 @@ class App {
             session: true
         },
         async function(req, accessToken, refreshToken, profile, email, done) {
+            console.log("accessToken: ", accessToken)
             console.log("profile: ", profile)
             console.log("email: ", email)
             console.log("firstname: ", email.name.givenName)
             console.log("email: ", email.emails[0].value)
             console.log("photo: ", email.photos[0].value)
+
+            // console.log("request middleware: ", req)
         
             try {
                 const user = await axios.post(db_url + '/user/login', {
