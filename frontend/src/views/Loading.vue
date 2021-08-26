@@ -25,8 +25,8 @@ export default {
                     id : this.id
                 })
                 
-                console.log("user:",user.data)
-                sessionStorage.setItem('user', user)
+                console.log("user:", JSON.stringify(user.data))
+                sessionStorage.setItem('user', JSON.stringify(user.data))
                 this.$router.push({path: '/intro'})
 
             }catch(err){
