@@ -89,12 +89,9 @@ class App {
         console.log("env secret: ", process.env.SESSION_SECRET )
 
         this.app.use(session({
-            store: new SequelizeStore({
-                db: db.sequelize,
-            }),
-            resave: false,
-            secret: process.env.SESSION_SECRET || "jangwoopark",
-            saveUninitialized: true
+            saveUninitialized : true,
+            resave : true,
+            secret: process.env.SESSION_SECRET
         }));
 
         this.setPassport();
