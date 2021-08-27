@@ -279,6 +279,11 @@ export default {
         this.showAppBar = true
         this.showNavDrawer= true
       }
+      if(this.$route.name == 'loading'){
+        //새로넣어줌
+        this.showAppBar = false
+        this.showNavDrawer=false
+      }
       //home에서 다시 intro로 가서 로그인을 해야되는 경우
       if(this.$route.name == 'intro'){
         // this.invisibleSideBar = true
@@ -287,7 +292,6 @@ export default {
         //새로넣어줌
         this.showAppBar = false
         this.showNavDrawer=false
-
       }
     }
   },
