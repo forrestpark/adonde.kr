@@ -60,17 +60,10 @@
             </h3>
             </translate-modal>
         </div> -->
-
-        <v-img
-                width=250
-                :src="require(`@/assets/login_signup2.png`)"    
-                style="margin: auto;"
-                @click="overlay = !overlay"
-            />
         <div class="language">
                 <v-img
-                    width=200
-                    :src="require(`@/assets/lang_blue.png`)"
+                    width=400
+                    :src="require(`@/assets/lang_setting2.png`)"
                     style="margin: auto;"
                     @click="modal = true"
                 />
@@ -83,6 +76,13 @@
                 </h3>
                 </translate-modal>
             </div>
+        <v-img
+                width=400
+                :src="require(`@/assets/login_signup13.png`)"    
+                style="margin: auto;"
+                @click="overlay = !overlay"
+            />
+        
         <!-- <v-btn
           color="orange lighten-2"
           width=100%
