@@ -167,16 +167,16 @@ class App {
             passReqToCallback: true,
             session: true
           },
-          async function(accessToken, refreshToken, profile, email, done) {
+          async function(accessToken, refreshToken, public_profile, email, done) {
             
             try {
-                console.log("profile: ", profile)
+                console.log("profile: ", public_profile)
                 console.log("email: ", email)
                 // const user = 1
                 const user = await axios.post(db_url + '/user/login', {
                     email : "pjwoo3@gmail.com",
                     nickname: "장우",
-                    profile_image: email.photos[0].value,
+                    profile_image: "",
                     dateofbirth: ""
                 })
                 // console.log("app.js user: ", user.data)
