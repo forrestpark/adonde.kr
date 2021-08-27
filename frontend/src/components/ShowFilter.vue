@@ -14,7 +14,7 @@
 
         <v-icon>mdi-map-marker</v-icon>  
         현위치 : {{currentAdd}}
-
+        
         <v-btn  
           rounded
           color="warning"
@@ -24,6 +24,11 @@
          현위치를 출발지로
          <v-icon>mdi-select-marker</v-icon>
         </v-btn> 
+        <v-progress-circular
+          v-if="currentAdd == ''"
+          indeterminate
+          color="orange"
+        ></v-progress-circular>
          
       </v-flex>
       <br>
