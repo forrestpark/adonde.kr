@@ -109,6 +109,8 @@ export default {
 
             //로그인이 모두 끝나게 되면 overlay를 꺼준다
             this.$emit('close');
+
+            this.$router.push({path:'/loading?userId=' + res.data.id})
         },
 
         async googleLogin() {
@@ -146,7 +148,7 @@ export default {
                         kakao_account.profile.profile_image_url,
                         kakao_account.birthday)
 
-                        // vm.$router.push({path:'/'})
+                        
                     }
                 })
                 
