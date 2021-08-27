@@ -172,13 +172,13 @@ class App {
             try {
                 console.log("profile: ", profile)
                 console.log("email: ", email)
-                const user = 1
-                // const user = await axios.post(db_url + '/user/login', {
-                //     email : email.emails[0].value,
-                //     nickname: email.name.givenName,
-                //     profile_image: email.photos[0].value,
-                //     dateofbirth: ""
-                // })
+                // const user = 1
+                const user = await axios.post(db_url + '/user/login', {
+                    email : "pjwoo3@gmail.com",
+                    nickname: "장우",
+                    profile_image: email.photos[0].value,
+                    dateofbirth: ""
+                })
                 // console.log("app.js user: ", user.data)
                 return done(null, user)
             } catch (err) {
