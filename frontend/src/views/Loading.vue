@@ -1,7 +1,22 @@
 <template>
-    <div>
-        hi
-    </div>
+    <v-app style="background-color : #44AD5E;">
+        <v-container fill-height fluid>
+            
+            <v-row align="center"
+                justify="center">
+        
+                    <transition name="fade">
+                        <p v-if="show">
+                            <v-img
+                                
+                                elevation="24"
+                                :src="require(`@/assets/welcome.png`)">
+                            </v-img>
+                        </p>
+                    </transition>
+            </v-row>
+        </v-container>
+    </v-app>
 </template>
 
 <script>
@@ -10,11 +25,13 @@ import {BASE_URL} from '@/api.js'
 export default {
     data(){
         return{
-            id:this.$route.query.userId
+            id:this.$route.query.userId,
+            show: false
         }
     },
     mounted(){
         this.loginRedirect()
+        this.show = true
     },
     methods:{
         async loginRedirect(){
@@ -39,3 +56,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 4s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

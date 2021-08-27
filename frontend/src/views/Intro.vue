@@ -30,7 +30,8 @@
             transition="scale-transition"
             width="400px"
             /> -->
-                    
+            
+    
             <v-img
                 width=400
                 :src="require(`@/assets/start_orange2.png`)"    
@@ -38,23 +39,7 @@
                 @click="clickStart"
             />
    
-            <div class="language">
-                <v-img
-                    width=370
-                    :src="require(`@/assets/lang_blue.png`)"
-                    style="margin: auto;"
-                    @click="modal = true"
-                />
-                <translate-modal
-                @close="modal = false" v-if="modal">
-                <h3 slot="header">
-                    언어를 고르세요
-                    <i class="has ha-times closeModalBtn"
-                    @click="modal = false"></i>
-                </h3>
-                </translate-modal>
-            </div>
-
+            
         <!-- <div 
             class="language">
             <v-btn 
@@ -75,14 +60,37 @@
             </h3>
             </translate-modal>
         </div> -->
-        <v-btn
+        <div class="language">
+                <v-img
+                    width=400
+                    :src="require(`@/assets/lang_setting2.png`)"
+                    style="margin: auto;"
+                    @click="modal = true"
+                />
+                <translate-modal
+                @close="modal = false" v-if="modal">
+                <h3 slot="header">
+                    언어를 고르세요
+                    <i class="has ha-times closeModalBtn"
+                    @click="modal = false"></i>
+                </h3>
+                </translate-modal>
+            </div>
+        <v-img
+                width=400
+                :src="require(`@/assets/login_signup13.png`)"    
+                style="margin: auto;"
+                @click="overlay = !overlay"
+            />
+        
+        <!-- <v-btn
           color="orange lighten-2"
           width=100%
           height=35
           @click="overlay = !overlay"
         >
         login
-        </v-btn>
+        </v-btn> -->
 
         <v-overlay
           color="white"
