@@ -9,7 +9,7 @@ const session = require('express-session')
 // const passport = require('./auth')
 var passport = require('passport')
 var SequelizeStore = require("connect-session-sequelize")(session.Store);
-const url = require('url')
+const url = require('url');
 const db_url = process.env.PRODUCTION_BACKEND_URL
 const client_url = process.env.PRODUCTION_FRONTEND_URL
 // const LocalStrategy = require('passport-local').Strategy;
@@ -171,13 +171,14 @@ class App {
           async function(accessToken, refreshToken, public_profile, email, done) {
             
             try {
-                console.log("profile: ", public_profile)
-                console.log("email: ", email)
-                // const user = 1
+                var userInfo = email._json
+                console.log("email: ", userInfo.email)
+                console.log("first name: ", userInfo.first_name)
+                console.log("profile image: ", email.photos[0].value)
                 const user = await axios.post(db_url + '/user/login', {
-                    email : email.id,
-                    nickname: email.displayName,
-                    profile_image: "",
+                    email : userInfo.email,
+                    nickname: userInfo.first_name,
+                    profile_image: email.photos[0].value,
                     dateofbirth: ""
                 })
                 // console.log("app.js user: ", user.data)
