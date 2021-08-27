@@ -16,7 +16,7 @@
         alt="googleLogin"
         @click="googleLogin"
         contain
-        :src="require(`@/assets/google_Login.png`)"
+        :src="require(`@/assets/google.png`)"
         transition="scale-transition"
         width="380"
         />
