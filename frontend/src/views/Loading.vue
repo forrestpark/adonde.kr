@@ -45,7 +45,7 @@ export default {
                 console.log("user:", JSON.stringify(user.data))
                 sessionStorage.setItem('user', JSON.stringify(user.data))
                 setTimeout(() => {
-                    this.$router.push({path: '/intro'})
+                    this.$router.push({path: '/'})
                 }, 2500)
 
             }catch(err){
