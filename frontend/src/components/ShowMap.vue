@@ -18,7 +18,10 @@ export default {
             imageSrc : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" 
         }
     },
-    mounted() { 
+    mounted() {
+        console.log("window kakao: ", window.kakao)
+        console.log("window kakao maps: ", window.kakao.maps)
+
         window.kakao && window.kakao.maps ? this.initMap() : this.addScript(); 
     }, 
     computed:{
@@ -44,6 +47,7 @@ export default {
             
         ]),
         initMap() { 
+            console.log("initmap")
             document.cookie = "crossCookie=bar; SameSite=None; Secure";
             var container = document.getElementById('map'); 
             var options = { 
@@ -109,6 +113,7 @@ export default {
     
         }, 
         addScript() { 
+            console.log("addscript")
             const script = document.createElement('script'); 
         /* global kakao */ 
         script.onload = () => kakao.maps.load(this.initMap); 
