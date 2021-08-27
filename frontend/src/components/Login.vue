@@ -20,6 +20,12 @@
         transition="scale-transition"
         width="380"
         />
+        <v-btn 
+            class="facebookLogin"
+            width=300 
+            color="primary">
+            facebook 로그인
+        </v-btn>
         <!-- <v-img
             style="margin: auto"
             v-else
@@ -37,12 +43,14 @@
             color="amber"
         ></v-progress-circular>
         
-        <v-img
+        <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
+
+        <!-- <v-img
             width=400
             style="margin: auto"
             v-if="user != ''"
             :src="require(`@/assets/welcome.png`)">
-        </v-img>
+        </v-img> -->
 
 
         <!-- <h2>{{user.nickname}}</h2>
