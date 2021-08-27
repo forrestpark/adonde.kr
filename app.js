@@ -55,6 +55,27 @@ class App {
                 
         });
 
+        this.app.get('/auth/facebook', 
+            passport.authenticate('facebook', { scope: ['public_profile', 'email']})
+        );
+
+        this.app.get('/auth/facebook/callback', 
+            passport.authenticate('facebook', { failureRedirect: client_url + '/intro' }), 
+
+            function(req, res) {
+                var sessionUserID = req.session.passport.user
+
+                res.redirect(url.format({
+                    pathname: client_url + '/loading',
+                    query: {
+                        "userId": sessionUserID
+                    }
+                }))
+
+            }
+
+        );
+
     }
 
     dbConnection() {
@@ -136,6 +157,68 @@ class App {
             }
         }
         ));
+
+        var FacebookStrategy = require('passport-facebook').Strategy
+
+        passport.use(new FacebookStrategy({
+            clientID: process.env.FACEBOOK_APP_ID,
+            clientSecret: process.env.FACEBOOK_APP_SECRET,
+            callbackURL: db_url + "auth/facebook/callback",
+            passReqToCallback: true,
+            session: true
+          },
+          async function(accessToken, refreshToken, profile, email, done) {
+            
+            try {
+                console.log("profile: ", profile)
+                console.log("email: ", email)
+                const user = 1
+                // const user = await axios.post(db_url + '/user/login', {
+                //     email : email.emails[0].value,
+                //     nickname: email.name.givenName,
+                //     profile_image: email.photos[0].value,
+                //     dateofbirth: ""
+                // })
+                // console.log("app.js user: ", user.data)
+                return done(null, user)
+            } catch (err) {
+                return done(err)
+            }
+
+          }
+        ));
+
+
+        // var TwitterStrategy = require('passport-twitter').Strategy;
+
+        // passport.use(new TwitterStrategy({
+        //     consumerKey: TWITTER_CONSUMER_KEY,
+        //     consumerSecret: TWITTER_CONSUMER_SECRET,
+        //     callbackURL: db_url + "auth/facebook/callback",
+        //     passReqToCallback: true,
+        //     session: true
+        //   },
+        //   async function(accessToken, refreshToken, profile, email, done) {
+            
+        //     try {
+        //         console.log("profile: ", profile)
+        //         console.log("email: ", email)
+        //         const user = 1
+        //         // const user = await axios.post(db_url + '/user/login', {
+        //         //     email : email.emails[0].value,
+        //         //     nickname: email.name.givenName,
+        //         //     profile_image: email.photos[0].value,
+        //         //     dateofbirth: ""
+        //         // })
+        //         // console.log("app.js user: ", user.data)
+        //         return done(null, user)
+        //     } catch (err) {
+        //         return done(err)
+        //     }
+
+        //   }
+        // ));
+
 
         passport.serializeUser(function(user, done) {
             console.log("serialize user")

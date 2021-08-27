@@ -22,7 +22,8 @@
         />
         <v-btn 
             class="facebookLogin"
-            width=300 
+            width=300
+            @click="facebookLogin" 
             color="primary">
             facebook 로그인
         </v-btn>
@@ -112,6 +113,12 @@ export default {
 
         async googleLogin() {
             window.location.href = "https://adonde-kr.herokuapp.com/auth/google"
+            // console.log("login.vue session user: ", )
+            // console.log("google login profile: ", profile)
+        },
+
+        facebookLogin() {
+            window.location.href = "https://adonde-kr.herokuapp.com/auth/facebook"
             // console.log("login.vue session user: ", )
             // console.log("google login profile: ", profile)
         },
