@@ -164,6 +164,7 @@ class App {
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
             callbackURL: db_url + "/auth/facebook/callback",
+            profileFields: ['id', 'displayName', 'email', 'birthday', 'first_name', 'photos'],
             passReqToCallback: true,
             session: true
           },
@@ -174,8 +175,8 @@ class App {
                 console.log("email: ", email)
                 // const user = 1
                 const user = await axios.post(db_url + '/user/login', {
-                    email : "pjwoo3@gmail.com",
-                    nickname: "장우",
+                    email : email.id,
+                    nickname: email.displayName,
                     profile_image: "",
                     dateofbirth: ""
                 })
