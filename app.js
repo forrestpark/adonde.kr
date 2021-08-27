@@ -55,7 +55,7 @@ class App {
                 
         });
 
-        this.app.get('/auth/facebook', 
+        this.app.get('/auth/facebook',
             passport.authenticate('facebook', { scope: ['public_profile', 'email']})
         );
 
@@ -163,7 +163,7 @@ class App {
         passport.use(new FacebookStrategy({
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: db_url + "auth/facebook/callback",
+            callbackURL: db_url + "/auth/facebook/callback",
             passReqToCallback: true,
             session: true
           },
