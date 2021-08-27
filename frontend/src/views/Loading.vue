@@ -8,7 +8,7 @@
                     <transition name="fade">
                         <p v-if="show">
                             <v-img
-                                width=400
+                                
                                 elevation="24"
                                 :src="require(`@/assets/welcome.png`)">
                             </v-img>
