@@ -19,7 +19,10 @@ export default {
         }
     },
     mounted() { 
+        // console.log("window kakao: ", window.kakao)
+        // console.log("window kakao maps: ", window.kakao.maps)
         window.kakao && window.kakao.maps ? this.initMap() : this.addScript(); 
+        // this.initMap()
     }, 
     computed:{
         ...mapState([
@@ -44,6 +47,7 @@ export default {
             
         ]),
         initMap() { 
+            console.log('initmap')
             document.cookie = "crossCookie=bar; SameSite=None; Secure";
             var container = document.getElementById('map'); 
             var options = { 
@@ -109,10 +113,11 @@ export default {
     
         }, 
         addScript() { 
+            console.log('addscript')
             const script = document.createElement('script'); 
         /* global kakao */ 
         script.onload = () => kakao.maps.load(this.initMap); 
-        //script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=550faf105c804c40b3de88738409eed0'; 
+        //script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=550faf105c804c40b3de88738409eed0'; 
         document.head.appendChild(script); 
         },
         addMapControl(map){
