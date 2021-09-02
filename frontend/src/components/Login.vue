@@ -19,14 +19,27 @@
         :src="require(`@/assets/google.png`)"
         transition="scale-transition"
         width="380"
+      
         />
-        <v-btn 
+        <v-img 
+        style="margin: auto"
+        alt="facebookLogin"
+        @click="facebookLogin"
+        contain
+        :src="require(`@/assets/facebook.png`)"
+        transition="scale-transition"
+        width="380"
+        />
+        <!-- <v-btn 
             class="facebookLogin"
             width=300
             @click="facebookLogin" 
             color="primary">
-            facebook 로그인
-        </v-btn>
+            <v-icon>
+                mdi-facebook
+            </v-icon>
+            login with facebook
+        </v-btn> -->
         <!-- <v-img
             style="margin: auto"
             v-else
@@ -43,8 +56,6 @@
             v-if="loading"
             color="amber"
         ></v-progress-circular>
-        
-        <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
 
         <!-- <v-img
             width=400
