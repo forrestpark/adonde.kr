@@ -95,7 +95,7 @@
       >
       <v-app-bar-nav-icon v-if="!drawer" @click="drawer = !drawer"></v-app-bar-nav-icon>
       <router-link 
-        to="/intro">
+        to="/go">
         <v-toolbar-title>
           <div class="d-flex align-center">
             <v-img 
@@ -399,7 +399,7 @@ export default {
       if(title == "Login"){
         //this.overlay = true
         // this.drawer = false
-        this.$router.push({path:'/intro'})
+        this.$router.push({path:'/go'})
       }else if(title == "Logout"){
         this.kakaoLogout()
         //this.drawer = false

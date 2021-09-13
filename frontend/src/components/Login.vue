@@ -19,13 +19,27 @@
         :src="require(`@/assets/google.png`)"
         transition="scale-transition"
         width="380"
+      
         />
-        <v-btn 
+        <v-img 
+        style="margin: auto"
+        alt="facebookLogin"
+        @click="facebookLogin"
+        contain
+        :src="require(`@/assets/facebook.png`)"
+        transition="scale-transition"
+        width="380"
+        />
+        <!-- <v-btn 
             class="facebookLogin"
-            width=300 
+            width=300
+            @click="facebookLogin" 
             color="primary">
-            facebook 로그인
-        </v-btn>
+            <v-icon>
+                mdi-facebook
+            </v-icon>
+            login with facebook
+        </v-btn> -->
         <!-- <v-img
             style="margin: auto"
             v-else
@@ -42,8 +56,6 @@
             v-if="loading"
             color="amber"
         ></v-progress-circular>
-        
-        <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div>
 
         <!-- <v-img
             width=400
@@ -108,10 +120,18 @@ export default {
 
             //로그인이 모두 끝나게 되면 overlay를 꺼준다
             this.$emit('close');
+
+            this.$router.push({path:'/loading?userId=' + res.data.id})
         },
 
         async googleLogin() {
-            window.location.href = "http://localhost:3000/auth/google"
+            window.location.href = "https://adonde-kr.herokuapp.com/auth/google"
+            // console.log("login.vue session user: ", )
+            // console.log("google login profile: ", profile)
+        },
+
+        facebookLogin() {
+            window.location.href = "https://adonde-kr.herokuapp.com/auth/facebook"
             // console.log("login.vue session user: ", )
             // console.log("google login profile: ", profile)
         },
@@ -139,7 +159,7 @@ export default {
                         kakao_account.profile.profile_image_url,
                         kakao_account.birthday)
 
-                        // vm.$router.push({path:'/'})
+                        
                     }
                 })
                 
