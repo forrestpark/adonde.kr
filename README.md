@@ -30,7 +30,7 @@
 * Backend API server hosted on Heroku
   * Backend base URL: https://adonde-kr.herokuapp.com/
 * Frontend deployed on Netlify
-  * Site live at https://adonde.netlify.app/
+  * Site live at https://adonde.netlify.app/go
 
 ### Creators
 * [Jang Woo Park][1] (Backend/Server Development, Product Design and Management)
