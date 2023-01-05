@@ -85,7 +85,7 @@ class App {
             console.log('Connection has been established successfully.');
         })
         .then(() => {
-            // console.log('DB Sync complete.');
+            console.log('DB Sync complete.');
             // we're not syncing; instead we're authenticating and using sequelize migration
             // return db.sequelize.sync({force: true});
         })
