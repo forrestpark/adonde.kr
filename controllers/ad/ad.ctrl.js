@@ -132,10 +132,11 @@ exports.get_user_ads = async (req, res) => {
     resData = {
         "isSuccess": true
     }
+    console.log('it is called...\n\n')
     adArray = []
     Ad.findAll({ 
         where: {
-            userID: req.body.userId
+            userID: req.body.userID
         }
     }).then((data) => {
         data.forEach((ad) => {
