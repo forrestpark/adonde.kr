@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
     },
-    // userID: {
-    //     type: DataTypes.INTEGER,
-    // },
+    userID: {
+        type: DataTypes.INTEGER,
+    },
     comp_name: {
         type: DataTypes.STRING,
     },

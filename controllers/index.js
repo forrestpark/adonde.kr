@@ -16,6 +16,7 @@ router.use('/user', require('./user'));
 router.use('/place', require('./place'));
 router.use('/auth', require('./auth'));
 router.use('/ad', require('./ad'))
+router.use('/login', require('./login'))
 
 
 module.exports = router;

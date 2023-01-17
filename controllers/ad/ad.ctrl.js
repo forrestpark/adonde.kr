@@ -7,7 +7,7 @@ exports.get_all_ads = (req, res) => {
     console.log(Ad)
     Ad.findAll()
         .then((data) => {
-            console.log(data)
+            //console.log(data)
             res.status(200)
             res.send(data)
         }).catch((err) => {
@@ -17,13 +17,13 @@ exports.get_all_ads = (req, res) => {
 }
 
 exports.get_one_ad = (req, res) => {
-    console.log(req.params.id)
+    //console.log(req.params.id)
     Ad.findOne({
         where: {
             id: req.params.id
         }
     }).then((data) => {
-        console.log(data)
+        //console.log(data)
         res.status(200)
         res.send(data)
     }).catch((err) => {
@@ -32,7 +32,8 @@ exports.get_one_ad = (req, res) => {
     })
 }
 
-exports.create_ad = (req, res) => {
+exports.create_ad = (req, res, next) => {
+
     Ad.findOne({
         order: [ [ 'id', 'DESC' ]],
     }).then(async(ad) => {
@@ -49,7 +50,8 @@ exports.create_ad = (req, res) => {
 
     }).then(() => {
         res.status(200)
-        res.send(req.body)
+        //This will have to change upon deployment
+        res.redirect('http://localhost:8080/main')
     }).catch((err) => {
         console.log(err)
         return res.status(500).json(err)
@@ -58,6 +60,7 @@ exports.create_ad = (req, res) => {
 
 exports.update_ad = async (req, res) => {
     console.log('logging body...\n\n')
+    console.log('update received..\n\n')
     console.log(req.body)
     const adToUpdate = await Ad.findOne({
         where: {
@@ -67,13 +70,18 @@ exports.update_ad = async (req, res) => {
     req.body['updatedAt'] = Date.now()
     adToUpdate.set(req.body)
     await adToUpdate.save()
-    res.send({
-        "isSuccess": true,
-        "message": "광고 update 성공",
-    })
+    // res.send({
+    //     "isSuccess": true,
+    //     "message": "광고 update 성공",
+    // })
+
+    console.log('done...\n\n')
+    res.redirect('http://localhost:8080/main')
+    
 }
 
 exports.delete_ad = async(req, res) => {
+    console.log('delete requested...\n\n')
     console.log(req.body)
     const adToDelete = await Ad.findOne({
         where: {
@@ -89,7 +97,6 @@ exports.delete_ad = async(req, res) => {
 }
 
 exports.get_ads_rand = (req, res) => {
-    console.log('hi')
     resData = {
         "isSuccess": true,
     }
@@ -129,20 +136,25 @@ exports.inc_view = async (req, res) => {
 }
 
 exports.get_user_ads = async (req, res) => {
+
+    console.log('put received...\n\n\n\n')
+
     resData = {
         "isSuccess": true
     }
-    console.log('it is called...\n\n')
     adArray = []
     Ad.findAll({ 
         where: {
             userID: req.body.userID
         }
     }).then((data) => {
-        data.forEach((ad) => {
-            adArray.push(ad.dataValues)
-        })
-        resData["data"] = adArray
-        res.send(resData)
+        //console.log('logging data...\n\n')
+        //console.log(data)
+        res.send(data)
+        // data.forEach((ad) => {
+        //     adArray.push(ad.dataValues)
+        // })
+        // resData["data"] = adArray
+        // res.send(resData)
     }).catch(err => console.log(err))
 }
