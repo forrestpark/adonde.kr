@@ -85,7 +85,7 @@ class App {
             console.log('Connection has been established successfully.');
         })
         .then(() => {
-            // console.log('DB Sync complete.');
+            console.log('DB Sync complete.');
             // we're not syncing; instead we're authenticating and using sequelize migration
             // return db.sequelize.sync({force: true});
         })
@@ -105,7 +105,10 @@ class App {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors());
-        // this.app.options('*', cors());
+        this.app.use(cors({
+            origin: 'http://localhost:8080',
+        }));
+        this.app.options('*', cors());
 
         console.log("env secret: ", process.env.SESSION_SECRET )
 

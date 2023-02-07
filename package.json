@@ -34,6 +34,7 @@
     "passport-twitter": "^1.0.4",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.4",
+    "qs": "^6.11.0",
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0",
     "v-google-translate": "^0.1.10",
