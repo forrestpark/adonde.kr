@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
         console.log(`kakaoUser: ${JSON.stringify(kakao)}`)
         res.send(kakao)
     }catch(err){
-        res.send(err)
+        res.send("there was an error.." + err)
         console.log(err)
     }
     
