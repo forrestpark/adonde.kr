@@ -113,7 +113,8 @@ export default {
         id: 1,
         email: "test@gmail.com",
         nickname: "지선",
-        profile_image: "https://via.placeholder.com/150",
+        profile_image:
+          "https://firebasestorage.googleapis.com/v0/b/adonde-app.appspot.com/o/users%2F818CFE5D-6BF0-4194-8D9C-D316489B1FFC_1_105_c.jpeg?alt=media&token=c21007a7-bdb4-4c0f-ba41-183449a7681f",
         dateofbirth: "1990-01-01",
         storedCities: [],
       };
@@ -173,7 +174,8 @@ export default {
         id: id,
         email: "test@gmail.com",
         nickname: "지선",
-        profile_image: "https://via.placeholder.com/150",
+        profile_image:
+          "https://firebasestorage.googleapis.com/v0/b/adonde-app.appspot.com/o/users%2F818CFE5D-6BF0-4194-8D9C-D316489B1FFC_1_105_c.jpeg?alt=media&token=c21007a7-bdb4-4c0f-ba41-183449a7681f",
         dateofbirth: "1990-01-01",
         storedCities: [],
       };
