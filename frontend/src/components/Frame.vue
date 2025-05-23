@@ -106,7 +106,7 @@ export default {
     right: null,
     iconItems: [
       {
-        link: "https://www.linkedin.com/in/jangwoopark/",
+        link: "https://www.linkedin.com/in/jisun-chung-4644382b0/",
         icon: "mdi-linkedin",
       },
       {
@@ -114,7 +114,7 @@ export default {
         icon: "mdi-instagram",
       },
       {
-        link: "https://github.com/forrestpark/adonde.kr",
+        link: "https://github.com/jisunchung/adonde.kr",
         icon: "mdi-github",
       },
     ],

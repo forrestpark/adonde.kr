@@ -54,8 +54,9 @@
               <div style="float: left">
                 <heart-component
                   :sido_sgg="item.sido_sgg"
-                  @click.native="removeCity(item.sido_sgg)"
-                ></heart-component>
+                  @click.native.stop="removeCity(item.sido_sgg)"
+                >
+                </heart-component>
               </div>
               <div style="float: left">
                 <v-btn
@@ -147,6 +148,14 @@ export default {
       });
       window.open(routeData.href, "_blank");
     },
+    removeCity(sido_sgg) {
+      this.userStoredDetails = this.userStoredDetails.filter(
+        (city) => city.sido_sgg !== sido_sgg
+      );
+      if (this.userStoredDetails.length === 0) {
+        this.isStoreEmpty = true;
+      }
+    },
     checkIsSpecialCity(sido_sgg) {
       var sido = this.split_sido_sgg(sido_sgg)["sido"];
       if (this.checkSpecialCity(sido)) {
@@ -164,14 +173,6 @@ export default {
         return true;
       } else {
         return false;
-      }
-    },
-    removeCity(sido_sgg) {
-      this.userStoredDetails = this.userStoredDetails.filter(
-        (city) => city.sido_sgg !== sido_sgg
-      );
-      if (this.userStoredDetails.length === 0) {
-        this.isStoreEmpty = true;
       }
     },
   },
