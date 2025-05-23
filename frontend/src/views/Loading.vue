@@ -31,7 +31,7 @@ export default {
       const dummyUser = {
         id: this.id,
         email: "test@gmail.com",
-        nickname: "테스트 사용자",
+        nickname: "사용자1",
         profile_image: "https://via.placeholder.com/150",
         dateofbirth: "1990-01-01",
         storedCities: [],

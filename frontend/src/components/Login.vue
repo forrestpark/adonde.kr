@@ -112,7 +112,7 @@ export default {
       const dummyUser = {
         id: 1,
         email: "test@gmail.com",
-        nickname: "사용자1",
+        nickname: "지선",
         profile_image: "https://via.placeholder.com/150",
         dateofbirth: "1990-01-01",
         storedCities: [],
@@ -172,7 +172,7 @@ export default {
       const dummyUserDetails = {
         id: id,
         email: "test@gmail.com",
-        nickname: "사용자1",
+        nickname: "지선",
         profile_image: "https://via.placeholder.com/150",
         dateofbirth: "1990-01-01",
         storedCities: [],
