@@ -2,7 +2,7 @@
   <section class="Intro">
     <v-flex>
       <div class="intro">
-        <v-img
+        <!-- <v-img
           style="margin: auto"
           @click="kakaoLogin"
           alt="kakaoLogin"
@@ -10,7 +10,7 @@
           :src="require(`@/assets/en_large.png`)"
           transition="scale-transition"
           width="380"
-        />
+        /> -->
         <v-img
           style="margin: auto"
           alt="googleLogin"
@@ -20,7 +20,7 @@
           transition="scale-transition"
           width="380"
         />
-        <v-img
+        <!-- <v-img
           style="margin: auto"
           alt="facebookLogin"
           @click="facebookLogin"
@@ -28,7 +28,7 @@
           :src="require(`@/assets/facebook.png`)"
           transition="scale-transition"
           width="380"
-        />
+        /> -->
         <!-- <v-btn 
             class="facebookLogin"
             width=300
@@ -74,6 +74,8 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+// import axios from "axios";
+// import { BASE_URL } from "@/api.js";
 
 export default {
   data() {
@@ -110,7 +112,7 @@ export default {
       const dummyUser = {
         id: 1,
         email: "test@gmail.com",
-        nickname: "테스트 사용자",
+        nickname: "사용자1",
         profile_image: "https://via.placeholder.com/150",
         dateofbirth: "1990-01-01",
         storedCities: [],
@@ -170,7 +172,7 @@ export default {
       const dummyUserDetails = {
         id: id,
         email: "test@gmail.com",
-        nickname: "테스트 사용자",
+        nickname: "사용자1",
         profile_image: "https://via.placeholder.com/150",
         dateofbirth: "1990-01-01",
         storedCities: [],

@@ -1,14 +1,12 @@
 <template>
-    <ShowMypage/>
+  <ShowMypage />
 </template>
 
 <script>
-import ShowMypage from '@/components/ShowMypage.vue'
-  export default {
-      components:{
-          ShowMypage
-      },
-    
-   
-  }
+import ShowMypage from "@/components/ShowMypage.vue";
+export default {
+  components: {
+    ShowMypage,
+  },
+};
 </script>
