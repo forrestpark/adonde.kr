@@ -133,6 +133,24 @@ export default {
           image_src:
             "https://tong.visitkorea.or.kr/cms/resource/04/2658504_image2_1.jpeg",
         },
+        {
+          id: 4,
+          sido_sgg: "인천",
+          population: 2936367,
+          description:
+            "서해안의 관문, 인천은 대한민국의 제3의 도시로, 국제공항과 항만이 있는 중요한 교통 중심지입니다.",
+          image_src:
+            "https://tong.visitkorea.or.kr/cms/resource/66/2512766_image2_1.jpg",
+        },
+        {
+          id: 5,
+          sido_sgg: "대구",
+          population: 2397646,
+          description:
+            "대한민국의 중심 도시, 대구는 경상북도의 중심지로, 전통시장과 현대적인 도시가 어우러진 곳입니다.",
+          image_src:
+            "https://tong.visitkorea.or.kr/cms/resource/62/219162_image2_1.jpg",
+        },
       ],
     };
   },

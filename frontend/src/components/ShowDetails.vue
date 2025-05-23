@@ -288,6 +288,90 @@ export default {
             ],
           },
         },
+        인천: {
+          image_src:
+            "https://tong.visitkorea.or.kr/cms/resource/66/2512766_image2_1.jpg",
+          description:
+            "서해안의 관문, 인천은 대한민국의 제3의 도시로, 국제공항과 항만이 있는 중요한 교통 중심지입니다. 차이나타운, 월미도, 송도 센트럴파크 등이 대표적인 관광지입니다.",
+          tourism_link: "https://www.incheon.go.kr/en/index",
+          latitude: 37.4562557,
+          longitude: 126.70520619999999,
+          population: 2936367,
+          places: {
+            산: [
+              {
+                name: "계양산",
+                link: "https://map.naver.com/v5/search/인천 계양산/place/11491422",
+              },
+              {
+                name: "무의도 산",
+                link: "https://map.naver.com/v5/search/인천 무의도 산/place/13491629",
+              },
+            ],
+            해변: [
+              {
+                name: "월미도 해변",
+                link: "https://map.naver.com/v5/search/인천 월미도 해변/place/13491855",
+              },
+              {
+                name: "무의도 해변",
+                link: "https://map.naver.com/v5/search/인천 무의도 해변/place/13491880",
+              },
+            ],
+            계곡: [
+              {
+                name: "계양산 계곡",
+                link: "https://map.naver.com/v5/search/인천 계양산 계곡/place/13490869",
+              },
+              {
+                name: "무의도 계곡",
+                link: "https://map.naver.com/v5/search/인천 무의도 계곡/place/13490869",
+              },
+            ],
+          },
+        },
+        대구: {
+          image_src:
+            "https://tong.visitkorea.or.kr/cms/resource/62/219162_image2_1.jpg",
+          description:
+            "대한민국의 중심 도시, 대구는 경상북도의 중심지로, 전통시장과 현대적인 도시가 어우러진 곳입니다. 동성로, 팔공산, 수성못 등이 대표적인 관광지입니다.",
+          tourism_link: "https://www.daegu.go.kr/english/index.do",
+          latitude: 35.871435399999996,
+          longitude: 128.60144499999998,
+          population: 2397646,
+          places: {
+            산: [
+              {
+                name: "팔공산",
+                link: "https://map.naver.com/v5/search/대구 팔공산/place/11491422",
+              },
+              {
+                name: "비슬산",
+                link: "https://map.naver.com/v5/search/대구 비슬산/place/13491629",
+              },
+            ],
+            해변: [
+              {
+                name: "수성못 해변",
+                link: "https://map.naver.com/v5/search/대구 수성못 해변/place/13491855",
+              },
+              {
+                name: "달성공원 해변",
+                link: "https://map.naver.com/v5/search/대구 달성공원 해변/place/13491880",
+              },
+            ],
+            계곡: [
+              {
+                name: "팔공산 계곡",
+                link: "https://map.naver.com/v5/search/대구 팔공산 계곡/place/13490869",
+              },
+              {
+                name: "비슬산 계곡",
+                link: "https://map.naver.com/v5/search/대구 비슬산 계곡/place/13490869",
+              },
+            ],
+          },
+        },
       },
     };
   },
