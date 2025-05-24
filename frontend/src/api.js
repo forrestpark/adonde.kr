@@ -43,6 +43,9 @@ axios.post = async function (url, data) {
   if (url.includes("/train/findOne")) {
     return { data: dummyData.train };
   }
+  //   if (url.includes("/user/deleteStoredCity ")) {
+  //     return { data: dummyData.cities };
+  //   }
   return originalAxios.apply(this, arguments);
 };
 
