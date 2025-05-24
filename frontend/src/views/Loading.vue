@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import dummyData from "../dummyData";
+
 // import axios from "axios";
 // import { BASE_URL } from "@/api.js";
 export default {
@@ -31,15 +33,7 @@ export default {
     async loginRedirect() {
       try {
         // 더미 유저 데이터 사용
-        const dummyUser = {
-          id: this.id,
-          email: "test@example.com",
-          nickname: "테스트",
-          profile_image:
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-          date_of_birth: "1990-01-01",
-          stored_cities: [],
-        };
+        const dummyUser = dummyData.dummyUserDetails;
 
         console.log("user:", JSON.stringify(dummyUser));
         sessionStorage.setItem("user", JSON.stringify(dummyUser));

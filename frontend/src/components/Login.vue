@@ -1,35 +1,34 @@
 <template>
-    <section class="Intro" >
-        <v-flex>
-            <div class="intro">
-        <v-img 
-        style="margin: auto"
-        @click="kakaoLogin"
-        alt="kakaoLogin"
-        contain
-        :src="require(`@/assets/en_large.png`)"
-        transition="scale-transition"
-        width="380"
+  <section class="Intro">
+    <v-flex>
+      <div class="intro">
+        <!-- <v-img
+          style="margin: auto"
+          @click="kakaoLogin"
+          alt="kakaoLogin"
+          contain
+          :src="require(`@/assets/en_large.png`)"
+          transition="scale-transition"
+          width="380"
+        /> -->
+        <v-img
+          style="margin: auto"
+          alt="googleLogin"
+          @click="googleLogin"
+          contain
+          :src="require(`@/assets/google.png`)"
+          transition="scale-transition"
+          width="380"
         />
-        <v-img 
-        style="margin: auto"
-        alt="googleLogin"
-        @click="googleLogin"
-        contain
-        :src="require(`@/assets/google.png`)"
-        transition="scale-transition"
-        width="380"
-      
-        />
-        <v-img 
-        style="margin: auto"
-        alt="facebookLogin"
-        @click="facebookLogin"
-        contain
-        :src="require(`@/assets/facebook.png`)"
-        transition="scale-transition"
-        width="380"
-        />
+        <!-- <v-img
+          style="margin: auto"
+          alt="facebookLogin"
+          @click="facebookLogin"
+          contain
+          :src="require(`@/assets/facebook.png`)"
+          transition="scale-transition"
+          width="380"
+        /> -->
         <!-- <v-btn 
             class="facebookLogin"
             width=300
@@ -52,9 +51,9 @@
             /> -->
 
         <v-progress-circular
-            indeterminate
-            v-if="loading"
-            color="amber"
+          indeterminate
+          v-if="loading"
+          color="amber"
         ></v-progress-circular>
 
         <!-- <v-img
@@ -64,132 +63,152 @@
             :src="require(`@/assets/welcome.png`)">
         </v-img> -->
 
-
         <!-- <h2>{{user.nickname}}</h2>
         <img
             width="100px" 
             :src="`${user.profile_image}`" alt /> -->
-        </div>
-        </v-flex>
-        
-    </section>
+      </div>
+    </v-flex>
+  </section>
 </template>
 
 <script>
-import { mapState, mapMutations} from 'vuex'
-import axios from 'axios'
-import {BASE_URL} from '@/api.js'
+import { mapState, mapMutations } from "vuex";
+// import axios from "axios";
+// import { BASE_URL } from "@/api.js";
 
 export default {
-    data(){
-        return{
-            test:'',
-            loading: false
-        }
+  data() {
+    return {
+      test: "",
+      loading: false,
+    };
+  },
+  computed: {
+    ...mapState(["user"]),
+  },
+  methods: {
+    ...mapMutations(["updateUser", "updateUserStoredCities"]),
+    // async login(email, nickname, profile_image, dateofbirth) {
+    //     //this.loading = true
+    //     const res = await axios.post(
+    //         `${BASE_URL}/user/login`,
+    //         {
+    //             email : email,
+    //             nickname: nickname,
+    //             profile_image: profile_image,
+    //             dateofbirth: dateofbirth
+    //         }
+    //     )
+    //     console.log("res:",res)
+    //     this.updateUser(res.data)
+    //     console.log("set item in session storage")
+    //     sessionStorage.setItem('user', JSON.stringify(res.data))
+    //     // this.updateSessionUser(res.data)
+    //     this.findOneById(res.data.id)
+    //     console.log("res.data: ", res.data)
+
+    //     this.loading = false
+
+    //     //로그인이 모두 끝나게 되면 overlay를 꺼준다
+    //     this.$emit('close');
+
+    //     this.$router.push({path:'/loading?userId=' + res.data.id})
+    // },
+
+    async googleLogin() {
+      // 더미 구글 로그인
+      const dummyUser = {
+        id: 1,
+        email: "test@gmail.com",
+        nickname: "지선",
+        profile_image:
+          "https://firebasestorage.googleapis.com/v0/b/adonde-app.appspot.com/o/users%2F818CFE5D-6BF0-4194-8D9C-D316489B1FFC_1_105_c.jpeg?alt=media&token=c21007a7-bdb4-4c0f-ba41-183449a7681f",
+        dateofbirth: "1990-01-01",
+        storedCities: [],
+      };
+
+      this.updateUser(dummyUser);
+      sessionStorage.setItem("user", JSON.stringify(dummyUser));
+      this.$router.push({ path: "/loading?userId=" + dummyUser.id });
     },
-    computed:{
-        ...mapState([
-            'user'
-        ])
+
+    // async googleLogin() {
+    //   window.location.href = "https://adonde-kr.herokuapp.com/auth/google";
+    //   // console.log("login.vue session user: ", )
+    //   // console.log("google login profile: ", profile)
+    // },
+
+    facebookLogin() {
+      window.location.href = "https://adonde-kr.herokuapp.com/auth/facebook";
+      // console.log("login.vue session user: ", )
+      // console.log("google login profile: ", profile)
     },
-    methods:{
-        ...mapMutations([
-            'updateUser',
-            'updateUserStoredCities'
-        ]),
-        async login(email, nickname, profile_image, dateofbirth) {
-            //this.loading = true
-            const res = await axios.post(
-                `${BASE_URL}/user/login`,
-                {
-                    email : email,
-                    nickname: nickname,
-                    profile_image: profile_image,
-                    dateofbirth: dateofbirth
-                }
-            )
-            console.log("res:",res)
-            this.updateUser(res.data)
-            console.log("set item in session storage")
-            sessionStorage.setItem('user', JSON.stringify(res.data))
-            // this.updateSessionUser(res.data)
-            this.findOneById(res.data.id)
-            console.log("res.data: ", res.data)
 
-            this.loading = false
+    kakaoLogin() {
+      this.loading = true;
+      var vm = this;
+      window.Kakao.Auth.login({
+        scope: "profile_nickname, profile_image, account_email, birthday",
+        success: function (authObj) {
+          console.log("authobj", authObj.access_token);
+          // window.Kakao.Auth.setAccessToken(authObj.access_token)
+          // fetch user data from Kakao Login API
+          window.Kakao.API.request({
+            url: "/v2/user/me",
+            success: (res) => {
+              const kakao_account = res.kakao_account;
+              console.log(kakao_account);
+              console.log("email:", kakao_account.email);
+              console.log("birthday:", kakao_account.birthday);
+              console.log("nickname:", kakao_account.profile.nickname);
+              console.log("img", kakao_account.profile.profile_image_url);
 
-            //로그인이 모두 끝나게 되면 overlay를 꺼준다
-            this.$emit('close');
-
-            this.$router.push({path:'/loading?userId=' + res.data.id})
+              vm.login(
+                kakao_account.email,
+                kakao_account.profile.nickname,
+                kakao_account.profile.profile_image_url,
+                kakao_account.birthday
+              );
+            },
+          });
         },
+      });
+    },
+    // kakaoLogout() {
+    //     window.Kakao.Auth.logout((response) => {
+    //         console.log(response);
+    //         this.$store.commit("updateUser", {})
+    //         alert("로그아웃");
+    //         this.$router.push({path:'/'})
+    //     });
+    // } ,
+    // async findOneById(id) {
+    //   try {
+    //     const userDetails = await axios.post(`${BASE_URL}/user/findOneById`, {
+    //       id,
+    //     });
 
-        async googleLogin() {
-            window.location.href = "https://adonde-kr.herokuapp.com/auth/google"
-            // console.log("login.vue session user: ", )
-            // console.log("google login profile: ", profile)
-        },
+    //     console.log("userdetails:", userDetails.data.storedCities);
+    //     this.updateUserStoredCities(userDetails.data.storedCities);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // },
+    async findOneById(id) {
+      // 더미 사용자 상세 정보
+      const dummyUserDetails = {
+        id: id,
+        email: "test@gmail.com",
+        nickname: "지선",
+        profile_image:
+          "https://firebasestorage.googleapis.com/v0/b/adonde-app.appspot.com/o/users%2F818CFE5D-6BF0-4194-8D9C-D316489B1FFC_1_105_c.jpeg?alt=media&token=c21007a7-bdb4-4c0f-ba41-183449a7681f",
+        dateofbirth: "1990-01-01",
+        storedCities: [],
+      };
 
-        facebookLogin() {
-            window.location.href = "https://adonde-kr.herokuapp.com/auth/facebook"
-            // console.log("login.vue session user: ", )
-            // console.log("google login profile: ", profile)
-        },
-  
-        kakaoLogin(){
-            this.loading = true
-            var vm = this
-            window.Kakao.Auth.login({
-                scope: 'profile_nickname, profile_image, account_email, birthday',
-                success: function(authObj) {
-                    console.log('authobj', authObj.access_token)
-                    // window.Kakao.Auth.setAccessToken(authObj.access_token)
-                    // fetch user data from Kakao Login API
-                    window.Kakao.API.request({
-                    url:'/v2/user/me',
-                    success: res => {
-                        const kakao_account = res.kakao_account;
-                        console.log(kakao_account)
-                        console.log("email:" ,kakao_account.email)
-                        console.log("birthday:",kakao_account.birthday)
-                        console.log("nickname:", kakao_account.profile.nickname)
-                        console.log("img",kakao_account.profile.profile_image_url)  
-
-                        vm.login(kakao_account.email, kakao_account.profile.nickname,
-                        kakao_account.profile.profile_image_url,
-                        kakao_account.birthday)
-
-                        
-                    }
-                })
-                
-                }
-            })
-        },
-        // kakaoLogout() {
-        //     window.Kakao.Auth.logout((response) => {
-        //         console.log(response);
-        //         this.$store.commit("updateUser", {})
-        //         alert("로그아웃");
-        //         this.$router.push({path:'/'})
-        //     });
-        // } ,
-        async findOneById(id){
-            try{
-            const userDetails = await axios.post(
-                `${BASE_URL}/user/findOneById`,
-                {
-                    id
-                })
-                
-                console.log("userdetails:",userDetails.data.storedCities)
-                this.updateUserStoredCities(userDetails.data.storedCities)
-            }catch(err){
-            console.log(err)
-            }
-        },
-    }
-}
+      this.updateUserStoredCities(dummyUserDetails.storedCities);
+    },
+  },
+};
 </script>
-
-

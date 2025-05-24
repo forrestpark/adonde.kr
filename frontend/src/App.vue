@@ -20,7 +20,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <div v-if="user == undefined">로그인 해주세요 :)</div>
+            <div v-if="user == null">로그인 해주세요 :)</div>
             <div v-else>
               <v-list-item-title> {{ user.nickname }} 님 :) </v-list-item-title>
             </div>
@@ -380,13 +380,14 @@ export default {
         this.$router.push({ path: "/go" });
       } else if (title == "Logout") {
         this.kakaoLogout();
+        sessionStorage.removeItem("user");
         //this.drawer = false
       }
     },
     kakaoLogout() {
       window.Kakao.Auth.logout((response) => {
         console.log(response);
-        this.$store.commit("updateUser", {});
+        this.$store.commit("updateUser", null);
         alert("로그아웃");
         this.$router.push({ path: "/" });
       });
