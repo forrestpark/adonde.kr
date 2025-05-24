@@ -12,7 +12,7 @@ const dummyData = {
   cities: [
     {
       id: 1,
-      sido_sgg: "서울 서울",
+      sido_sgg: "서울",
       population: 9565990,
       latitude: 37.566535,
       longitude: 126.9779692,
@@ -101,7 +101,7 @@ const dummyData = {
     },
     {
       id: 6,
-      sido_sgg: "부산 부산",
+      sido_sgg: "부산",
       population: 3364358,
       latitude: 35.17955429999999,
       longitude: 129.07564159999998,
@@ -163,7 +163,7 @@ const dummyData = {
     },
     {
       id: 4,
-      sido_sgg: "대구 대구",
+      sido_sgg: "대구",
       population: 2397646,
       latitude: 35.8714354,
       longitude: 128.60144499999998,
@@ -228,7 +228,7 @@ const dummyData = {
     },
     {
       id: 2,
-      sido_sgg: "인천 인천",
+      sido_sgg: "인천",
       population: 2936367,
       latitude: 37.4562557,
       longitude: 126.7052062,
@@ -292,7 +292,7 @@ const dummyData = {
     },
     {
       id: 39,
-      sido_sgg: "제주 제주",
+      sido_sgg: "제주",
       population: 492627,
       latitude: 33.4996213,
       longitude: 126.5311884,

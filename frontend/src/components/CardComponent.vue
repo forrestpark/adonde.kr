@@ -110,7 +110,7 @@ export default {
     gotoDetailPage() {
       let routeData = this.$router.resolve({
         name: "details",
-        query: { name: this.checkSido_sgg },
+        query: { name: this.sido_sgg },
       });
       window.open(routeData.href, "_blank");
     },
