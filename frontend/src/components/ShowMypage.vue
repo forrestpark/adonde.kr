@@ -114,12 +114,18 @@ export default {
   },
   methods: {
     ...mapMutations(["updateUserStoredCities", "updateUserStoredDetails"]),
+    // gotoDetailPage(sido_sgg) {
+    //   let routeData = this.$router.resolve({
+    //     name: "details",
+    //     query: { name: sido_sgg },
+    //   });
+    //   window.open(routeData.href, "_blank");
+    // },
     gotoDetailPage(sido_sgg) {
-      let routeData = this.$router.resolve({
+      this.$router.push({
         name: "details",
         query: { name: sido_sgg },
       });
-      window.open(routeData.href, "_blank");
     },
     removeCity(sido_sgg) {
       this.dummyCities = this.dummyCities.filter(

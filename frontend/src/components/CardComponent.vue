@@ -107,12 +107,18 @@ export default {
         console.log(err);
       }
     },
+    // gotoDetailPage() {
+    //   let routeData = this.$router.resolve({
+    //     name: "details",
+    //     query: { name: this.sido_sgg },
+    //   });
+    //   window.open(routeData.href, "_blank");
+    // },
     gotoDetailPage() {
-      let routeData = this.$router.resolve({
+      this.$router.push({
         name: "details",
         query: { name: this.sido_sgg },
       });
-      window.open(routeData.href, "_blank");
     },
   },
 };
