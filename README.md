@@ -2,74 +2,104 @@
   <img src="proposal/logo.png" alt="adonde_logo" width="50%"/>
 </p>
 
-## Project Description
-### What is [어디든 / Adonde.kr][3]?
-어디든 (pronounced `[ʌdidɯn]` or `[uh-dee-dun]`), also known as adonde.kr, is a comprehensive search portal for tourism in Korea. Adonde provides various filters that any user can so easily pin down Korean travel destinations of their preference. Filters vary from distance and city size to public transportation and destination themes.
+## 프로젝트 소개
 
-### Technology it uses
-#### The following is the tech stack upon which adonde is built.
-* Backend
-  * JavaScript
-  * Node.js
-  * Express
-  * Sequelize
-  * PostgreSQL
-* Frontend 
-  * JavaScript
-  * Vue.js
-  * HTML/CSS
-* Data (Crawling)
-  * Python
-  * Pandas
-  * BeautifulSoup
-* Other frameworks/libraries/APIs
-  * [Google Maps Platform][googlemapslink]
-  * Kakao [Login][kakaologin]/[Maps][mapslink]/[Local][locallink] API
-  * [TourAPI][tourapi], Korea Tourism Organization
-  * Transportation OpenAPI ([train][trainlink], [express bus][expresslink], [suburban bus][suburbanlink]), Ministry of Land, Infrastructure, and Transport
-* Backend API server hosted on Heroku
-  * Backend base URL: https://adonde-kr.herokuapp.com/
-* Frontend deployed on Netlify
-  * Site live at https://adonde.netlify.app/go
+### 어디든(Adonde.kr)이란?
 
-### Creators
-* [Jang Woo Park][1] (Backend/Server Development, Product Design and Management)
-* [Jisun Chung][2] (Frontend Development, Marketing)
+어디든(발음: `[ʌdidɯn]`, 또는 `[uh-dee-dun]`)은 한국 여행지를 쉽고 빠르게 찾을 수 있도록 도와주는 랜덤마이징 기반 여행지 탐색 서비스입니다.
+사용자는 다양한 필터를 통해 본인의 취향에 맞는 여행지를 손쉽게 찾아볼 수 있으며, 필터는 거리, 도시 규모, 대중교통 접근성, 여행지 테마 등 다양한 조건을 포함하고 있습니다.
 
-[1]:https://github.com/forrestpark
-[2]:https://github.com/jisunchung
-[3]:https://adonde.netlify.app/
-[email]:mailto:adonde.kr@gmail.com
-[googlemapslink]:https://developers.google.com/maps?hl=ko
-[kakaologin]:https://developers.kakao.com/docs/latest/ko/kakaologin/common
-[locallink]:https://developers.kakao.com/docs/latest/ko/local/dev-guide
-[mapslink]:https://apis.map.kakao.com/
-[tourapi]:https://api.visitkorea.or.kr/main.do
-[trainlink]:https://www.data.go.kr/data/15000500/openapi.do
-[expresslink]:https://www.data.go.kr/data/15059034/openapi.do#
-[suburbanlink]:https://www.data.go.kr/data/15000590/openapi.do
+---
 
-### Motivation
-Have you ever experienced a time when you were certain that you needed or wanted a getaway but simply can’t think of a single travel destination that suits your needs or the mood? As a travel maniac myself, I most definitely have had a lot of those moments, stuck only with the idea of a getaway but without any concrete idea on where to go, full of motivation but without any inspirations. It is those moments that motivated me to design and create this product that is `어디든`, the perfect brainstorming tool for aspiring travelers, all who needs is some inspiration.
+### 기술 스택
 
-### Why did you build 어디든?
-어디든 is built for anyone who has the motivation to travel but doesn’t have the inspiration for travel.
+#### 어디든은 다음과 같은 기술 스택을 기반으로 개발되었습니다:
 
-### What kind of problems does or can 어디든 solve?
-We are very proud that 어디든 / Adonde serves as a comprehensive travel destination search engine to many actual and potential visitors/travelers in Korea. 어디든 is the very first travel information portal to provide this wide of a variety in search filters. 어디든's outstanding data comprehensiveness was possible thanks to its unique and meticulous data crawling process, ranging from NAVER, Department of Transportation OpenAPI, TourAPI, GoogleMaps and more.
+- **백엔드**
 
-### What makes adonde.kr stand out?
-어디든 is the only travel information search portal to exist to date to provide such a combination of search features. Yet, the engineering that truly deserves attention and applause is its offering of solutions to public transportation travels that no other web service does. We have independently collected data from various websites and APIs, gathered them to create a database more comprehensive than that of any other travel-focused web service, and based on it, created an API server tailored to our service.
+  - JavaScript
+  - Node.js
+  - Express
+  - Sequelize
+  - PostgreSQL
 
-### 어디든 is the only travel information search engine to present direct public transportation search results in Korea.
-ex. direct train, direct express/suburban bus between cities
+- **프론트엔드**
 
-Please [contact us][email] if we ought to be informed otherwise.
+  - JavaScript
+  - Vue.js
+  - HTML/CSS
 
-### Upcoming challenges
-To be updated
+- **데이터 수집 (크롤링)**
 
-### What did the developers (Backend: [Jang Woo Park][1], Frontend: [Jisun Chung][2]) learn?
-To be updated
+  - Python
+  - Pandas
+  - BeautifulSoup
 
+- **기타 프레임워크 / 라이브러리 / API**
 
+  - [Google Maps Platform](https://developers.google.com/maps?hl=ko)
+  - Kakao [로그인](https://developers.kakao.com/docs/latest/ko/kakaologin/common) / [지도](https://apis.map.kakao.com/) / [지역 검색](https://developers.kakao.com/docs/latest/ko/local/dev-guide) API
+  - [TourAPI](https://api.visitkorea.or.kr/main.do) (한국관광공사)
+  - 국토교통부 대중교통 OpenAPI  
+    ([기차](https://www.data.go.kr/data/15000500/openapi.do), [고속버스](https://www.data.go.kr/data/15059034/openapi.do#), [시외버스](https://www.data.go.kr/data/15000590/openapi.do))
+
+- **배포**
+  - 백엔드 API 서버: Heroku  
+    → ~~https://adonde-kr.herokuapp.com/~~
+  - 프론트엔드: github <br/>
+    → https://jisunchung.github.io/
+
+---
+
+### 개발자
+
+- [Jang Woo Park][1] (Backend/Server Development, Product Design and Management)
+- [Jisun Chung][2] (Frontend Development, Marketing) - 본인
+
+  ### **상세 업무 및 성과**
+
+  - 로그인, 마이페이지, 메인, 여행지 정보 제공 페이지 제작
+  - 사용자에게 다양한 언어 옵션을 제공하기 위해 Google Translate 패키지를 활용하여 다국어 지원 기능 구현
+  - Kakao Maps/Local API를 활용하여 현위치 데이터를 수집하고 지역의 위치를 시각화하여 사용자에게 직관적인 위치 정보를 제공
+  - Vuex 를 활용한 상태관리
+  - Vuetify에서 제공하는 컴포넌트를 커스터마이징 하여 웹의 디자인 구성
+
+---
+
+### 제작 동기
+
+여행을 떠나고 싶지만, 막상 어디로 갈지 떠오르지 않아 고민했던 적 있으신가요?  
+여행을 정말 좋아하는 저 역시 이런 경험을 여러 번 했습니다.  
+**'어디든'은 그런 고민을 해결해주는 최고의 여행 아이디어 도구**입니다.  
+단지 영감만 필요한 사람들을 위한 서비스입니다.
+
+---
+
+### 왜 '어디든'을 만들었나요?
+
+여행을 떠나고는 싶지만, 어디로 가야 할지 막막할 때
+**영감을 줄 수 있는 서비스**를 만들고자 ‘어디든’을 기획했습니다.
+
+---
+
+### 어떤 문제를 해결할 수 있나요?
+
+- 국내 최초의 종합 여행지 검색 포털
+- 거리, 도시 규모, 대중교통 여부, 테마 등 다양한 검색 조건 제공
+- NAVER, 국토교통부 OpenAPI, TourAPI 등 다양한 출처의 정보를 수집 및 가공
+- 실제 사용자들이 **원하는 조건에 맞는 여행지를 더 정확하게 탐색 가능**
+
+---
+
+### 무엇이 adonde.kr을 특별하게 만드나요?
+
+- 현재까지 존재하는 어떤 여행 정보 포털보다 **다양한 필터 조합 제공**
+- 직접 수집/정제한 데이터를 기반으로 **대중교통 직행 경로 검색 제공**
+- 타 여행 서비스보다 훨씬 더 포괄적이고 정확한 여행지 데이터베이스 보유
+- 크롤링 및 외부 API를 통해 만든 자체 API 서버 기반 시스템 구축
+
+---
+
+### 시연영상
+
+[![유튜브 썸네일](https://img.youtube.com/vi/KsOslOQZGrU/0.jpg)](https://www.youtube.com/watch?v=KsOslOQZGrU)
